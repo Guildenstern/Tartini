@@ -36,7 +36,7 @@ char *strip_space(char *s);
 
 //returns a pointer to the file extention part or NULL
 //if no file extention found
-char *getFileExtension(const char *filename);
+const char *getFileExtension(const char *filename);
 
 //returns a pointer to the filename part of a full path name
 //or NULL if no filename is found

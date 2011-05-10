@@ -1,4 +1,4 @@
-#define _GLIBCXX_USE_C99
+#define _GLIBCXX_USE_C99 1
 #define __WANT_EXTENSIONS__
 //#include <math.h>
 #include <cmath>

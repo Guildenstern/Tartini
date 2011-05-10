@@ -12,8 +12,10 @@ unix{
     MY_LIB_PATH += -L/Users/student/usr/local/lib
     MY_INCLUDE_PATH += /Users/student/usr/local/include
   }else{ #Linux
-    MY_LIB_PATH += -L/home/inferno/research/pitch/lib
-    MY_INCLUDE_PATH += /home/inferno/research/pitch/include/Qt /home/inferno/research/pitch/include/qwt /home/inferno/research/pitch/include
+    MY_LIB_PATH += -L/usr/lib
+    MY_INCLUDE_PATH += /usr/include/Qt /usr/include/qwt /usr/include
+#    MY_LIB_PATH += -L/home/inferno/research/pitch/lib
+#    MY_INCLUDE_PATH += /home/inferno/research/pitch/include/Qt /home/inferno/research/pitch/include/qwt /home/inferno/research/pitch/include
   }
 }
 win32{ #Windows
@@ -288,7 +290,7 @@ unix{
     INCLUDEPATH += rtAudio/
     DEPENDPATH += rtAudio/
     HEADERS += rtAudio/audio_stream.h rtAudio/RtAudio.h rtAudio/RtError.h
-    SOURCES += rtAudio/audio_stream.cpp rtAudio/rtAudio.cpp
+    SOURCES += rtAudio/audio_stream.cpp rtAudio/RtAudio.cpp
 
     QMAKE_LFLAGS_SONAME = -W1,-install_name,@executable_path/..Frameworks/
     INCLUDEPATH += $$MY_INCLUDE_PATH
@@ -318,7 +320,7 @@ unix{
     INCLUDEPATH += rtAudio/
     DEPENDPATH += rtAudio/
     HEADERS += rtAudio/audio_stream.h rtAudio/RtAudio.h rtAudio/RtError.h
-    SOURCES += rtAudio/audio_stream.cpp rtAudio/rtAudio.cpp
+    SOURCES += rtAudio/audio_stream.cpp rtAudio/RtAudio.cpp
     DEFINES += __LINUX_OSS__
     DEFINES += __LINUX_ALSA__
     #DEFINES += __LINUX_JACK__  #Uncomment to use Jack. Note untested.

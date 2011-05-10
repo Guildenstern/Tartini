@@ -78,9 +78,9 @@ char *strip_space(char *s)
 
 //returns a pointer to the file extention part or NULL
 //if no file extention found
-char *getFileExtension(const char *filename)
+const char *getFileExtension(const char *filename)
 {
-  char *ext;
+  const char *ext;
   if(filename && (ext = strrchr(filename, '.')) != NULL) return ext+1;
   else return NULL;
 }
@@ -89,7 +89,7 @@ char *getFileExtension(const char *filename)
 //or NULL if no filename is found
 const char *getFilenamePart(const char *filename)
 {
-  char *ext;
+  const char *ext;
   if(!filename) return NULL;
   if((ext = strrchr(filename, '/')) != NULL) return ext+1;
   if((ext = strrchr(filename, '\\')) != NULL) return ext+1;
