@@ -55,7 +55,7 @@ TunerView::TunerView( int viewID_, QWidget *parent )
   slider->setRange(0, 2);
   slider->setReadOnly(false);
   layout->addMultiCellWidget(slider, 1, 1, 0, 8);
-  QToolTip::add(slider, "Increase slider to smooth the pitch over a longer time period");
+  QToolTip::add(slider, tr("Increase slider to smooth the pitch over a longer time period"));
 
   ledBuffer = new QPixmap();
   leds.push_back(new LEDIndicator(ledBuffer, this, "A"));

@@ -264,7 +264,9 @@ SOURCES += main.cpp \
  
 RESOURCES += pitch.qrc
 PRECOMPILED_HEADER = static.h
-  
+
+TRANSLATIONS += tartini_de.ts
+
 MYPATHS = include/ general/ sound/ widgets/ global/ dialogs/
 MYPATHS += widgets/mainwindow widgets/freq widgets/summary widgets/pitchcompass widgets/openfiles widgets/volumemeter widgets/tuner widgets/hblock widgets/hstack widgets/wave widgets/piano widgets/htrack widgets/correlation widgets/fft widgets/cepstrum widgets/hbubble widgets/hcircle widgets/debugview widgets/score widgets/vibrato sound/filters
 

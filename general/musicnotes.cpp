@@ -30,7 +30,9 @@ char *gMusicKeyName[NUM_MUSIC_KEYS] = { "A             ", "A#/Bb", "B", "C", "C#
 int   gMusicKeyRoot[NUM_MUSIC_KEYS] = {  9,   10,      11,  0,   1,       2,   3,       4,   5,   6,        7,  8      };
 int   gMusicKey = 3; //C
 //                       0    1     2    3     4    5    6     7    8     9    10    11
-char *noteNames[12] = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+//char *noteNames[12] = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+//TODO afriedma German Style noteNames - i wanna switch note names by i18n
+char *noteNames[12] = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H" };
 
 /** Just Intonation
   1:1   Root

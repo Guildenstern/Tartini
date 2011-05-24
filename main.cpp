@@ -74,6 +74,14 @@ int main( int argc, char **argv )
 #endif
 	
   QApplication a( argc, argv );
+  //TODO afriedma test translation{
+  QString locale = QLocale::system().name();
+
+  QTranslator translator;
+  translator.load(QString("tartini_") + locale);
+  a.installTranslator(&translator);
+  //}
+
   Q_INIT_RESOURCE(pitch);
 
   fprintf(stderr, "QT_VERSION_STR=%s\n", QT_VERSION_STR);

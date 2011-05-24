@@ -1,0 +1,5 @@
+*.wav   # no data
+tartini # no executeable
+Makefile
+dialogs/ui_settingsdialog.h
+pitch.pro.user

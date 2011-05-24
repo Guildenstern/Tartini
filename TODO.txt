@@ -1,0 +1,7 @@
+Todo
+----
+
+o i10 at tr() to existing code to get existing strings into translation workflow
+o i10 add setting to change note names scheme of B (which is H in German)
+o i18n refactor note tones scheme to suppot schemes like _A_ A a a' a''
+o i18n refactor widgets

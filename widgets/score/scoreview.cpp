@@ -51,7 +51,7 @@ ScoreView::ScoreView( int viewID_, QWidget *parent )
   scaleWheelY->setWheelWidth(14);
   scaleWheelY->setRange(1.0, 30.0, 0.1, 1);
   scaleWheelY->setValue(scoreWidget->scaleY());
-  QToolTip::add(scaleWheelY, "Zoom vertically");
+  QToolTip::add(scaleWheelY, tr("Zoom vertically"));
   rightLayout->addWidget(scaleWheelY, 1);
   rightLayout->addStretch(4);
   connect(scaleWheelY, SIGNAL(sliderMoved(double)), scoreWidget, SLOT(setScaleY(double)));
@@ -63,41 +63,41 @@ ScoreView::ScoreView( int viewID_, QWidget *parent )
   scaleWheelX->setWheelWidth(16);
   scaleWheelX->setRange(1.0, 100.0, 1.1, 1);
   scaleWheelX->setValue(scoreWidget->scaleX());
-  QToolTip::add(scaleWheelX, "Zoom horizontally");
+  QToolTip::add(scaleWheelX, tr("Zoom horizontally"));
   connect(scaleWheelX, SIGNAL(sliderMoved(double)), scoreWidget, SLOT(setScaleX(double)));
   connect(scaleWheelX, SIGNAL(sliderMoved(double)), scoreWidget, SLOT(update()));
 
-  QComboBox *sharpsModeComboBox = new QComboBox(this, "sharpsModeComboBox");
+  QComboBox *sharpsModeComboBox = new QComboBox(this, tr("sharpsModeComboBox"));
   QStringList s;
-  s << "Sharps" << "Flats";
+  s << tr("Sharps") << tr("Flats");
   sharpsModeComboBox->addItems(s);
   connect(sharpsModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(setSharpsMode(int)));
   connect(sharpsModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(update()));
 
-  QComboBox *notesModeComboBox = new QComboBox(this, "notesModeComboBox");
+  QComboBox *notesModeComboBox = new QComboBox(this, tr("notesModeComboBox"));
   s.clear();
-  s << "Notes" << "MIDI blocks";
+  s << tr("Notes") << tr("MIDI blocks");
   notesModeComboBox->addItems(s);
   connect(notesModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(setNotesMode(int)));
   connect(notesModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(update()));
 
-  QComboBox *clefModeComboBox = new QComboBox(this, "clefModeComboBox");
+  QComboBox *clefModeComboBox = new QComboBox(this, tr("clefModeComboBox"));
   s.clear();
-  s << "Both clefs" << "Treble clef";
+  s << tr("Both clefs") << tr("Treble clef");
   clefModeComboBox->addItems(s);
   connect(clefModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(setClefMode(int)));
   connect(clefModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(update()));
 
-  QComboBox *opaqueModeComboBox = new QComboBox(this, "opaqueModeComboBox");
+  QComboBox *opaqueModeComboBox = new QComboBox(this, tr("opaqueModeComboBox"));
   s.clear();
-  s << "See-through notes" << "Opaque notes";
+  s << tr("See-through notes") << tr("Opaque notes");
   opaqueModeComboBox->addItems(s);
   connect(opaqueModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(setOpaqueMode(int)));
   connect(opaqueModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(update()));
 
-  QComboBox *transposeComboBox = new QComboBox(this, "transposeComboBox");
+  QComboBox *transposeComboBox = new QComboBox(this, tr("transposeComboBox"));
   s.clear();
-  s << "Up 2 octaves" << "Up 1 octave" << "As played" << "Down 1 octave" << "Down 2 octaves";
+  s << tr("Up 2 octaves") << tr("Up 1 octave") << tr("As played") << tr("Down 1 octave") << tr("Down 2 octaves");
   transposeComboBox->addItems(s);
   transposeComboBox->setCurrentIndex(2);
   connect(transposeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(setTransposeLevel(int)));
@@ -105,7 +105,7 @@ ScoreView::ScoreView( int viewID_, QWidget *parent )
 
   QComboBox *showAllModeComboBox = new QComboBox(this, "showAllModeComboBox");
   s.clear();
-  s << "Hide extream notes" << "Show all notes";
+  s << tr("Hide extream notes") << tr("Show all notes");
   showAllModeComboBox->addItems(s);
   connect(showAllModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(setShowAllMode(int)));
   connect(showAllModeComboBox, SIGNAL(activated(int)), scoreWidget, SLOT(update()));

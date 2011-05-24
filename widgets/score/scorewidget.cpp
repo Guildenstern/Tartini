@@ -42,7 +42,7 @@ ScoreWidget::ScoreWidget(QWidget *parent)
   _showAllMode = false;
   _fontHeight = 14;
   _pitchOffset = 0; //-12; //display 1 octave down
-  _font = QFont("AnyStyle", _fontHeight);
+  _font = QFont(tr("AnyStyle"), _fontHeight);
   _fontWidth = QFontMetrics(_font).width('#');
   _lookAhead = 0.5; //half a page look ahead
   _lookAheadGap = 0.2;
@@ -253,7 +253,7 @@ void ScoreWidget::paintEvent( QPaintEvent * /*pe*/ )
   ScoreSegmentIterator si(this, ch);
   if(ch) {
     QString pageString;
-    p.drawText(_fontWidth, height()-4, pageString.sprintf("Page %d of %d", si.curPage()+1, si.numPages()));
+    p.drawText(_fontWidth, height()-4, pageString.sprintf(tr("Page %d of %d"), si.curPage()+1, si.numPages()));
     while(si.next()) {
       drawScoreSegment(ch, si.leftX(), si.lineCenterY(), si.leftTime(), si.rightTime());
       if(si.contains(si.curTime())) {

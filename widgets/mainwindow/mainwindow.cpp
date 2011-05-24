@@ -228,15 +228,15 @@ MainWindow::MainWindow()
   fileToolBar->setIconSize(QSize(32, 32));
 
   //QAction *openAction = new QAction(QIcon( QPixmap(iconOpen) ), "&Open", this);
-  QAction *openAction = new QAction(QIcon(iconOpen), "&Open", this);
+  QAction *openAction = new QAction(QIcon(iconOpen), tr("&Open"), this);
   openAction->setShortcut(tr("Ctrl+O"));
-  openAction->setWhatsThis("Open a sound from file and process it using the current preferences");
+  openAction->setWhatsThis(tr("Open a sound from file and process it using the current preferences"));
   fileToolBar->addAction(openAction);
   connect(openAction, SIGNAL(triggered()), this, SLOT(openFile()));
 
   QAction *saveAction = new QAction(QIcon(save32x32_xpm), "&Save", this);
-  saveAction->setShortcut(tr("Ctrl+S"));
-  saveAction->setWhatsThis("Save the active sound to a file");
+  saveAction->setShortcut(tr(tr("Ctrl+S")));
+  saveAction->setWhatsThis(tr("Save the active sound to a file"));
   fileToolBar->addAction(saveAction);
   connect(saveAction, SIGNAL(triggered()), gdata, SLOT(saveActiveFile()));
   
@@ -336,9 +336,9 @@ MainWindow::MainWindow()
 
   //Channel Menu
   //QAction *exportAction = new QAction(QIcon(iconOpen), "&Export", this);
-  QAction *exportAction1 = new QAction("&Export to plain text", this);
+  QAction *exportAction1 = new QAction(tr("&Export to plain text"), this);
   connect(exportAction1, SIGNAL(triggered()), this, SLOT(exportChannelPlainText()));
-  QAction *exportAction2 = new QAction("&Export to matlab", this);
+  QAction *exportAction2 = new QAction(tr("&Export to matlab"), this);
   connect(exportAction2, SIGNAL(triggered()), this, SLOT(exportChannelMatlab()));
 
   QMenu *channelMenu = menuBar()->addMenu("C&hannel");
@@ -378,8 +378,8 @@ MainWindow::MainWindow()
   helpMenu->addSeparator();
   helpMenu->addAction("Documentation", this, SLOT(showDocumentation()));
   helpMenu->addSeparator();
-  helpMenu->addAction("About Tartini", this, SLOT(aboutTartini())); //, 0, 0);
-  helpMenu->addAction("About Qt", this, SLOT(aboutQt())); //, 0, 1);
+  helpMenu->addAction(tr("About Tartini"), this, SLOT(aboutTartini())); //, 0, 0);
+  helpMenu->addAction(tr("About Qt"), this, SLOT(aboutQt())); //, 0, 1);
   
   //Create the other toolbar, which contains some option stuff
   QToolBar *analysisToolBar = new QToolBar("Analysis Toobar", this); //, Qt::DockTop, FALSE);
@@ -1284,7 +1284,7 @@ TartiniDialog::TartiniDialog(QWidget *parent) : QDialog(parent, NULL, true)
     "GNU General Public License for more details.<br><br>"
     "You should have received a copy of the GNU General Public License "
     "along with this program; if not, write to the Free Software "
-    "Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.<br><br>"
+    "Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.<br><br>"
     "Please click 'Read License' or see LICENSE.txt for details.<br>");//</qt>");
 
   QPalette pal;
