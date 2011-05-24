@@ -260,15 +260,15 @@ MainWindow::MainWindow()
   addToolBar(Qt::BottomToolBarArea, soundToolBar);
   soundToolBar->setIconSize(QSize(32, 32));
   
-  QToolButton *beginningButton = new QToolButton(QIcon(beginning32x32_xpm), "Beginning", "Rewind to the beginning", NULL, NULL, soundToolBar, "Beginning");
-  beginningButton->setWhatsThis("Jump to the beginning of the sound");
+  QToolButton *beginningButton = new QToolButton(QIcon(beginning32x32_xpm), tr("Beginning"), tr("Rewind to the beginning"), NULL, NULL, soundToolBar, tr("Beginning"));
+  beginningButton->setWhatsThis(tr("Jump to the beginning of the sound"));
   soundToolBar->addWidget(beginningButton);
   connect(beginningButton, SIGNAL(pressed()), gdata, SLOT(beginning()));
   
   rewindTimer = new QTimer(this);
   connect(rewindTimer, SIGNAL(timeout()), gdata, SLOT(rewind()));
-  QToolButton *rewindButton = new QToolButton(QIcon(rewind32x32_xpm), "Rewind", "Rewind", NULL, NULL, soundToolBar, "rewind");
-  rewindButton->setWhatsThis("Rewind the sound");
+  QToolButton *rewindButton = new QToolButton(QIcon(rewind32x32_xpm), tr("Rewind"), tr("Rewind"), NULL, NULL, soundToolBar, tr("rewind"));
+  rewindButton->setWhatsThis(tr("Rewind the sound"));
   soundToolBar->addWidget(rewindButton);
   connect(rewindButton, SIGNAL(pressed()), this, SLOT(rewindPressed()));
   connect(rewindButton, SIGNAL(released()), this, SLOT(rewindReleased()));
@@ -278,20 +278,20 @@ MainWindow::MainWindow()
   stopIconSet = new QIcon(stop32x32_xpm);
   /*QAction **/playStopAction = new QAction(*playIconSet, "&Play", this);
   playStopAction->setShortcut(tr("Space"));
-  playStopAction->setWhatsThis("Play/Stop the active sound");
+  playStopAction->setWhatsThis(tr("Play/Stop the active sound"));
   soundToolBar->addAction(playStopAction);
   connect(playStopAction, SIGNAL(triggered()), this, SLOT(playStopClicked()));
 
   fastforwardTimer = new QTimer(this);
   connect(fastforwardTimer, SIGNAL(timeout()), gdata, SLOT(fastforward()));
-  QToolButton *fastforwardButton = new QToolButton(QIcon(fastforward32x32_xpm), "Fast-forward", "Fast-forward", NULL, NULL, soundToolBar, "fastforward");
-  fastforwardButton->setWhatsThis("Fastfoward the sound");
+  QToolButton *fastforwardButton = new QToolButton(QIcon(fastforward32x32_xpm), tr("Fast-forward"), tr("Fast-forward"), NULL, NULL, soundToolBar, tr("fastforward"));
+  fastforwardButton->setWhatsThis(tr("Fastfoward the sound"));
   soundToolBar->addWidget(fastforwardButton);
   connect(fastforwardButton, SIGNAL(pressed()), this, SLOT(fastforwardPressed()));
   connect(fastforwardButton, SIGNAL(released()), this, SLOT(fastforwardReleased()));
 
-  QAction *endAction = new QAction(QIcon(end32x32_xpm), "&End", this);
-  endAction->setWhatsThis("Jump to the end of the sound");
+  QAction *endAction = new QAction(QIcon(end32x32_xpm), tr("&End"), this);
+  endAction->setWhatsThis(tr("Jump to the end of the sound"));
   endAction->setShortcut(tr("Ctrl+E"));
   connect(endAction, SIGNAL(triggered()), gdata, SLOT(end()));
   soundToolBar->addAction(endAction);
@@ -300,7 +300,7 @@ MainWindow::MainWindow()
   recordIconSet = new QIcon(record32x32_xpm);
   recordAction = new QAction(*recordIconSet, "&Record", this);
   recordAction->setShortcut(tr("Return"));
-  recordAction->setWhatsThis("Record a new sound, using the input device and settings selected in the preferences");
+  recordAction->setWhatsThis(tr("Record a new sound, using the input device and settings selected in the preferences"));
   fileToolBar->addAction(recordAction);
   connect(recordAction, SIGNAL(triggered()), this, SLOT(openRecord()));
   //recordButton = new QToolButton(*recordIconSet, "Record", "Record a new sound", NULL, NULL, fileToolBar, "record");
@@ -309,18 +309,18 @@ MainWindow::MainWindow()
 
   playRecordAction = new QAction(*playRecordIconSet, "Play and Record", this);
   playRecordAction->setShortcut(tr("Shift+Return"));
-  playRecordAction->setWhatsThis("Play the active sound and record a new one at the same time!");
+  playRecordAction->setWhatsThis(tr("Play the active sound and record a new one at the same time!"));
   fileToolBar->addAction(playRecordAction);
   connect(playRecordAction, SIGNAL(triggered()), this, SLOT(openPlayRecord()));
 
   QAction *quit = new QAction("&Quit", this);
   quit->setShortcut(tr("Ctrl+Q"));
-  quit->setWhatsThis("Quit the Tartini application");
+  quit->setWhatsThis(tr("Quit the Tartini application"));
   //connect(quit, SIGNAL(triggered()), qApp, SLOT( closeAllWindows() ));
   connect(quit, SIGNAL(triggered()), this, SLOT( close() ));
 
   //Create the File Menu
-  QMenu *fileMenu = menuBar()->addMenu("&File");
+  QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
   fileMenu->addAction(openAction);
   fileMenu->addAction(saveAction);
   fileMenu->addAction(closeAction);
@@ -341,23 +341,23 @@ MainWindow::MainWindow()
   QAction *exportAction2 = new QAction(tr("&Export to matlab"), this);
   connect(exportAction2, SIGNAL(triggered()), this, SLOT(exportChannelMatlab()));
 
-  QMenu *channelMenu = menuBar()->addMenu("C&hannel");
+  QMenu *channelMenu = menuBar()->addMenu(tr("C&hannel"));
   channelMenu->addAction(exportAction1);
   channelMenu->addAction(exportAction2);
 
   // Create actions for the new view menu
-  newViewMenu = menuBar()->addMenu("&Create");
+  newViewMenu = menuBar()->addMenu(tr("&Create"));
   //connect(newViewMenu, SIGNAL(activated(int)), this, SLOT(openView(int)));
   connect(newViewMenu, SIGNAL(aboutToShow()), this, SLOT(newViewAboutToShow()));
 
   //Create the Window Menu
-  windowMenu = menuBar()->addMenu("&Windows");
+  windowMenu = menuBar()->addMenu(tr("&Windows"));
   windowMenu->setCheckable( true );
   connect( windowMenu, SIGNAL( aboutToShow() ),
 	     this, SLOT( windowMenuAboutToShow() ) );
 
   //Create the Options Menu
-  optionsMenu = menuBar()->addMenu("&Options");
+  optionsMenu = menuBar()->addMenu(tr("&Options"));
   //optionsMenu->insertItem("Apply &Equal loudness curve", this, SLOT( toggleOption(int) ), 0, 0);
   //optionsMenu->setItemChecked(0, gdata->equalLoudness);
   //optionsMenu->insertItem("Apply &Partial Masking", this, SLOT( toggleOption(int) ), 0, 1);
@@ -370,13 +370,13 @@ MainWindow::MainWindow()
   optionsMenu->addAction("&Preferences", this, SLOT(menuPreferences()));
 
   QAction *whatsThis = QWhatsThis::createAction(this);
-  whatsThis->setToolTip("What's this?");
-  whatsThis->setWhatsThis("Click this button, then click something to learn more about it");
+  whatsThis->setToolTip(tr("What's this?"));
+  whatsThis->setWhatsThis(tr("Click this button, then click something to learn more about it"));
 
-  helpMenu = menuBar()->addMenu("&Help");
+  helpMenu = menuBar()->addMenu(tr("&Help"));
   helpMenu->addAction(whatsThis);
   helpMenu->addSeparator();
-  helpMenu->addAction("Documentation", this, SLOT(showDocumentation()));
+  helpMenu->addAction(tr("Documentation"), this, SLOT(showDocumentation()));
   helpMenu->addSeparator();
   helpMenu->addAction(tr("About Tartini"), this, SLOT(aboutTartini())); //, 0, 0);
   helpMenu->addAction(tr("About Qt"), this, SLOT(aboutQt())); //, 0, 1);

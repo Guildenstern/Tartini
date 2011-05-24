@@ -58,9 +58,69 @@
         <translation type="unfinished">Strg+P</translation>
     </message>
     <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="263"/>
+        <source>Beginning</source>
+        <translation type="unfinished">Anfang</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="263"/>
+        <source>Rewind to the beginning</source>
+        <translation type="unfinished">Zum Anfang</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="264"/>
+        <source>Jump to the beginning of the sound</source>
+        <translation type="unfinished">Zum Anfang springen</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="270"/>
+        <source>Rewind</source>
+        <translation type="unfinished">Zurückspulen</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="270"/>
+        <source>rewind</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="271"/>
+        <source>Rewind the sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="280"/>
         <source>Space</source>
         <translation>Leertaste</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="281"/>
+        <source>Play/Stop the active sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="287"/>
+        <source>Fast-forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="287"/>
+        <source>fastforward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="288"/>
+        <source>Fastfoward the sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="293"/>
+        <source>&amp;End</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="294"/>
+        <source>Jump to the end of the sound</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="295"/>
@@ -73,8 +133,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="303"/>
+        <source>Record a new sound, using the input device and settings selected in the preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="311"/>
         <source>Shift+Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="312"/>
+        <source>Play the active sound and record a new one at the same time!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -83,24 +153,74 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="318"/>
+        <source>Quit the Tartini application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="323"/>
+        <source>&amp;File</source>
+        <translation type="unfinished">&amp;Datei</translation>
+    </message>
+    <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="339"/>
         <source>&amp;Export to plain text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nach &amp;Textdatei exportieren</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="341"/>
         <source>&amp;Export to matlab</source>
+        <translation type="unfinished">Nach &amp;Matlab exportieren</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="344"/>
+        <source>C&amp;hannel</source>
+        <translation type="unfinished">&amp;Kanal</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="349"/>
+        <source>&amp;Create</source>
+        <translation type="unfinished">&amp;Ansicht erzeugen</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="354"/>
+        <source>&amp;Windows</source>
+        <translation type="unfinished">&amp;Fenster</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="360"/>
+        <source>&amp;Options</source>
+        <translation type="unfinished">&amp;Optionen</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="373"/>
+        <source>What&apos;s this?</source>
+        <translation type="unfinished">Was ist das?</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="374"/>
+        <source>Click this button, then click something to learn more about it</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="376"/>
+        <source>&amp;Help</source>
+        <translation type="unfinished">&amp;Hilfe</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="379"/>
+        <source>Documentation</source>
+        <translation type="unfinished">Dokumentation</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="381"/>
         <source>About Tartini</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Über Tartini</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="382"/>
         <source>About Qt</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Über Qt</translation>
     </message>
 </context>
 <context>
