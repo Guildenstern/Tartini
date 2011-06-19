@@ -37,6 +37,11 @@
         <translation type="unfinished">Öffnet und verarbeitet eine Musikdatei gemäß den aktuellen Einstellungen</translation>
     </message>
     <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="237"/>
+        <source>&amp;Save</source>
+        <translation type="unfinished">&amp;Speichern</translation>
+    </message>
+    <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="238"/>
         <source>Ctrl+S</source>
         <translation type="unfinished">Strg+S</translation>
@@ -47,15 +52,45 @@
         <translation type="unfinished">Aktive Aufzeichnung speichern</translation>
     </message>
     <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="243"/>
+        <source>&amp;Close</source>
+        <translation type="unfinished">S&amp;chließen</translation>
+    </message>
+    <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="244"/>
         <source>Ctrl+W</source>
         <translatorcomment>Wo ist denn das?</translatorcomment>
         <translation type="unfinished">Strg+W</translation>
     </message>
     <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="245"/>
+        <source>Close the active sound. If unsaved will ask to save. Note: Asking can be disabled in the preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="249"/>
+        <source>Close All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="250"/>
+        <source>Close all the sounds. If any sounds are unsaved, it will ask to save. Note: Asking can be disabled in the preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="253"/>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="254"/>
         <source>Ctrl+P</source>
         <translation type="unfinished">Strg+P</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="255"/>
+        <source>Print the Pitch Contour, fitting the its current view onto a page</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="263"/>
@@ -80,12 +115,12 @@
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="270"/>
         <source>rewind</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zurückspulen</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="271"/>
         <source>Rewind the sound</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zurückspulen</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="280"/>
@@ -95,32 +130,32 @@
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="281"/>
         <source>Play/Stop the active sound</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktive Aufzeichnung starten und stoppen</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="287"/>
         <source>Fast-forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schnelller Vorlauf</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="287"/>
         <source>fastforward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schnelller Vorlauf</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="288"/>
         <source>Fastfoward the sound</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schnelller Vorlauf</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="293"/>
         <source>&amp;End</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ende</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="294"/>
         <source>Jump to the end of the sound</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zum Anfang der Aufzeichnung springen</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="295"/>
@@ -128,34 +163,49 @@
         <translation type="unfinished">Strg+E</translation>
     </message>
     <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="301"/>
+        <source>&amp;Record</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="302"/>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zurück</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="303"/>
         <source>Record a new sound, using the input device and settings selected in the preferences</source>
+        <translation type="unfinished">Startet neue Aufnahme mit den Voreinstellungen</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="310"/>
+        <source>Play and Record</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="311"/>
         <source>Shift+Return</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Shift+Return</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="312"/>
         <source>Play the active sound and record a new one at the same time!</source>
+        <translation type="unfinished">Aktive Aufzeichnung wiedergeben und gleichzeitig neue Aufnahme aufnehmen!</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="316"/>
+        <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="317"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+Q</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="318"/>
         <source>Quit the Tartini application</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tartini beenden</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="323"/>
@@ -185,22 +235,27 @@
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="354"/>
         <source>&amp;Windows</source>
-        <translation type="unfinished">&amp;Fenster</translation>
+        <translation>&amp;Fenster</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="360"/>
         <source>&amp;Options</source>
-        <translation type="unfinished">&amp;Optionen</translation>
+        <translation>&amp;Optionen</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="370"/>
+        <source>&amp;Preferences</source>
+        <translation>&amp;Voreinstellungen</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="373"/>
         <source>What&apos;s this?</source>
-        <translation type="unfinished">Was ist das?</translation>
+        <translation>Was ist das?</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="374"/>
         <source>Click this button, then click something to learn more about it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klicken Sie hier, und dann irgendwo um mehr darüber zu erfahren</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="376"/>
@@ -215,12 +270,98 @@
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="381"/>
         <source>About Tartini</source>
-        <translation type="unfinished">Über Tartini</translation>
+        <translation>Über Tartini</translation>
     </message>
     <message>
         <location filename="widgets/mainwindow/mainwindow.cpp" line="382"/>
         <source>About Qt</source>
-        <translation type="unfinished">Über Qt</translation>
+        <translation>Über Qt</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="385"/>
+        <source>Analysis Toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="396"/>
+        <source>Auto Follow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="396"/>
+        <source>Moves the view up and down automaticlly with the active channel when playing or recording</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="396"/>
+        <source>autoFollow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="401"/>
+        <source>Scrolls the Pitch Contour view up and down automaticlly with the active channel when playing or recording. Note: Manual scrolling (vertically) will be disabled during this time.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="412"/>
+        <source>Draw solid color underneath the Pitch Contour, to help you find the line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="418"/>
+        <source>Time-axis Slider</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="460"/>
+        <source>Volume Meter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="464"/>
+        <source>Shows the volume (in dB) of the left and right channels of the active sound. Note: If a mono sound the both are the same</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="468"/>
+        <source>Key Toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="469"/>
+        <source>Used to set which reference lines are drawn in the Pitch Contour View.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="471"/>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="475"/>
+        <source>Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="486"/>
+        <source>Scale type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="497"/>
+        <source>Tempered type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="508"/>
+        <source>Frequency Offset Toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="509"/>
+        <source>The frequency of an even-tempered &apos;A&apos; used for reference lines in the Pitch Contour View. Default 440 Hz.Note: For other scales the root note is chosen from the even-tempered scale with that &apos;A&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="560"/>
+        <source>The current time positon for all files (mins:sec)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -228,7 +369,7 @@
     <message>
         <location filename="dialogs/opendialog.cpp" line="29"/>
         <source>Open File</source>
-        <translation type="unfinished">Datei öffnen</translation>
+        <translation>Datei öffnen</translation>
     </message>
     <message>
         <location filename="dialogs/opendialog.cpp" line="29"/>
@@ -238,45 +379,238 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="155"/>
+        <source>File List</source>
+        <translation>Dateiliste</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="155"/>
+        <source>&amp;File List</source>
+        <translation>&amp;Dateiliste</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="156"/>
+        <source>Pitch Contour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="156"/>
+        <source>&amp;Pitch Contour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="157"/>
+        <source>Chromatic Tuner</source>
+        <translation>Chromatisches Stimmgerät</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="157"/>
+        <source>&amp;Chromatic Tuner</source>
+        <translation>&amp;Chromatisches Stimmgerät</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="158"/>
+        <source>Harmonic Track</source>
+        <translation type="unfinished">Harmonische Folge</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="158"/>
+        <source>3D Harmonic &amp;Track</source>
+        <translation type="unfinished">Harmonische 3D-&amp;Folge</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="159"/>
+        <source>Vibrato View</source>
+        <translation type="unfinished">Vibratioansicht</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="159"/>
+        <source>V&amp;ibrato View</source>
+        <translation type="unfinished">&amp;Vibratoansicht</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="160"/>
+        <source>Musical Score</source>
+        <translation type="unfinished">Notenansicht</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="160"/>
+        <source>&amp;Musical Score</source>
+        <translation type="unfinished">&amp;Notenansicht</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="161"/>
+        <source>Oscilloscope</source>
+        <translation type="unfinished">Oszilloskop</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="161"/>
+        <source>&amp;Oscilloscope</source>
+        <translation type="unfinished">Os&amp;zilloskop</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="162"/>
+        <source>Correlation View</source>
+        <translation type="unfinished">Korrelation</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="162"/>
+        <source>Corre&amp;lation View</source>
+        <translation type="unfinished">Ko&amp;rrelation</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="163"/>
+        <source>FFT View</source>
+        <translation type="unfinished">FFT</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="163"/>
+        <source>FF&amp;T View</source>
+        <translation type="unfinished">FF&amp;T</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="164"/>
+        <source>Cepstrum View</source>
+        <translation type="unfinished">Cepstrum</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="164"/>
+        <source>C&amp;epstrum View</source>
+        <translation type="unfinished">C&amp;epstrum</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="165"/>
+        <source>Debug View</source>
+        <translation type="unfinished">Debug</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="165"/>
+        <source>&amp;Debug View</source>
+        <translation type="unfinished">&amp;Debug</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="166"/>
+        <source>Harmonic Block</source>
+        <translation type="unfinished">Harmonischer Block</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="166"/>
+        <source>Harmonic &amp;Block</source>
+        <translation type="unfinished">Harmonischer &amp;Block</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="167"/>
+        <source>Harmonic Stack</source>
+        <translation type="unfinished">Harmonischer Stapel</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="167"/>
+        <source>&amp;Harmonic Stack</source>
+        <translation type="unfinished">&amp;Harmonischer Stapel</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="168"/>
+        <source>Harmonic Bubbles</source>
+        <translation type="unfinished">Harmonische Blasen</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="168"/>
+        <source>H&amp;armonic Bubbles</source>
+        <translation type="unfinished">Harmonische &amp;Blasen</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="169"/>
+        <source>Harmonic Circle</source>
+        <translation type="unfinished">Harmonischer Kreis</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="169"/>
+        <source>Ha&amp;rmonic Circle</source>
+        <translation type="unfinished">Ha&amp;rmonischer Kreis</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="170"/>
+        <source>Pitch Compass</source>
+        <translation type="unfinished">Tonhöhenkompass</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="170"/>
+        <source>Pitch &amp;Compass</source>
+        <translation type="unfinished">Tonhöhen&amp;kompass</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="171"/>
+        <source>Piano Keyboard</source>
+        <translation type="unfinished">Piano</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="171"/>
+        <source>2D Piano &amp;Keyboard</source>
+        <translation type="unfinished">2D &amp;Piano</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="172"/>
+        <source>Summary View</source>
+        <translation type="unfinished">Übersicht</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="172"/>
+        <source>&amp;Summary View</source>
+        <translation type="unfinished">&amp;Übersicht</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="173"/>
+        <source>Volume Meter</source>
+        <translation type="unfinished">Lautsärke</translation>
+    </message>
+    <message>
+        <location filename="widgets/mainwindow/mainwindow.cpp" line="173"/>
+        <source>&amp;Volume Meter</source>
+        <translation type="unfinished">&amp;Lautsärke</translation>
+    </message>
+</context>
+<context>
     <name>SaveDialog</name>
     <message>
         <location filename="dialogs/savedialog.cpp" line="33"/>
         <location filename="dialogs/savedialog.cpp" line="150"/>
         <source>Dialogs/saveFilesFolder</source>
         <translatorcomment>where?</translatorcomment>
-        <translation type="unfinished">Dialog Datien speichern Verzeichnis</translation>
+        <translation type="unfinished">Dialoge/Speicherort</translation>
     </message>
     <message>
         <location filename="dialogs/savedialog.cpp" line="34"/>
         <source>Wave files (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wave-Dateien (*.wav)</translation>
     </message>
     <message>
         <location filename="dialogs/savedialog.cpp" line="36"/>
         <source>Choose a filename to save under</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wählen Sie einen Dateinamen unter dem gespeichert werden soll</translation>
     </message>
     <message>
         <location filename="dialogs/savedialog.cpp" line="123"/>
         <source>Append .wav extension if needed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bei Bedarf Dateiendung .wav hinzufügen</translation>
     </message>
     <message>
         <location filename="dialogs/savedialog.cpp" line="124"/>
         <source>Remember current folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktuelles Verzeichnis merken</translation>
     </message>
     <message>
         <location filename="dialogs/savedialog.cpp" line="126"/>
         <location filename="dialogs/savedialog.cpp" line="155"/>
         <source>Dialogs/appendWav</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dialoge/Wave anhängen</translation>
     </message>
     <message>
         <location filename="dialogs/savedialog.cpp" line="128"/>
         <location filename="dialogs/savedialog.cpp" line="146"/>
         <source>Dialogs/rememberSaveFolder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dialoge/Speicherort merken</translation>
     </message>
 </context>
 <context>
@@ -284,17 +618,17 @@
     <message>
         <location filename="widgets/score/scoreview.cpp" line="54"/>
         <source>Zoom vertically</source>
-        <translation type="unfinished">Vertikal zoomen</translation>
+        <translation>Vertikal zoomen</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="66"/>
         <source>Zoom horizontally</source>
-        <translation type="unfinished">Horizontal zoomen</translation>
+        <translation>Horizontal zoomen</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="70"/>
         <source>sharpsModeComboBox</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"># Modus</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="72"/>
@@ -309,7 +643,7 @@
     <message>
         <location filename="widgets/score/scoreview.cpp" line="77"/>
         <source>notesModeComboBox</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notenmodus</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="79"/>
@@ -324,72 +658,73 @@
     <message>
         <location filename="widgets/score/scoreview.cpp" line="84"/>
         <source>clefModeComboBox</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notenschlüssel Modus</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="86"/>
         <source>Both clefs</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation type="unfinished">Beide Notenschlüssel</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="86"/>
         <source>Treble clef</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dreifacher Notenschlüssel</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="91"/>
         <source>opaqueModeComboBox</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Transparenz Modus</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="93"/>
         <source>See-through notes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Durchsichtige Noten</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="93"/>
         <source>Opaque notes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Undurchsichtige Noten</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="98"/>
         <source>transposeComboBox</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Transponieren</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="100"/>
         <source>Up 2 octaves</source>
-        <translation type="unfinished"></translation>
+        <translation>2 Oktaven höher</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="100"/>
         <source>Up 1 octave</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Oktave höher</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="100"/>
         <source>As played</source>
-        <translation type="unfinished"></translation>
+        <translation>Wie gespielt</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="100"/>
         <source>Down 1 octave</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1 Oktave tiefer</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="100"/>
         <source>Down 2 octaves</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">2 Oktaven tiefer</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="108"/>
         <source>Hide extream notes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ausreisser verbergern</translation>
     </message>
     <message>
         <location filename="widgets/score/scoreview.cpp" line="108"/>
         <source>Show all notes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle Noten zeigen</translation>
     </message>
 </context>
 <context>
@@ -397,7 +732,7 @@
     <message>
         <location filename="widgets/score/scorewidget.cpp" line="45"/>
         <source>AnyStyle</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beliebiger Stiel</translation>
     </message>
     <message>
         <location filename="widgets/score/scorewidget.cpp" line="256"/>
@@ -478,12 +813,13 @@
         <location filename="dialogs/settingsdialog.ui" line="153"/>
         <location filename="dialogs/settingsdialog.ui" line="156"/>
         <source>Browse for a temporary folder</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation type="unfinished">Nach temporären Verzeichnis suchen</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="159"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="176"/>
@@ -493,7 +829,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="186"/>
         <source>sound</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klang</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="226"/>
@@ -503,7 +839,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="251"/>
         <source>sound003.wav</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="290"/>
@@ -546,7 +882,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="462"/>
         <source>&amp;Channels:</source>
-        <translation type="unfinished">&amp;Kanäle:</translation>
+        <translation>&amp;Kanäle:</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="472"/>
@@ -556,7 +892,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="476"/>
         <source>Mono</source>
-        <translation type="unfinished">Mono</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="481"/>
@@ -576,37 +912,37 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="519"/>
         <source>8000</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="524"/>
         <source>11025</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="529"/>
         <source>22050</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="534"/>
         <source>44100</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="539"/>
         <source>48000</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="544"/>
         <source>96000</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="568"/>
         <source>&amp;Bits Per Sample:</source>
-        <translation type="unfinished">&amp;Bit je Abtastwert:</translation>
+        <translation type="unfinished">&amp;Bits je Abtastwert:</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="578"/>
@@ -616,12 +952,12 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="582"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="587"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="597"/>
@@ -637,7 +973,7 @@
         <location filename="dialogs/settingsdialog.ui" line="637"/>
         <location filename="dialogs/settingsdialog.ui" line="649"/>
         <source>Analysis</source>
-        <translation type="unfinished">Analyse</translation>
+        <translation>Analyse</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="669"/>
@@ -667,7 +1003,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="692"/>
         <source>Automaticly calculate noise-floor</source>
-        <translation type="unfinished"></translation>
+        <translation>Hintergrundrauschen automatisch errechnen</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="702"/>
@@ -688,7 +1024,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="729"/>
         <source>Analysis type:</source>
-        <translation type="unfinished">Analyseart:</translation>
+        <translation>Analyseart:</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="736"/>
@@ -714,7 +1050,7 @@
         <location filename="dialogs/settingsdialog.ui" line="774"/>
         <source>Default threshold (%):</source>
         <translatorcomment>wo?</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Standard-Messschwelle (%):</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="781"/>
@@ -724,7 +1060,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="818"/>
         <source>Buffer Size</source>
-        <translation type="unfinished">Puffergröße</translation>
+        <translation>Puffergröße</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="838"/>
@@ -748,7 +1084,7 @@
         <location filename="dialogs/settingsdialog.ui" line="870"/>
         <location filename="dialogs/settingsdialog.ui" line="980"/>
         <source>samples</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abtastwerte</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="896"/>
@@ -764,7 +1100,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="925"/>
         <source>Step Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schrittweite</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="945"/>
@@ -784,7 +1120,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1009"/>
         <source>Round to the nearest whole fraction of the buffer window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zu ganzzahligen Bruch des Pufferfensters runden</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1049"/>
@@ -795,17 +1131,17 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1061"/>
         <source>Colors</source>
-        <translation type="unfinished">Farben</translation>
+        <translation>Farben</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1169"/>
         <source>&amp;Background</source>
-        <translation type="unfinished">&amp;Hintergrund</translation>
+        <translation>&amp;Hintergrund</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1172"/>
         <source>Alt+B</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1179"/>
@@ -815,7 +1151,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1182"/>
         <source>Alt+1</source>
-        <translation type="unfinished">Alt+1</translation>
+        <translation>Alt+1</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1189"/>
@@ -825,12 +1161,12 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1192"/>
         <source>Alt+2</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1215"/>
         <source>Screen refresh</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bildaktualisierung</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1227"/>
@@ -855,7 +1191,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1317"/>
         <source>GroupBox</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1329"/>
@@ -865,12 +1201,12 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1366"/>
         <source>Advanced</source>
-        <translation type="unfinished">Erweitert</translation>
+        <translation>Erweitert</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1378"/>
         <source>Advanced Settings</source>
-        <translation type="unfinished">Erweiterte Einstellungen</translation>
+        <translation>Erweiterte Einstellungen</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1390"/>
@@ -897,7 +1233,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1419"/>
         <source>Mouse-wheel zooms. (Note: Ctrl inverts zoom/scroll)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mit Mausrad zoomen. (Hinweis: Strg invertiert zoomen/scrollen )</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1429"/>
@@ -922,7 +1258,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1482"/>
         <source>Alt+R</source>
-        <translation type="unfinished">Alt+R</translation>
+        <translation>Alt+R</translation>
     </message>
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1502"/>
@@ -932,7 +1268,7 @@
     <message>
         <location filename="dialogs/settingsdialog.ui" line="1509"/>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
 </context>
 <context>

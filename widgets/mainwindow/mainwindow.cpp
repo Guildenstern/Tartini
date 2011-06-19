@@ -152,25 +152,25 @@ MyGLFont *mygl_font;
 
 ViewData viewData[NUM_VIEWS] = {
                                /*ViewData(title,               menuName,              className,           menu type);*/
-                                 ViewData("File List",         "&File List",          "OpenFiles",         0),
-                                 ViewData("Pitch Contour",     "&Pitch Contour",      "FreqView",          0),
-                                 ViewData("Chromatic Tuner",   "&Chromatic Tuner",    "TunerView",         0),
-                                 ViewData("Harmonic Track",    "3D Harmonic &Track",  "HTrackView",        0),
-                                 ViewData("Vibrato View",      "V&ibrato View",       "VibratoView",       0),
-                                 ViewData("Musical Score",     "&Musical Score",      "ScoreView",         0),
-                                 ViewData("Oscilloscope",      "&Oscilloscope",       "WaveView",          1),
-                                 ViewData("Correlation View",  "Corre&lation View",   "CorrelationView",   1),
-                                 ViewData("FFT View",          "FF&T View",           "FFTView",           1),
-                                 ViewData("Cepstrum View",     "C&epstrum View",      "CepstrumView",      1),
-                                 ViewData("Debug View",        "&Debug View",         "DebugView",         1),
-                                 ViewData("Harmonic Block",    "Harmonic &Block",     "HBlockView",        2),
-                                 ViewData("Harmonic Stack",    "&Harmonic Stack",     "HStackView",        2),
-                                 ViewData("Harmonic Bubbles",  "H&armonic Bubbles",   "HBubbleView",       2),
-                                 ViewData("Harmonic Circle",   "Ha&rmonic Circle",    "HCircleView",       2),
-                                 ViewData("Pitch Compass",     "Pitch &Compass",      "PitchCompassView",  2),
-                                 ViewData("Piano Keyboard",    "2D Piano &Keyboard",  "PianoView",         3),
-                                 ViewData("Summary View",      "&Summary View",       "SummaryView",       3),
-                                 ViewData("Volume Meter",      "&Volume Meter",       "VolumeMeterView",   3)
+                                 ViewData(QObject::tr("File List"),         QObject::tr("&File List"),          "OpenFiles",         0),
+                                 ViewData(QObject::tr("Pitch Contour"),     QObject::tr("&Pitch Contour"),      "FreqView",          0),
+                                 ViewData(QObject::tr("Chromatic Tuner"),   QObject::tr("&Chromatic Tuner"),    "TunerView",         0),
+                                 ViewData(QObject::tr("Harmonic Track"),    QObject::tr("3D Harmonic &Track"),  "HTrackView",        0),
+                                 ViewData(QObject::tr("Vibrato View"),      QObject::tr("V&ibrato View"),       "VibratoView",       0),
+                                 ViewData(QObject::tr("Musical Score"),     QObject::tr("&Musical Score"),      "ScoreView",         0),
+                                 ViewData(QObject::tr("Oscilloscope"),      QObject::tr("&Oscilloscope"),       "WaveView",          1),
+                                 ViewData(QObject::tr("Correlation View"),  QObject::tr("Corre&lation View"),   "CorrelationView",   1),
+                                 ViewData(QObject::tr("FFT View"),          QObject::tr("FF&T View"),           "FFTView",           1),
+                                 ViewData(QObject::tr("Cepstrum View"),     QObject::tr("C&epstrum View"),      "CepstrumView",      1),
+                                 ViewData(QObject::tr("Debug View"),        QObject::tr("&Debug View"),         "DebugView",         1),
+                                 ViewData(QObject::tr("Harmonic Block"),    QObject::tr("Harmonic &Block"),     "HBlockView",        2),
+                                 ViewData(QObject::tr("Harmonic Stack"),    QObject::tr("&Harmonic Stack"),     "HStackView",        2),
+                                 ViewData(QObject::tr("Harmonic Bubbles"),  QObject::tr("H&armonic Bubbles"),   "HBubbleView",       2),
+                                 ViewData(QObject::tr("Harmonic Circle"),   QObject::tr("Ha&rmonic Circle"),    "HCircleView",       2),
+                                 ViewData(QObject::tr("Pitch Compass"),     QObject::tr("Pitch &Compass"),      "PitchCompassView",  2),
+                                 ViewData(QObject::tr("Piano Keyboard"),    QObject::tr("2D Piano &Keyboard"),  "PianoView",         3),
+                                 ViewData(QObject::tr("Summary View"),      QObject::tr("&Summary View"),       "SummaryView",       3),
+                                 ViewData(QObject::tr("Volume Meter"),      QObject::tr("&Volume Meter"),       "VolumeMeterView",   3)
                                };
 
 
@@ -234,25 +234,25 @@ MainWindow::MainWindow()
   fileToolBar->addAction(openAction);
   connect(openAction, SIGNAL(triggered()), this, SLOT(openFile()));
 
-  QAction *saveAction = new QAction(QIcon(save32x32_xpm), "&Save", this);
-  saveAction->setShortcut(tr(tr("Ctrl+S")));
+  QAction *saveAction = new QAction(QIcon(save32x32_xpm), tr("&Save"), this);
+  saveAction->setShortcut(tr("Ctrl+S"));
   saveAction->setWhatsThis(tr("Save the active sound to a file"));
   fileToolBar->addAction(saveAction);
   connect(saveAction, SIGNAL(triggered()), gdata, SLOT(saveActiveFile()));
   
-  QAction *closeAction = new QAction(QIcon(close32x32_xpm), "&Close", this);
+  QAction *closeAction = new QAction(QIcon(close32x32_xpm), tr("&Close"), this);
   closeAction->setShortcut(tr("Ctrl+W"));
-  closeAction->setWhatsThis("Close the active sound. If unsaved will ask to save. Note: Asking can be disabled in the preferences");
+  closeAction->setWhatsThis(tr("Close the active sound. If unsaved will ask to save. Note: Asking can be disabled in the preferences"));
   fileToolBar->addAction(closeAction);
   connect(closeAction, SIGNAL(triggered()), gdata, SLOT(closeActiveFile()));
   
-  QAction *closeAllAction = new QAction("Close All", this);
-  closeAllAction->setWhatsThis("Close all the sounds. If any sounds are unsaved, it will ask to save. Note: Asking can be disabled in the preferences");
+  QAction *closeAllAction = new QAction(tr("Close All"), this);
+  closeAllAction->setWhatsThis(tr("Close all the sounds. If any sounds are unsaved, it will ask to save. Note: Asking can be disabled in the preferences"));
   connect(closeAllAction, SIGNAL(triggered()), gdata, SLOT(closeAllFiles()));
   
-  QAction *printAction = new QAction("Print", this);
+  QAction *printAction = new QAction(tr("Print"), this);
   printAction->setShortcut(tr("Ctrl+P"));
-  printAction->setWhatsThis("Print the Pitch Contour, fitting the its current view onto a page");
+  printAction->setWhatsThis(tr("Print the Pitch Contour, fitting the its current view onto a page"));
   connect(printAction, SIGNAL(triggered()), this, SLOT(printPitch()));
 
   //Create the sound Toolbar
@@ -298,7 +298,7 @@ MainWindow::MainWindow()
 
   //Create the Actions, to be used in Menus and Toolbars
   recordIconSet = new QIcon(record32x32_xpm);
-  recordAction = new QAction(*recordIconSet, "&Record", this);
+  recordAction = new QAction(*recordIconSet, tr("&Record"), this);
   recordAction->setShortcut(tr("Return"));
   recordAction->setWhatsThis(tr("Record a new sound, using the input device and settings selected in the preferences"));
   fileToolBar->addAction(recordAction);
@@ -307,13 +307,13 @@ MainWindow::MainWindow()
   //fileToolBar->addWidget(recordButton);
   //connect(recordButton, SIGNAL(clicked()), this, SLOT(openRecord()));
 
-  playRecordAction = new QAction(*playRecordIconSet, "Play and Record", this);
+  playRecordAction = new QAction(*playRecordIconSet, tr("Play and Record"), this);
   playRecordAction->setShortcut(tr("Shift+Return"));
   playRecordAction->setWhatsThis(tr("Play the active sound and record a new one at the same time!"));
   fileToolBar->addAction(playRecordAction);
   connect(playRecordAction, SIGNAL(triggered()), this, SLOT(openPlayRecord()));
 
-  QAction *quit = new QAction("&Quit", this);
+  QAction *quit = new QAction(tr("&Quit"), this);
   quit->setShortcut(tr("Ctrl+Q"));
   quit->setWhatsThis(tr("Quit the Tartini application"));
   //connect(quit, SIGNAL(triggered()), qApp, SLOT( closeAllWindows() ));
@@ -335,7 +335,7 @@ MainWindow::MainWindow()
   fileMenu->addAction(quit);
 
   //Channel Menu
-  //QAction *exportAction = new QAction(QIcon(iconOpen), "&Export", this);
+  //QAction *exportAction = new QAction(QIcon(iconOpen), tr("&Export"), this);
   QAction *exportAction1 = new QAction(tr("&Export to plain text"), this);
   connect(exportAction1, SIGNAL(triggered()), this, SLOT(exportChannelPlainText()));
   QAction *exportAction2 = new QAction(tr("&Export to matlab"), this);
@@ -367,7 +367,7 @@ MainWindow::MainWindow()
   //optionsMenu->insertItem("Process &Stereo", this, SLOT( toggleOption(int) ), 0, 3);
   //optionsMenu->setItemChecked(3, (gdata->process_channels==2));
   //optionsMenu->insertSeparator();
-  optionsMenu->addAction("&Preferences", this, SLOT(menuPreferences()));
+  optionsMenu->addAction(tr("&Preferences"), this, SLOT(menuPreferences()));
 
   QAction *whatsThis = QWhatsThis::createAction(this);
   whatsThis->setToolTip(tr("What's this?"));
@@ -382,7 +382,7 @@ MainWindow::MainWindow()
   helpMenu->addAction(tr("About Qt"), this, SLOT(aboutQt())); //, 0, 1);
   
   //Create the other toolbar, which contains some option stuff
-  QToolBar *analysisToolBar = new QToolBar("Analysis Toobar", this); //, Qt::DockTop, FALSE);
+  QToolBar *analysisToolBar = new QToolBar(tr("Analysis Toolbar"), this); //, Qt::DockTop, FALSE);
   addToolBar(analysisToolBar);
   analysisToolBar->setIconSize(QSize(32, 32));
 /*
@@ -393,12 +393,12 @@ MainWindow::MainWindow()
 */
   QIcon *autoFollowIconSet = new QIcon();
   autoFollowIconSet->setPixmap(QPixmap(autofollow32x32_xpm), QIcon::Small, QIcon::Normal);
-  QToolButton *autoFollowButton = new QToolButton(*autoFollowIconSet, "Auto Follow", "Moves the view up and down automaticlly with the active channel when playing or recording", NULL, NULL, analysisToolBar, "autoFollow");
+  QToolButton *autoFollowButton = new QToolButton(*autoFollowIconSet, tr("Auto Follow"), tr("Moves the view up and down automaticlly with the active channel when playing or recording"), NULL, NULL, analysisToolBar, tr("autoFollow"));
   analysisToolBar->addWidget(autoFollowButton);
   autoFollowButton->setToggleButton(true);
   autoFollowButton->setAutoRaise(true);
   autoFollowButton->setOn(gdata->view->autoFollow());
-  autoFollowButton->setWhatsThis("Scrolls the Pitch Contour view up and down automaticlly with the active channel when playing or recording. Note: Manual scrolling (vertically) will be disabled during this time.");
+  autoFollowButton->setWhatsThis(tr("Scrolls the Pitch Contour view up and down automaticlly with the active channel when playing or recording. Note: Manual scrolling (vertically) will be disabled during this time."));
   connect(autoFollowButton, SIGNAL(toggled(bool)), gdata->view, SLOT(setAutoFollow(bool)));
 
   QIcon *backgroundShadingIconSet = new QIcon();
@@ -409,13 +409,13 @@ MainWindow::MainWindow()
   backgroundShadingButton->setToggleButton(true);
   backgroundShadingButton->setAutoRaise(true);
   backgroundShadingButton->setOn(gdata->view->backgroundShading());
-  backgroundShadingButton->setWhatsThis("Draw solid color underneath the Pitch Contour, to help you find the line");
+  backgroundShadingButton->setWhatsThis(tr("Draw solid color underneath the Pitch Contour, to help you find the line"));
   connect(backgroundShadingButton, SIGNAL(toggled(bool)), gdata->view, SLOT(setBackgroundShading(bool)));
 
   analysisToolBar->addAction(whatsThis);
 
   View *view = gdata->view;
-  QToolBar *timeBarDock = new QToolBar("Time-axis Slider", this); //, Qt::DockBottom);
+  QToolBar *timeBarDock = new QToolBar(tr("Time-axis Slider"), this); //, Qt::DockBottom);
   addToolBar(Qt::BottomToolBarArea, timeBarDock);
   timeBarDock->setIconSize(QSize(32, 32));
 
@@ -457,22 +457,22 @@ MainWindow::MainWindow()
   //connect(view, SIGNAL(onSlowUpdate()), timeSlider, SLOT(repaint()));
   timeBarDock->addWidget(timeSlider);
   
-  QToolBar *volumeMeterToolBar = new QToolBar("Volume Meter", this); //, Qt::DockTop, FALSE);
+  QToolBar *volumeMeterToolBar = new QToolBar(tr("Volume Meter"), this); //, Qt::DockTop, FALSE);
   addToolBar(volumeMeterToolBar);
   volumeMeterToolBar->setIconSize(QSize(32, 32));
   VolumeMeterView *volumeMeterView = new VolumeMeterView(VIEW_VOLUME_METER, volumeMeterToolBar);//->show();
-  volumeMeterView->setWhatsThis("Shows the volume (in dB) of the left and right channels of the active sound. Note: If a mono sound the both are the same");
+  volumeMeterView->setWhatsThis(tr("Shows the volume (in dB) of the left and right channels of the active sound. Note: If a mono sound the both are the same"));
   volumeMeterToolBar->addWidget(volumeMeterView);
 
 
-  QToolBar *keyToolBar = new QToolBar("Key Toolbar", this);
-  keyToolBar->setWhatsThis("Used to set which reference lines are drawn in the Pitch Contour View.");
+  QToolBar *keyToolBar = new QToolBar(tr("Key Toolbar"), this);
+  keyToolBar->setWhatsThis(tr("Used to set which reference lines are drawn in the Pitch Contour View."));
   addToolBar(keyToolBar);
-  QLabel *keyLabel = new QLabel("Key", keyToolBar);
+  QLabel *keyLabel = new QLabel(tr("Key"), keyToolBar);
   keyToolBar->addWidget(keyLabel);
 
   QComboBox *keyComboBox = new QComboBox(keyToolBar);
-  keyComboBox->setWindowTitle("Key");
+  keyComboBox->setWindowTitle(tr("Key"));
   QStringList s;
   for(int j=0; j<NUM_MUSIC_KEYS; j++) s << gMusicKeyName[j];
   keyComboBox->addItems(s);
@@ -483,7 +483,7 @@ MainWindow::MainWindow()
   connect(gdata, SIGNAL(musicKeyChanged(int)), gdata->view, SLOT(doUpdate()));
 
   keyTypeComboBox = new QComboBox(keyToolBar);
-  keyTypeComboBox->setWindowTitle("Scale type");
+  keyTypeComboBox->setWindowTitle(tr("Scale type"));
   s.clear();
   for(uint j=0; j<gMusicScales.size(); j++) s << gMusicScales[j].name();
   keyTypeComboBox->addItems(s);
@@ -494,7 +494,7 @@ MainWindow::MainWindow()
   connect(gdata, SIGNAL(musicKeyTypeChanged(int)), gdata->view, SLOT(doUpdate()));
 
   QComboBox *temperedComboBox = new QComboBox(keyToolBar);
-  temperedComboBox->setWindowTitle("Tempered type");
+  temperedComboBox->setWindowTitle(tr("Tempered type"));
   s.clear();
   //s << "Even Tempered" << "Just Intonation";
   for(uint j=0; j<gMusicKeys.size(); j++) s << gMusicKeys[j].name();
@@ -505,9 +505,9 @@ MainWindow::MainWindow()
   connect(gdata, SIGNAL(temperedTypeChanged(int)), temperedComboBox, SLOT(setCurrentIndex(int)));
   connect(gdata, SIGNAL(temperedTypeChanged(int)), gdata->view, SLOT(doUpdate()));
 
-  QToolBar *freqAToolBar = new QToolBar("Frequency Offset Toolbar", this);
-  freqAToolBar->setWhatsThis("The frequency of an even-tempered 'A' used for reference lines in the Pitch Contour View. Default 440 Hz."
-    "Note: For other scales the root note is chosen from the even-tempered scale with that 'A'.");
+  QToolBar *freqAToolBar = new QToolBar(tr("Frequency Offset Toolbar"), this);
+  freqAToolBar->setWhatsThis(tr("The frequency of an even-tempered 'A' used for reference lines in the Pitch Contour View. Default 440 Hz."
+    "Note: For other scales the root note is chosen from the even-tempered scale with that 'A'."));
   addToolBar(freqAToolBar);
 
   QSpinBox *freqASpinBox = new QSpinBox(400, 600, 1, freqAToolBar, "freqASpinBox");
@@ -557,7 +557,7 @@ MainWindow::MainWindow()
   //statusBar()->addWidget(timeLabel, 0, true);
   statusBar()->addPermanentWidget(timeLabel, 0);
   setTimeLabel(0);
-  QToolTip::add(timeLabel, "The current time positon for all files (mins:sec)");
+  QToolTip::add(timeLabel, tr("The current time positon for all files (mins:sec)"));
   //connect(gdata->view, SIGNAL(currentTimeChanged(double)), this, SLOT(setTimeLabel(double)));
   connect(gdata->view, SIGNAL(onSlowUpdate(double)), this, SLOT(setTimeLabel(double)));
 
