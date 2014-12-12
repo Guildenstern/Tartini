@@ -7,7 +7,7 @@ compiler:
 
 install:
   - sudo apt-get update
-  - sudo apt-get install libqt4-dev qt4-qmake libqwt4-qt4
+  - sudo apt-get install libqt4-dev qt4-qmake libqwt5-qt4
 
 
 script:
