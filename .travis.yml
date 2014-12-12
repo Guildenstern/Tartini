@@ -12,5 +12,5 @@ install:
 
 script:
   - qmake -project
-  - qmake hello.pro
+  - qmake pitch.pro
   - make
