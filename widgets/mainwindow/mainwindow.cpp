@@ -429,13 +429,19 @@ MainWindow::MainWindow()
   connect(view, SIGNAL(viewWidthChanged(double)), timeScrollBar, SLOT(setPageStep(double)));
 */
   
-//#if QWT_VERSION == 0x050000
-//  timeSlider = new QwtSlider(timeBarDock, Qt::Horizontal, QwtSlider::None, QwtSlider::BgBoth);
-//#else
-//  timeSlider = new QwtSlider(timeBarDock, Qt::Horizontal, QwtSlider::NoScale, QwtSlider::BgBoth);
-//#endif
+#if QWT_VERSION == 0x050000
+  timeSlider = new QwtSlider(timeBarDock, Qt::Horizontal, QwtSlider::None, QwtSlider::BgBoth);
+#endif
 
+#if QWT_VERSION > 0x050000
   timeSlider = new QwtSlider(timeBarDock, Qt.Qt.Horizontal, Qwt.QwtSlider.NoScale, Qwt.QwtSlider.BgBoth);
+#endif
+
+#if QWT_VERSION < 0x050000
+  timeSlider = new QwtSlider(timeBarDock, Qt::Horizontal, QwtSlider::NoScale, QwtSlider::BgBoth);
+#endif
+
+
 
   timeSlider->setRange(gdata->leftTime(), gdata->rightTime(), 1.0/10000.0, 1000);
   timeSlider->setValue(view->currentTime());
