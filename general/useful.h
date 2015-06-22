@@ -15,7 +15,7 @@
 #ifndef USEFUL_H
 #define USEFUL_H
 
-#include <stdlib.h>
+#include <cstdlib>
 
 /*
 #if (defined (WIN32) || defined (_WIN32))
@@ -56,8 +56,8 @@
 #define ABS(x)      ((x)<0 ? -(x) : (x))
 #define SIGN(x)     (((x) == 0) ? 0 : (((x)>0) ? 1 : -1))
 
-#define PI  3.14159265358979323846
-#define twoPI 6.28318530717958647692
+#define PI  M_PI
+#define twoPI 2*M_PI
 
 //return a pointer to a 2d array with each element of size size
 void **malloc2d(const int row, const int col, const int size);
@@ -78,10 +78,10 @@ double powi(const double x, const int y);
 
 double nearestPowerOf2(double x);
 
-#ifndef pow10
+//#ifndef pow10
 //rasises 10^x
-inline double pow10(double x) { return pow(10.0, x); }
-#endif
+//inline double pow10(double x) { return pow(10.0, x); }
+//#endif
 
 #ifndef pow2
 //rasises 2^x

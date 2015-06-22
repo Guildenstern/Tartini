@@ -17,7 +17,7 @@
 
 /** Decimates input into the output, using a fast pick every n'th value idea.
 */
-void bresenham1d(const Array1d<float> &input, Array1d<float> &output)
+void bresenham1d(const Array<float> &input, Array<float> &output)
 {
     //Use Bresenham's algorithm in 1d to choose the points to draw
     int w = output.size();
@@ -37,7 +37,7 @@ void bresenham1d(const Array1d<float> &input, Array1d<float> &output)
 
 /** Decimates input into the output, using a 'find the max of every n values' idea.
 */
-void maxAbsDecimate1d(const Array1d<float> &input, Array1d<float> &output)
+void maxAbsDecimate1d(const Array<float> &input, Array<float> &output)
 {
   if(input.size() > output.size()) {
     //Use Bresenham's algorithm in 1d to choose the points to draw

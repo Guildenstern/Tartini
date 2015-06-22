@@ -17,7 +17,7 @@
 
 #include "array1d.h"
 
-void bresenham1d(const Array1d<float> &input, Array1d<float> &output);
-void maxAbsDecimate1d(const Array1d<float> &input, Array1d<float> &output);
+void bresenham1d(const Array<float> &input, Array<float> &output);
+void maxAbsDecimate1d(const Array<float> &input, Array<float> &output);
 
 #endif

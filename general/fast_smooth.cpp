@@ -1,6 +1,7 @@
-#include <math.h>
 #include "fast_smooth.h"
 #include <numeric>
+#include <algorithm>
+#include <cmath>
 
 fast_smooth::fast_smooth(int size)
 {
@@ -125,8 +126,6 @@ void fast_smooth::fast_smoothB(float *source, float *dest, int length, int step)
 	total_sum += source[(length-1)*step] - source[(j-_size_left)*step];
     }
 }
-
-#include <stdio.h>
 
 //treats all values off either end the same as the value at end
 void fast_smooth::fast_smoothB(float *source, float *dest, int length)

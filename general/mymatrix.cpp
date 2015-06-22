@@ -1,21 +1,21 @@
 #include "mymatrix.h"
-#include "stdio.h"
-#include "cmath"
-#include "algorithm"
+#include <cstdio>
+#include <cmath>
+#include <algorithm>
 
 #define MY_EPSILON 0.000001
 
 void print2x2matrix(const double *x)
 {
-  printf("[%8.5lf %8.5lf]\n", x[0], x[1]);
-  printf("[%8.5lf %8.5lf]\n", x[2], x[3]);
+  printf("[%8.5f %8.5f]\n", x[0], x[1]);
+  printf("[%8.5f %8.5f]\n", x[2], x[3]);
 }
 
 void print3x3matrix(const double *x)
 {
-  printf("[%8.5lf %8.5lf %8.5lf]\n", x[0], x[1], x[2]);
-  printf("[%8.5lf %8.5lf %8.5lf]\n", x[3], x[4], x[5]);
-  printf("[%8.5lf %8.5lf %8.5lf]\n", x[6], x[7], x[8]);
+  printf("[%8.5f %8.5f %8.5f]\n", x[0], x[1], x[2]);
+  printf("[%8.5f %8.5f %8.5f]\n", x[3], x[4], x[5]);
+  printf("[%8.5f %8.5f %8.5f]\n", x[6], x[7], x[8]);
 }
 
 /** Matrix inverse assuming the array follows this index pattern.

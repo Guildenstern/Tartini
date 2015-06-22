@@ -24,7 +24,7 @@ class Settings
 public:
   Settings();
   Settings(QString domain_, QString product_);
-  virtual ~Settings() {};
+  virtual ~Settings() {}
 
   void init(QString domain_, QString product_);
 	

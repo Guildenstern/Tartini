@@ -35,6 +35,8 @@ void Settings::init(QString domain_, QString product_)
   product = product_;
 }
 
+#define S(s) s.toLocal8Bit().data()
+
 // Return the value indexed in the map, or load it in from the defaults if need be
 QString Settings::getString(QString group, QString key)
 {
@@ -48,12 +50,12 @@ QString Settings::getString(QString group, QString key)
     if (iterValue != (iter->second).end()) {
       return iterValue->second;
     } else {
-      fprintf(stderr, "No defined key[%s] in group[%s]. (%s, %s)\n", key.ascii(), group.ascii(), domain.ascii(), product.ascii());
+      fprintf(stderr, "No defined key[%s] in group[%s]. (%s, %s)\n", S(key), S(group), S(domain), S(product));
       myassert(false); //The defaults haven't been defined for this key!
       return QString("");
     }
   } else {
-    fprintf(stderr, "No defined group[%s], can't get key[%s]. (%s, %s)\n", group.ascii(), key.ascii(), domain.ascii(), product.ascii());
+    fprintf(stderr, "No defined group[%s], can't get key[%s]. (%s, %s)\n", S(group), S(key), S(domain), S(product));
     myassert(false); //The defaults haven't been defined for this key!
     return QString("");
   }
@@ -109,7 +111,7 @@ bool Settings::getBool(QString group, QString key)
   // Preconditions
   myassert( !group.isNull() && !key.isNull() );
 
-  if(getString(group, key).at(0).lower() == QChar('t')) return true;
+  if(getString(group, key).at(0).toLower() == QChar('t')) return true;
   else return false;
 }
 
@@ -172,14 +174,13 @@ void Settings::load()
   QStringList entries;
   QString key;
   for (int i = 0; i < subkeys.size(); i++) {
-    entries = onDiskSettings.entryList("/" + *(subkeys.at(i)));
-    //printf("There are %d entries in category %s.\n", entries.size(), (*subkeys.at(i)).data());
-    for (int n = 0; n < entries.size(); n++) {
-      //key = QString("/") + *(subkeys.at(i)) + "/" + *(entries.at(n));
-      key = "/" + subkeys.at(i) + "/" + entries.at(n);
-      //(settings[*(subkeys.at(i))])[*(entries.at(n))] = onDiskSettings.readEntry(key, "");
-      (settings[subkeys.at(i)])[entries.at(n)] = onDiskSettings.readEntry(key, "");
-    }
+      onDiskSettings.beginGroup("/" + subkeys.at(i));
+      entries = onDiskSettings.childKeys();
+      for (int n = 0; n < entries.size(); n++) {
+          key = "/" + subkeys.at(i) + "/" + entries.at(n);
+          (settings[subkeys.at(i)])[entries.at(n)] = onDiskSettings.value(key, "").toString();
+      }
+      onDiskSettings.endGroup();
   }
 
   onDiskSettings.endGroup();
@@ -198,18 +199,14 @@ void Settings::save()
 //#endif
 
   QSettings onDiskSettings(domain, product);
-
-  //onDiskSettings.setPath(domain, product, QSettings::UserScope);
   onDiskSettings.beginGroup(QString("/") + product);
 
   std::map<QString, std::map<QString, QString> >::const_iterator iter = settings.begin();
   while (iter != settings.end()) {
     onDiskSettings.beginGroup(iter->first);
-    //qDebug(onDiskSettings.group());
     std::map<QString, QString>::const_iterator iterValue = iter->second.begin();
     while (iterValue != iter->second.end()) {
-      onDiskSettings.writeEntry("/" + iterValue->first, iterValue->second);
-		  //qDebug("Wrote /" + iterValue->first + "= " + iterValue->second);
+      onDiskSettings.setValue("/" + iterValue->first, iterValue->second);
       iterValue++;
     }
     onDiskSettings.endGroup();
@@ -224,7 +221,7 @@ void Settings::print()
   for(; iter != settings.end(); iter++) {
     std::map<QString, QString>::const_iterator iterValue = (iter->second).begin();
     for(; iterValue != (iter->second).end(); iterValue++) {
-      printf("%s/%s=%s\n", iter->first.latin1(), iterValue->first.latin1(), iterValue->second.latin1());
+      printf("%s/%s=%s\n", S(iter->first), S(iterValue->first), S(iterValue->second));
     }
   }
   fflush(stdout);

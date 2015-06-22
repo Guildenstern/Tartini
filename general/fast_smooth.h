@@ -26,6 +26,4 @@ class fast_smooth
     void fast_smoothB(float *source, float *dest, int length);
 };
 
-void testFastSmooth();
-
 #endif

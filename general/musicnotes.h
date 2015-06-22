@@ -15,9 +15,8 @@
 #ifndef MUSICNOTES_H
 #define MUSICNOTES_H
 
-#include "useful.h"
 #include "array1d.h"
-#include "gdata.h"
+#include <vector>
 
 /** Returns the fractional note (from the midi scale)
 @param freq The frequency in Hz
@@ -75,7 +74,7 @@ inline bool isBlackNote(double pitch) { return isBlackNote(toInt(pitch)); }
 
 class MusicScale
 {
-  Array1d<int> pNotes;
+  Array<int> pNotes;
   std::vector<bool> pSemitoneLookup;
   char *pName;
   int _semitoneOffset;
@@ -97,8 +96,8 @@ class MusicScale
 */
 class MusicKey
 {
-  Array1d<double> noteOffsets; //ordered midi values of the notes in 1 octave
-  Array1d<int> noteTypes;
+  Array<double> noteOffsets; //ordered midi values of the notes in 1 octave
+  Array<int> noteTypes;
   char *pName;
   //double _offset;
 
