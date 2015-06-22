@@ -14,9 +14,8 @@
  ***************************************************************************/
 #include "debugview.h"
 #include "debugwidget.h"
+#include "view.h"
 #include "gdata.h"
-//Added by qt3to4:
-#include <QResizeEvent>
 
 DebugView::DebugView( int viewID_, QWidget *parent )
  : ViewWidget( viewID_, parent)

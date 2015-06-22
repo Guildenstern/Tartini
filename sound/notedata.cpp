@@ -13,37 +13,22 @@
    Please read LICENSE.txt for details.
  ***************************************************************************/
 
-#include <vector>
-
 #include "notedata.h"
-#include "gdata.h"
-#include "channel.h"
-#include "useful.h"
+#include "channelbase.h"
 #include "musicnotes.h"
+#include "analysisdata.h"
 
-
-NoteData::NoteData(Channel *channel_)
+NoteData::NoteData(ChannelBase *channel_)
 {
   channel = channel_;
-  maxLogRMS = gdata->dBFloor();
+  maxLogRMS = channel_->dBFloor();
   maxima = new Array1d<int>();
   minima = new Array1d<int>();
   _periodOctaveEstimate = 1.0f;
   _numPeriods = 0;
 }
 
-/*
-NoteData::NoteData(int startChunk_, int endChunk_, float logRMS_, float intensityDB_, float correlation_, float purity_)
-{
-  startChunk = startChunk_;
-  endChunk = endChunk_;
-  maxLogRMS = logRMS_;
-  maxIntensityDB = intensityDB_;
-  maxCorrelation = correlation_;
-  maxPurity = purity_;
-}*/
-
-NoteData::NoteData(Channel *channel_, int startChunk_, AnalysisData *analysisData)
+NoteData::NoteData(ChannelBase *channel_, int startChunk_, AnalysisData *analysisData)
 {
   channel = channel_;
   _startChunk = startChunk_;
@@ -53,8 +38,7 @@ NoteData::NoteData(Channel *channel_, int startChunk_, AnalysisData *analysisDat
   maxCorrelation = analysisData->correlation();
   maxPurity = analysisData->volumeValue();
   _volume = 0.0f;
-  _numPeriods = 0.0f; //periods;
-  //_periodOctaveEstimate = analysisData->periodOctaveEstimate;
+  _numPeriods = 0.0f; //periods
   _periodOctaveEstimate = 1.0f;
   loopStep = channel->rate() / 1000;  // stepsize = 0.001 seconds
   loopStart = _startChunk * channel->framesPerChunk() + loopStep;
@@ -88,16 +72,16 @@ void NoteData::resetData()
   _numPeriods = 0;
 }
 
-void NoteData::addData(AnalysisData *analysisData, float periods)
+void NoteData::addData(AnalysisData *analysisData, float periods, double topPitch)
 {
   maxLogRMS = MAX(maxLogRMS, analysisData->logrms());
   maxIntensityDB = MAX(maxIntensityDB, analysisData->maxIntensityDB());
   maxCorrelation = MAX(maxCorrelation, analysisData->correlation());
   maxPurity = MAX(maxPurity, analysisData->volumeValue());
-  _volume = MAX(_volume, dB2Normalised(analysisData->logrms()));
+  _volume = MAX(_volume, dB2Normalised(analysisData->logrms(), channel->dBFloor()));
   _numPeriods += periods; //sum up the periods
   //_periodOctaveEstimate = analysisData->periodOctaveEstimate; //overwrite the old estimate
-  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, gdata->topPitch());
+  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, topPitch);
 }
 
 /** @return The length of the note (in seconds)
@@ -228,10 +212,10 @@ void NoteData::addVibratoData(int chunk)
   }
 }
 
-void NoteData::recalcAvgPitch() {
+void NoteData::recalcAvgPitch(double topPitch) {
   _numPeriods = 0.0f;
   for(int j=startChunk(); j<endChunk(); j++) {
       _numPeriods += float(channel->framesPerChunk()) / float(channel->dataAtChunk(j)->period);
   }
-  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, gdata->topPitch());
+  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, topPitch);
 }

@@ -19,6 +19,10 @@
 #include "gdata.h"
 #include "channel.h"
 #include "conversions.h"
+#include "analysisdata.h"
+#include "notedata.h"
+#include <QtCore/QSettings>
+#include <QtCore/QTimer>
 
 View::View()
 {
@@ -37,9 +41,9 @@ View::View()
   _viewOffset = 0.0; //to force a change in the setViewOffset call
   //setViewOffset(5.0); //the amount of time visible before the current time (in seconds)
 
+  _viewBottom = 0.0;
   setZoomFactorY(3.2);
 
-  _viewBottom = 0.0;
   //setViewBottom(48.0); //the lowest note visible (in semitones) from C0
   setViewBottom(62.0); //the lowest note visible (in semitones) from C0
 

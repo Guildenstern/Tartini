@@ -15,18 +15,11 @@
 
 #include "summarydrawwidget.h"
 #include "gdata.h"
-//#include "mycolor.h"
+#include "view.h"
 #include "channel.h"
-
-#include <qthread.h>
-
-#include <qpainter.h>
-#include <qpixmap.h>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QPaintEvent>
-
+#include "analysisdata.h"
+#include "notedata.h"
+#include <QtGui/QMouseEvent>
 
 SummaryDrawWidget::SummaryDrawWidget(QWidget *parent)
   : DrawWidget(parent)
@@ -68,14 +61,12 @@ void SummaryDrawWidget::paintEvent( QPaintEvent * )
   }
 
   //draw the view rectangle 
-  p.setPen(QPen(colorGroup().highlight(), 1));
+  p.setPen(QPen(palette().highlight().color(), 1));
   p.drawRect(int((gdata->leftTime()+view->viewLeft())*timeRatio), height()-1-int((view->viewTop())*pitchRatio),
              int(view->viewWidth()*timeRatio), int(view->viewHeight()*pitchRatio));
 
   //draw the current time line
-  p.setPen(QPen(colorGroup().foreground(), 1));
-  //p.moveTo(int((gdata->leftTime()+view->currentTime())*timeRatio), 0);
-  //p.lineTo(int((gdata->leftTime()+view->currentTime())*timeRatio), height()-1);
+  p.setPen(QPen(palette().color(foregroundRole()), 1));
   p.drawLine(int((gdata->leftTime()+view->currentTime())*timeRatio), 0, 
              int((gdata->leftTime()+view->currentTime())*timeRatio), height()-1);
 
@@ -145,7 +136,7 @@ void SummaryDrawWidget::wheelEvent( QWheelEvent *e)
 {
   e->accept();
 
-  if (e->state() == Qt::AltModifier) {
+  if (e->modifiers() == Qt::AltModifier) {
     int horScale = toInt(gdata->totalTime() / width() * (e->delta() / 10));
     gdata->view->setCurrentTime(gdata->view->currentTime() + horScale);
   } else {

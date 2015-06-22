@@ -34,10 +34,8 @@ class MyScrollBar : public QWidget
   QScrollBar *bar;
   
 public:
-  MyScrollBar(Qt::Orientation orientation, QWidget * parent, const char * name = 0);
-    //QScrollBar(orientation, parent, name) { }
-    MyScrollBar(double minValue_, double maxValue_, double linesPerPage_, double pageStep_, double value_, double step_, Qt::Orientation orientation, QWidget * parent, const char * name = 0);
-      //QScrollBar(minValue, maxValue, MAX(toInt(double(pageStep)/double(linesPerPage)), 1), MAX(pageStep, 1), value, orientation, parent, name) { _linesPerPage = linesPerPage; }
+  MyScrollBar(Qt::Orientation orientation, QWidget * parent);
+    MyScrollBar(double minValue_, double maxValue_, double linesPerPage_, double pageStep_, double value_, double step_, Qt::Orientation orientation, QWidget * parent);
   virtual ~MyScrollBar();
 
   QSize sizeHint() const;

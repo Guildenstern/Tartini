@@ -14,6 +14,9 @@
  ***************************************************************************/
 #include "audio_stream.h"
 #include "gdata.h"
+#include "RtAudio.h"
+#include <QtCore/QSettings>
+#include <cstdio>
 
 AudioStream::AudioStream()
 {
@@ -47,36 +50,24 @@ int AudioStream::open(int mode_, int freq_, int channels_, int /*bits_*/, int bu
   bits = 32; //bits_; //ignored, just use floats and let rtAudio do the conversion
   buffer_size = buffer_size_;
   num_buffers = 4;
-  //inDevice = outDevice = 0;
 
-  QStringList inNames = getInputDeviceNames();
-  //const char *audioInput = gdata->qsettings->value("Sound/soundInput", "/dev/dsp").toString();
-  const char *audioInput = gdata->qsettings->value("Sound/soundInput", "Default").toString();
-  //inDevice = inNames.indexOf(audioInput);
-  //if(inDevice == -1) inDevice = 0;
-  inDevice = getDeviceNumber(audioInput);
+  QString audioInput = gdata->qsettings->value("Sound/soundInput", "Default").toString();
+  inDevice = getDeviceNumber(audioInput.toLocal8Bit().data());
 
-  QStringList outNames = getOutputDeviceNames();
-  //const char *audioOutput = gdata->qsettings->value("Sound/soundOutput", "/dev/dsp").toString();
-  const char *audioOutput = gdata->qsettings->value("Sound/soundOutput", "Default").toString();
-  //outDevice = outNames.indexOf(audioOutput);
-  //if(outDevice == -1) outDevice = 0;
-  outDevice = getDeviceNumber(audioOutput);
+  QString audioOutput = gdata->qsettings->value("Sound/soundOutput", "Default").toString();
+  outDevice = getDeviceNumber(audioOutput.toLocal8Bit().data());
 
-  fprintf(stderr, "Input Device %d: %s\n", inDevice, audioInput);
-  fprintf(stderr, "Output Device %d: %s\n", outDevice, audioOutput);
+  fprintf(stderr, "Input Device %d: %s\n", inDevice, audioInput.toLocal8Bit().data());
+  fprintf(stderr, "Output Device %d: %s\n", outDevice, audioOutput.toLocal8Bit().data());
 
   try {
     if(mode == F_READ) {
-      //device_no = ::open(audioInput, O_RDONLY|O_NONBLOCK);
       audio = new RtAudio(0, 0, inDevice, channels, RTAUDIO_FLOAT32, freq, &buffer_size, num_buffers);
     }
     else if(mode == F_WRITE)  {
-      //device_no = ::open(audioOutput, O_WRONLY|O_NONBLOCK);
       audio = new RtAudio(outDevice, channels, 0, 0, RTAUDIO_FLOAT32, freq, &buffer_size, num_buffers);
     }
     else if(mode == F_RDWR) {
-      //device_no = ::open(audioInOut, O_RDWR|O_NONBLOCK);
       audio = new RtAudio(outDevice, channels, inDevice, channels, RTAUDIO_FLOAT32, freq, &buffer_size, num_buffers);
     } else {
       fprintf(stderr, "No mode selected\n");

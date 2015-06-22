@@ -16,8 +16,9 @@
 #include "fftwidget.h"
 #include "gdata.h"
 #include "channel.h"
-//Added by qt3to4:
-#include <QResizeEvent>
+#include "view.h"
+#include "analysisdata.h"
+#include "notedata.h"
 
 FFTView::FFTView( int viewID_, QWidget *parent )
  : ViewWidget( viewID_, parent)

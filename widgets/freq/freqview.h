@@ -17,7 +17,6 @@
 #define FREQVIEW_H
 
 #include "viewwidget.h"
-//#include "freqdrawwidget.h"
 
 class FreqDrawWidget;
 class FreqWidgetGL;

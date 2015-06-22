@@ -12,11 +12,7 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <iostream>
 #include "FixedAveragingFilter.h"
-#include <algorithm>
-#include "myassert.h"
-#include "useful.h"
 
 FixedAverageFilter::FixedAverageFilter(int size)
 {

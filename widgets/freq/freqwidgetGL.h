@@ -16,26 +16,16 @@
 #ifndef FREQWIDGETGL_H
 #define FREQWIDGETGL_H
 
-//#include "drawwidget.h"
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPixmap>
-#include <QWheelEvent>
-#include <QKeyEvent>
-#include <QResizeEvent>
-#include <QEvent>
-#include <QPaintEvent>
-#include <QPaintDevice>
+#include "gdata.h"
+#include "view.h"
 #include <QGLWidget>
 
-#include "gdata.h"
-#include "channel.h"
+class ZoomElement;
 
 #define DRAW_VIEW_NORMAL   0
 #define DRAW_VIEW_SUMMARY  1
 #define DRAW_VIEW_PRINT    2
 
-//class FreqDrawWidget : public DrawWidget {
 class FreqWidgetGL : public QGLWidget {
 
 Q_OBJECT

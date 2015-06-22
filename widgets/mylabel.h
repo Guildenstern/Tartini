@@ -17,9 +17,6 @@
 #define MYLABEL_H
 
 #include "drawwidget.h"
-#include <qstring.h>
-//Added by qt3to4:
-#include <QPaintEvent>
 
 /** MyLabel uses double buffering to draw simple text.
   So is faster (espicially on the Mac) than using QLabel.
@@ -33,7 +30,7 @@ class MyLabel : public DrawWidget
   int _textWidth;
 
 public:
-  MyLabel(const QString &text_, QWidget *parent, const char * name = 0);
+  MyLabel(const QString &text_, QWidget *parent);
   QString text() { return _text; }
   void setText(const QString &text_) { _text = text_; update(); }
   

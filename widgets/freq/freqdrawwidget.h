@@ -17,15 +17,6 @@
 #define FREQDRAWWIDGET_H
 
 #include "drawwidget.h"
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPixmap>
-#include <QWheelEvent>
-#include <QKeyEvent>
-#include <QResizeEvent>
-#include <QEvent>
-#include <QPaintEvent>
-#include <QPaintDevice>
 
 class FreqDrawWidget : public DrawWidget {
 
@@ -40,22 +31,14 @@ public:
   };
 
 
-  FreqDrawWidget(QWidget *parent, const char* name = 0);
+  FreqDrawWidget(QWidget *parent);
   virtual ~FreqDrawWidget();
-
-  //int offset_x;
 
   static void drawReferenceLines(QPaintDevice &pd, QPainter &p, double leftTime, double currentTime, double zoomX, double viewBottom, double zoomY, int viewType);
   void paintEvent( QPaintEvent * );
   QSize sizeHint() const { return QSize(400, 350); }
-  //void ensurePolished() const;
-  //QSize sizeHint() const { return QSize(256, 128); }
-  //void resizeEvent( QResizeEvent * );
 
 private:
-  //float offset_y;
-  //bool mouseDown;
-  //bool dragCenter;
   int dragMode;
   int mouseX, mouseY;
   double downTime, downNote;

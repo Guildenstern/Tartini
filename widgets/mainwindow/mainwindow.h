@@ -16,33 +16,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QWorkspace>
-#include <QDialog>
-//Added by qt3to4:
-#include <QKeyEvent>
-#include <QEvent>
-#include <QLabel>
-//#include <Q3PopupMenu>
-#include <QSignalMapper>
-//#include "audio_stream.h"
-//#include "sound_file_stream.h"
-//#include "fwinfunc.h"
-//#include "audio_thread.h"
-
-class Preferences;
-class Q3ListView;
-class Q3ListViewItem;
-class Q3DockWindow;
-class QLabel;
-class QwtSlider;
-class MyScrollBar;
-class QTimer;
-class QIcon;
-class QToolButton;
-class Channel;
+#include <QtGui/QMainWindow>
+#include <QtGui/QDialog>
+class QWorkspace;
 class MyLabel;
+class MyScrollBar;
 class QComboBox;
+class Channel;
+class QwtSlider;
+class QSignalMapper;
 
 struct ViewData
 {
@@ -74,7 +56,6 @@ enum VIEW_NAMES {
 };
 
 extern ViewData viewData[NUM_VIEWS];
-
                          
 class MainWindow : public QMainWindow
 {
@@ -86,7 +67,6 @@ class MainWindow : public QMainWindow
 
   void keyPressEvent ( QKeyEvent * e );
   void message(QString s, int msec);
-  Q3ListView *theListView;
   
   QWorkspace *theWorkspace;
 
@@ -185,9 +165,5 @@ class GPLDialog : public QDialog
   GPLDialog(QWidget *parent = NULL);
   QSize sizeHint() const { return QSize(600, 480); }
 };
-
-extern MainWindow *mainWindow;
-class MyGLFont;
-extern MyGLFont *mygl_font;
 
 #endif

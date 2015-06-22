@@ -16,6 +16,9 @@
 #include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
+#include "notedata.h"
+#include "view.h"
+#include "Filter.h"
 
 VibratoPeriodWidget::VibratoPeriodWidget(QWidget *parent)
   : QGLWidget(parent)
@@ -139,7 +142,7 @@ void VibratoPeriodWidget::doUpdate()
       note = &(active->noteData[data->noteIndex]);
 
       int smoothDelay = active->pitchBigSmoothingFilter->delay();
-      int currentTime = active->chunkAtCurrentTime() * active->framesPerChunk() + smoothDelay;
+      int currentTime = active->chunkAtTime(gdata->view->currentTime()) * active->framesPerChunk() + smoothDelay;
       int maximaSize = note->maxima->size();
       int minimaSize = note->minima->size();
 
@@ -227,13 +230,13 @@ void VibratoPeriodWidget::doUpdate()
       NoteData *note = new NoteData();
       note = &(active->noteData[data->noteIndex]);
 
-      large_vector<float> thePitchLookup;
+      const std::deque<float>* thePitchLookup;
       int theDelay;
       if(smoothedPeriods) {
-        thePitchLookup = active->pitchLookupSmoothed;
+        thePitchLookup = &active->pitchLookupSmoothed;
         theDelay = 0;
       } else {
-        thePitchLookup = active->pitchLookup;
+        thePitchLookup = &active->pitchLookup;
         theDelay = active->pitchBigSmoothingFilter->delay() - active->pitchSmallSmoothingFilter->delay();
       }
 
@@ -242,11 +245,11 @@ void VibratoPeriodWidget::doUpdate()
       int theMaximumTime = maximumTime - theDelay;
       int periodDuration = theRightMinimumTime - theLeftMinimumTime;
 
-      float minimumPitch = (thePitchLookup.at(theLeftMinimumTime) >
-                            thePitchLookup.at(theRightMinimumTime))
-                          ? thePitchLookup.at(theRightMinimumTime)
-                          : thePitchLookup.at(theLeftMinimumTime);
-      float maximumPitch = thePitchLookup.at(theMaximumTime);
+      float minimumPitch = (thePitchLookup->at(theLeftMinimumTime) >
+                            thePitchLookup->at(theRightMinimumTime))
+                          ? thePitchLookup->at(theRightMinimumTime)
+                          : thePitchLookup->at(theLeftMinimumTime);
+      float maximumPitch = thePitchLookup->at(theMaximumTime);
       float periodWidth = maximumPitch - minimumPitch;
 
       const float halfHeight = 0.5 * height();
@@ -319,18 +322,18 @@ void VibratoPeriodWidget::doUpdate()
             }
           }
 
-          float thisPrevMinimumPitch = (thePitchLookup.at(thisPrevLeftMinimumTime) >
-                                        thePitchLookup.at(thisPrevRightMinimumTime))
-                                      ? thePitchLookup.at(thisPrevRightMinimumTime)
-                                      : thePitchLookup.at(thisPrevLeftMinimumTime);
-          float thisPrevMaximumPitch = thePitchLookup.at(thisPrevMaximumTime);
+          float thisPrevMinimumPitch = (thePitchLookup->at(thisPrevLeftMinimumTime) >
+                                        thePitchLookup->at(thisPrevRightMinimumTime))
+                                      ? thePitchLookup->at(thisPrevRightMinimumTime)
+                                      : thePitchLookup->at(thisPrevLeftMinimumTime);
+          float thisPrevMaximumPitch = thePitchLookup->at(thisPrevMaximumTime);
           float thisPrevWidth = thisPrevMaximumPitch - thisPrevMinimumPitch;
 
           if (periodScaling) {
             for (float xx = 0; xx < width(); xx++) {
               int offset = toInt((xx / width()) * thisPrevDuration + thisPrevLeftMinimumTime + theSineDelay);
               vertices[v++] = 0.05 * width() + 0.9 * xx;
-              vertices[v++] = 0.05 * height() + 0.9 * ((thePitchLookup.at(offset) - thisPrevMinimumPitch) / thisPrevWidth) * height();
+              vertices[v++] = 0.05 * height() + 0.9 * ((thePitchLookup->at(offset) - thisPrevMinimumPitch) / thisPrevWidth) * height();
               colors[c++] = 127;
               colors[c++] = 0;
               colors[c++] = 0;
@@ -346,7 +349,7 @@ void VibratoPeriodWidget::doUpdate()
               float xxx = xx * (float(thisPrevDuration) / periodDuration);
               xxx = xxx + ((0.5 * (periodDuration - thisPrevDuration) / periodDuration) * width());
               vertices[v++] = 0.05 * width() + 0.9 * xxx;
-              vertices[v++] = 0.05 * height() + 0.9 * ((thePitchLookup.at(offset) - minimumPitch) / periodWidth) * height();
+              vertices[v++] = 0.05 * height() + 0.9 * ((thePitchLookup->at(offset) - minimumPitch) / periodWidth) * height();
               colors[c++] = 127;
               colors[c++] = 0;
               colors[c++] = 0;
@@ -369,7 +372,7 @@ void VibratoPeriodWidget::doUpdate()
         uint c = 0;
         for (float xx = 0; xx < width(); xx++) {
           vertices[v++] = 0.05 * width() + 0.9 * xx;
-          vertices[v++] = 0.05 * height() + 0.9 * ((thePitchLookup.at(toInt((xx / width()) * periodDuration + theLeftMinimumTime + theSineDelay)) - minimumPitch) / periodWidth) * height();
+          vertices[v++] = 0.05 * height() + 0.9 * ((thePitchLookup->at(toInt((xx / width()) * periodDuration + theLeftMinimumTime + theSineDelay)) - minimumPitch) / periodWidth) * height();
           colors[c++] = 127;
           colors[c++] = 0;
           colors[c++] = 0;

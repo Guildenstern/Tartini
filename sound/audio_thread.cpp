@@ -12,26 +12,25 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <stdio.h>
-#include <math.h>
-#include <qrect.h>
-//Added by qt3to4:
-#include <QCustomEvent>
-#include <QMutex>
 
 #include "audio_thread.h"
-#include "audio_stream.h"
-#include "sound_file_stream.h"
-#include "freqpair.h"
-#include "main.h"
-#include "gdata.h"
-#include "Filter.h"
-#include "bspline.h"
-//#include "phils_templates.h"
-//#include "freqwidget.h"
-//#include "fundamental.h"
 #include "soundfile.h"
-#include "channel.h"
+#include "gdata.h"
+#include "mainwindow.h"
+#include "audio_stream.h"
+#include <QtGui/QApplication>
+#include <cstdio>
+
+const QEvent::Type AudioThread::UPDATE_FAST
+    = static_cast<QEvent::Type>(QEvent::registerEventType());
+const QEvent::Type AudioThread::UPDATE_SLOW
+= static_cast<QEvent::Type>(QEvent::registerEventType());
+const QEvent::Type AudioThread::SOUND_STARTED
+= static_cast<QEvent::Type>(QEvent::registerEventType());
+const QEvent::Type AudioThread::SOUND_STOPPED
+= static_cast<QEvent::Type>(QEvent::registerEventType());
+const QEvent::Type AudioThread::SETTINGS_CHANGED
+= static_cast<QEvent::Type>(QEvent::registerEventType());
 
 AudioThread::AudioThread() {
   //printf("Warning - audio thread created with no sound file specified.\n");
@@ -48,10 +47,18 @@ void AudioThread::start() {
   QThread::start(QThread::HighPriority/*TimeCriticalPriority*/);
 }
 
+#define S(s) s.toLocal8Bit().data()
+
 void AudioThread::start(SoundFile *sPlay, SoundFile *sRec) {
   fprintf(stderr, "Audio thread created for\n");
-  if(sPlay) fprintf(stderr, "Playing file %s\n", sPlay->filename); fflush(stdout);
-  if(sRec) fprintf(stderr, "Recording file %s\n", sRec->filename); fflush(stdout);
+  if(sPlay) {
+      fprintf(stderr, "Playing file %s\n", S(sPlay->filename));
+      fflush(stdout);
+  }
+  if(sRec) {
+      fprintf(stderr, "Recording file %s\n", S(sRec->filename));
+      fflush(stdout);
+  }
   _playSoundFile = sPlay;
   _recSoundFile = sRec;
   stopping = false;
@@ -88,18 +95,15 @@ void AudioThread::run()
   fast_update_count = 0;
   slow_update_count = 0;
   frame_num = 0;
-  //if(((MainWindow*) qApp->mainWidget())->freqView) ((MainWindow*) qApp->mainWidget())->freqView->offset_x = 0;
-  //if(((MainWindow*) qApp->mainWidget())->zoomFreqView) ((MainWindow*) qApp->mainWidget())->zoomFreqView->offset_x = 0;
 
   //read to the 1 chunk befor time 0
   if((gdata->soundMode & SOUND_REC)) {
     gdata->setDoingActiveAnalysis(true);
     myassert(_recSoundFile->firstTimeThrough == true);
-    //_soundFile->initRecordingChunk();
     _recSoundFile->recordChunk(_recSoundFile->offset());
   }
   
-  QApplication::postEvent(mainWindow, new QCustomEvent(SOUND_STARTED));
+  QApplication::postEvent(gdata->mainWindow, new QEvent(SOUND_STARTED));
   gdata->running = STREAM_FORWARD;
 
   while(!stopping) {
@@ -131,7 +135,7 @@ void AudioThread::run()
   _playSoundFile = NULL;
   _recSoundFile = NULL;
   
-  QApplication::postEvent(mainWindow, new QCustomEvent(SOUND_STOPPED));
+  QApplication::postEvent(gdata->mainWindow, new QEvent(SOUND_STOPPED));
 }
 
 int AudioThread::doStuff()
@@ -141,8 +145,6 @@ int AudioThread::doStuff()
   if(!_playSoundFile && !_recSoundFile) return 0;
 
   ++frame_num;
-
-  //printf("audio_thread got lock\n"); fflush(stdout);
 	
   //update one frame before pausing again
   if(gdata->running == STREAM_UPDATE) {
@@ -150,8 +152,6 @@ int AudioThread::doStuff()
     force_update = true;
   }
   if(gdata->running != STREAM_FORWARD) return 0;
-
-
   
   //This is the main block of code for reading or write the next chunk to the soundcard or file
 //#if WINDOWS
@@ -160,7 +160,7 @@ int AudioThread::doStuff()
   if(gdata->soundMode == SOUND_PLAY) {
 //#endif
 	  if(!_playSoundFile->playChunk()) { //end of file
-      QApplication::postEvent( ((MainWindow*)qApp->mainWidget()), new QCustomEvent(UPDATE_SLOW)); //for qt3.x
+      QApplication::postEvent( gdata->mainWindow, new QEvent(UPDATE_SLOW)); //for qt3.x
       return 0; //stop the audio thread playing
     }
     if(!gdata->audio_stream) {
@@ -171,7 +171,6 @@ int AudioThread::doStuff()
     }
   } else if(gdata->soundMode == SOUND_REC) {  // SOUND_REC
     int bufferChunks = gdata->audio_stream->inTotalBufferFrames() / _recSoundFile->framesPerChunk();
-    //printf("bufferChunks=%d\n", bufferChunks);
     if(frame_num > bufferChunks)
       _recSoundFile->recordChunk(_recSoundFile->framesPerChunk());
 	//msleep(1);
@@ -180,57 +179,15 @@ int AudioThread::doStuff()
     int bufferChunks = gdata->audio_stream->inTotalBufferFrames() / _recSoundFile->framesPerChunk();
     if(frame_num > bufferChunks) {
       if(!SoundFile::playRecordChunk(_playSoundFile, _recSoundFile)) { //end of file
-        QApplication::postEvent( ((MainWindow*)qApp->mainWidget()), new QCustomEvent(UPDATE_SLOW)); //for qt3.x
+        QApplication::postEvent( gdata->mainWindow, new QEvent(UPDATE_SLOW)); //for qt3.x
         return 0; //stop the audio thread playing
       }
     }
   }
-//#endif  
-/*
-  if(gdata->soundMode == SOUND_PLAY) {
-    //_soundFile->playChunk();
-    //if(_soundFile->readChunk() < _soundFile->framesPerChunk()) { _soundFile->reset(); return 0; }
-    if(_soundFile->readChunk() < _soundFile->framesPerChunk()) { //if reached the end of the file
-      //_soundFile->incrementChunkNum();
-      QApplication::postEvent( ((MainWindow*)qApp->mainWidget()), new QCustomEvent(UPDATE_SLOW)); //for qt3.x
-      return 0; //stop the audio thread playing
-    }
-    if (gdata->audio_stream) _soundFile->writeChunk(gdata->audio_stream);
-    else {
-      if (++sleepCount % 4 == 0) {
-        int sleepval = (1000 * _soundFile->framesPerChunk()) / _soundFile->rate();
-        //printf("Sleeping for %d mseconds\n", sleepval);
-        msleep(sleepval * 4);
-      }
-    }
-    Channel *active = gdata->getActiveChannel();
-    if(active && gdata->doingActive()) {
-      active->processChunk(active->currentChunk());
-    }
-  } else { // SOUND_REC
-    if(_soundFile->readChunk(gdata->audio_stream) < _soundFile->framesPerChunk()) {
-      printf("Missed reading some audio data\n");
-    }
-    _soundFile->writeChunk();
-    _soundFile->processNewChunk();
-  }
-  //_soundFile->incrementChunkNum();
-*/
-
-  /*
-    if(gdata->sync_flag == 1) {
-    gdata->audio_stream->signal1();
-    gdata->sync_flag = 0;
-    }
-  */
-
-
 
   //Set some flags to cause an update of views, every now and then
   fast_update_count++;
   slow_update_count++;
-  //int slowUpdateAfter = (_soundFile->bufferSize() / _soundFile->framesPerChunk()) * 4;
-  //int fastUpdateAfter = (_soundFile->bufferSize() / _soundFile->framesPerChunk()) / 2;
   int slowUpdateAfter = toInt(double(gdata->slowUpdateSpeed()) / 1000.0 / curSoundFile()->timePerChunk());
   int fastUpdateAfter = toInt(double(gdata->fastUpdateSpeed()) / 1000.0 / curSoundFile()->timePerChunk());
   if(!gdata->need_update) {
@@ -238,13 +195,11 @@ int AudioThread::doStuff()
       gdata->need_update = true;
       fast_update_count = 0;
       slow_update_count = 0;
-      //QApplication::postEvent( ((MainWindow*)qApp->mainWidget()), new QCustomEvent(UPDATE_SLOW));
-      QApplication::postEvent(mainWindow, new QCustomEvent(UPDATE_SLOW));
+      QApplication::postEvent(gdata->mainWindow, new QEvent(UPDATE_SLOW));
     } else if(fast_update_count >= fastUpdateAfter) {
       gdata->need_update = true;
       fast_update_count = 0;
-      //QApplication::postEvent( ((MainWindow*)qApp->mainWidget()), new QCustomEvent(UPDATE_FAST));
-      QApplication::postEvent(mainWindow, new QCustomEvent(UPDATE_FAST));
+      QApplication::postEvent(gdata->mainWindow, new QEvent(UPDATE_FAST));
     }
   }
   gdata->doChunkUpdate();

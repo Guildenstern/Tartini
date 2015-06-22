@@ -15,10 +15,11 @@
 #ifndef AUDIO_STREAM_H
 #define AUDIO_STREAM_H
 
-#include <stdio.h>
-#include "RtAudio.h"
 #include "sound_stream.h"
 #include "RingBuffer.h"
+
+class RtAudio;
+class QStringList;
 
 class AudioStream : public SoundStream
 {

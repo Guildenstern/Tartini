@@ -14,22 +14,18 @@
  ***************************************************************************/
 
 #include "pitchcompassdrawwidget.h"
-#include "channel.h"
-#include "gdata.h"
 #include "musicnotes.h"
-
-#include <qmap.h>
-#include <qstring.h>
-
-#include <qwt_compass.h>
-#include <qwt_dial_needle.h>
-//Added by qt3to4:
-#include <QResizeEvent>
+#include "gdata.h"
+#include "channel.h"
+#include "analysisdata.h"
+#include "notedata.h"
+#include <qwt/qwt_compass.h>
+#include <qwt/qwt_dial_needle.h>
 
 #define INTERVAL 90
 
-PitchCompassDrawWidget::PitchCompassDrawWidget(QWidget *parent, const char* name, int mode)
-  : QWidget(parent, name, Qt::WDestructiveClose)
+PitchCompassDrawWidget::PitchCompassDrawWidget(QWidget *parent, const char* /*name*/, int mode)
+  : QWidget(parent)
 {
     this->mode = mode;
 

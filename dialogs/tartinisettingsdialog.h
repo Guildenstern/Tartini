@@ -6,15 +6,10 @@
 ** init() function in place of a constructor, and a destroy() function in
 ** place of a destructor.
 *****************************************************************************/
-#include <qcolordialog.h>
-//Added by qt3to4:
-//#include <Q3Frame>
-#include <QCustomEvent>
-#include "mainwindow.h"
-#include <QDialog>
+
 #include "ui_settingsdialog.h"
-//#include "settings.h"
-#include <QSettings>
+
+class QSettings;
 
 class TartiniSettingsDialog : public QDialog, private Ui_SettingsDialog {
   Q_OBJECT

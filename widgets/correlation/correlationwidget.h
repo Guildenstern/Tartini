@@ -16,13 +16,8 @@
 #define CORRELATIONWIDGET_H
 
 #include "drawwidget.h"
-//Added by qt3to4:
-#include <Q3PointArray>
-#include <QPaintEvent>
-#include "array1d.h"
 
-// Forward declarations of classes the h file doesn't need to know specifics about
-class Q3PointArray;
+#include <array1d.h>
 
 class CorrelationWidget : public DrawWidget {
   Q_OBJECT
@@ -36,8 +31,8 @@ class CorrelationWidget : public DrawWidget {
     QSize sizeHint() const { return QSize(500, 128); }
 
   private:
-    Q3PointArray pointArray;
-    Array1d<float> lookup;
+    QPolygon pointArray;
+    Array<float> lookup;
     int aggregateMode;
 
   public slots:

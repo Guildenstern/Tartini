@@ -25,6 +25,7 @@ QString macxPathString;
 #include "gdata.h"
 #include "myassert.h"
 #include "myglfonts.h"
+#include "view.h"
 
 //there is some compiler bug which initilises the colors wrong
 //So we fix them with a cheap hack
@@ -74,14 +75,6 @@ int main( int argc, char **argv )
 #endif
 	
   QApplication a( argc, argv );
-  //TODO afriedma test translation{
-  QString locale = QLocale::system().name();
-
-  QTranslator translator;
-  translator.load(QString("tartini_") + locale);
-  a.installTranslator(&translator);
-  //}
-
   Q_INIT_RESOURCE(pitch);
 
   fprintf(stderr, "QT_VERSION_STR=%s\n", QT_VERSION_STR);
@@ -95,28 +88,25 @@ int main( int argc, char **argv )
   Visual Studio 6. */
   gdata->view = new View();
 
-  //mainWindow = new MainWindow();
-  //mainWindow->show();
-  mainWindow = new MainWindow();
-  //a.setStyle("Windows");
+  gdata->mainWindow = new MainWindow();
 
   //call init after we know the windows size
   gdata->view->init();
 
-	mainWindow->showMaximized();
-    
-  a.setMainWidget(mainWindow);
-  mainWindow->show();
+  gdata->mainWindow->showMaximized();
+  gdata->mainWindow->show();
 
   a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );
 
-  if(!mainWindow->loadViewGeometry()) {
-    mainWindow->aboutTartini(); //open the tartini dialog on first time open
+  if(!gdata->mainWindow->loadViewGeometry()) {
+    gdata->mainWindow->aboutTartini(); //open the tartini dialog on first time open
   }
 
   //open any files on the command line
   if(argc >= 2) {
-    for(int j=1; j<argc; j++) mainWindow->openFile(argv[j]);
+    for(int j=1; j<argc; j++) {
+        gdata->mainWindow->openFile(argv[j]);
+    }
   }
   
   int ret = a.exec();

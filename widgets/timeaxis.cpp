@@ -44,7 +44,9 @@ TimeAxis::TimeAxis(QWidget *parent, double leftTime_, double rightTime_, bool nu
 
 void TimeAxis::init()
 {
-  setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed, false));
+    QSizePolicy p(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    p.setHeightForWidth(false);
+  setSizePolicy(p);
 
 #ifdef MACX
   setFontSize(14);
@@ -70,7 +72,7 @@ void TimeAxis::paintEvent(QPaintEvent *)
   int fontSpace = _fontSize+2;
   
   beginDrawing(false);
-  fillBackground(colorGroup().background());
+  fillBackground(palette().color(backgroundRole()));
 
   double timeStep = timeWidth() / double(w) * 150.0; //time per 150 pixels
   double timeScaleBase = pow10(floor(log10(timeStep))); //round down to the nearest power of 10

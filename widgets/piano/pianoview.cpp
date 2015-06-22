@@ -12,13 +12,14 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <QResizeEvent>
-
 #include "pianoview.h"
 #include "pianowidget.h"
 #include "gdata.h"
+#include "view.h"
 #include "channel.h"
+#include "analysisdata.h"
 #include "musicnotes.h"
+#include "notedata.h"
 
 PianoView::PianoView( int viewID_, QWidget *parent )
  : ViewWidget( viewID_, parent)
@@ -49,7 +50,7 @@ void PianoView::changeKey()
   if(active) {
     AnalysisData *data = active->dataAtCurrentChunk();
     //if(data && active->isVisibleNote(data->noteIndex)) {
-    if(data && active->isVisibleChunk(data)) {
+    if(data && active->isVisibleChunk(data, gdata->ampThreshold(NOTE_SCORE,0))) {
       float pitch = data->pitch;
       //if (note > 0) {
         //pianoWidget->setCurrentNote(noteValue(note), data->volumeValue);

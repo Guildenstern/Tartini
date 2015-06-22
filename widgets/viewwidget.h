@@ -15,21 +15,14 @@
 #ifndef VIEWWIDGET_H
 #define VIEWWIDGET_H
 
-#include <qapplication.h>
+#include <QtGui/QWidget>
 
 class ViewWidget : public QWidget
 {
   Q_OBJECT
-
-    int viewID;
-
- public:
-  ViewWidget( int viewID_, QWidget *parent = 0, Qt::WFlags f = 0);
-  
-//  void closeEvent( QCloseEvent * e );
-  
-// signals:
-//  void aboutToClose(int viewID_);
+  const int viewID;
+public:
+  ViewWidget(int viewID_, QWidget *parent = 0);
 };
 
 #endif

@@ -12,14 +12,17 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <QPainter>
 
 #include "vibratowidget.h"
 #include "gdata.h"
+#include "mainwindow.h"
+#include "myglfonts.h"
 #include "channel.h"
 #include "analysisdata.h"
-#include "myglfonts.h"
+#include "notedata.h"
+#include "view.h"
 #include "musicnotes.h"
+#include "Filter.h"
 
 VibratoWidget::VibratoWidget(QWidget *parent, int nls)
   : QGLWidget(parent)
@@ -136,16 +139,15 @@ void VibratoWidget::paintGL()
   glCallList(maximaMinimaPoints);
 
   // Draw the note labels
-  mygl_font->beginGLtext(width(), height());
+  gdata->mygl_font->beginGLtext(width(), height());
   glColor3ub(0,0,0);
   for (int i = 0; i < noteLabelCounter; i++) {
     //renderText(3, noteLabels[i].y - 4, 0, noteLabels[i].label, vibratoFont);
     //renderText(width() - noteLabelOffset + 3, noteLabels[i].y - 4, 0, noteLabels[i].label, vibratoFont);
-    mygl_font->drawGLtextRaw(3, noteLabels[i].y - 4, noteLabels[i].label);
-    mygl_font->drawGLtextRaw(width() - noteLabelOffset + 3, noteLabels[i].y - 4, noteLabels[i].label);
+    gdata->mygl_font->drawGLtextRaw(3, noteLabels[i].y - 4, noteLabels[i].label);
+    gdata->mygl_font->drawGLtextRaw(width() - noteLabelOffset + 3, noteLabels[i].y - 4, noteLabels[i].label);
   }
-  mygl_font->endGLtext();
-
+  gdata->mygl_font->endGLtext();
 }
 
 void VibratoWidget::doUpdate()
@@ -192,7 +194,7 @@ void VibratoWidget::doUpdate()
 
       const int myStartChunk = note->startChunk();
       const int myEndChunk = note->endChunk();
-      const int myCurrentChunk = active->chunkAtCurrentTime();
+      const int myCurrentChunk = active->chunkAtTime(gdata->view->currentTime());
       const float halfHeight = 0.5 * height();
       const int maximaSize = note->maxima->size();
       const int minimaSize = note->minima->size();
@@ -201,7 +203,7 @@ void VibratoWidget::doUpdate()
       const float zoomFactorYx100 = zoomFactorY * 100;
 
       float windowOffset;
-      large_vector<float> pitchLookupUsed = active->pitchLookupSmoothed;
+      const std::deque<float>& pitchLookupUsed = active->pitchLookupSmoothed;
       int smoothDelay = active->pitchBigSmoothingFilter->delay();
 
       if ((myEndChunk - myStartChunk) * zoomFactorX > width() - 2 * noteLabelOffset) {
@@ -670,9 +672,9 @@ void VibratoWidget::doUpdate()
       vertices[verticesCounter++] = height();
 
       for (int j=1; j <= 4; j++) {
-        colors[colorsCounter++] = colorGroup().foreground().red();
-        colors[colorsCounter++] = colorGroup().foreground().green();
-        colors[colorsCounter++] = colorGroup().foreground().blue();
+        colors[colorsCounter++] = palette().color(foregroundRole()).red();
+        colors[colorsCounter++] = palette().color(foregroundRole()).green();
+        colors[colorsCounter++] = palette().color(foregroundRole()).blue();
         colors[colorsCounter++] = 64;
       }
 

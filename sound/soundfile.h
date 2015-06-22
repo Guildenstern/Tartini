@@ -16,20 +16,22 @@
 #ifndef SOUND_FILE
 #define SOUND_FILE
 
+#include "mytransforms.h"
 #include "array1d.h"
 #include "sound_file_stream.h"
-#include "gdata.h"
-#include "mytransforms.h"
-#include "mainwindow.h"
+#include <QtCore/QMutex>
+#include <QtCore/QString>
 
-//#include "channel.h"
 class Channel;
+class SoundStream;
+class SoundFileStream;
 
 extern const double v8, v16, v32;
 
 class SoundFile
 {
-//private:
+private:
+  bool _doingDetailedPitch;
 protected:
   int _chunkNum;
   int _framesPerChunk; /**< The number of samples to move every chunk */
@@ -41,7 +43,6 @@ protected:
   int _offset;
   bool _saved;
   QMutex *mutex;
-  bool _doingDetailedPitch;
 
   int blockingRead(SoundStream *s, float **buffer, int n); //low level
   int blockingWrite(SoundStream *s, float **buffer, int n); //low level
@@ -49,11 +50,11 @@ protected:
   void toChannelBuffers(int n); //low level
   void toChannelBuffer(int c, int n);
 public:
-  char *filename;
-  char *filteredFilename;
+  QString filename;
+  QString filteredFilename;
   SoundFileStream *stream; /**< Pointer to the file's SoundFileStream */
   SoundFileStream *filteredStream; /**< Pointer to the file's filtered SoundFileStream */
-  Array1d<Channel*> channels; /**< The actual sound data is stored seperately for each channel */
+  Array<Channel*> channels; /**< The actual sound data is stored seperately for each channel */
   MyTransforms myTransforms;
   bool firstTimeThrough;
   
@@ -61,8 +62,8 @@ public:
   //SoundFile(const char *filename_);
   ~SoundFile();
   void uninit();
-  void setFilename(const char *filename_);
-  void setFilteredFilename(const char *filteredFilename_);
+  void setFilename(const QString& filename_);
+  void setFilteredFilename(const QString& filteredFilename_);
   QString getNextTempFilename();
   int numChannels() { return channels.size(); }
   bool openRead(const char *filename_);
@@ -92,31 +93,22 @@ public:
   //void beginning();
   double startTime() { return _startTime; }
   void setStartTime(double t) { _startTime = t; }
-  //double getTime(); /**< Returns the time in seconds where the file is currently at */
-  //int chunkNum() { return _chunkNum; }
   int currentStreamChunk() { return (stream->pos() - offset()) / framesPerChunk(); }
   int currentRawChunk() { return _chunkNum; }
-  //int currentChunk() { return bound(_chunkNum, 0, totalChunks()-1); }
   int currentChunk() { return _chunkNum; }
   void setCurrentChunk(int x) { _chunkNum = x; }
   void incrementChunkNum() { _chunkNum++; }
 
   int offset() { return _offset; }
-  //int chunkOffset() { return (bufferSize() / framesPerChunk()) / 2; }
   double timePerChunk() { return double(framesPerChunk()) / double(rate()); }
   int chunkAtTime(double t) { return toInt(chunkFractionAtTime(t)); } //this is not bounded
-  //double chunkFractionAtTime(double t) { return (t / timePerChunk()) + chunkOffset(); } //this is not bounded
   double chunkFractionAtTime(double t) { return t / timePerChunk(); } //this is not bounded
-  //double timeAtChunk(int chunk) { return double(chunk - chunkOffset()) * timePerChunk(); }
   double timeAtChunk(int chunk) { return double(chunk) * timePerChunk(); }
   double timeAtCurrentChunk() { return timeAtChunk(currentChunk()); }
-  int chunkAtCurrentTime() { return chunkAtTime(gdata->view->currentTime()); }
   void shift_left(int n);
-  //void nextChunk();
   void jumpToChunk(int chunk);
   void jumpToTime(double t) { jumpToChunk(chunkAtTime(t)); }
   
-  //int read_n(int n, SoundStream *s);
   int rate() { myassert(stream != NULL); return stream->freq; }
   int bits() { myassert(stream != NULL); return stream->bits; }
   int framesPerChunk() { return _framesPerChunk; }
@@ -127,7 +119,7 @@ public:
 
   bool saved() { return _saved; }
   void setSaved(bool newState) { _saved = newState; }
-  bool equalLoudness() { return myTransforms.equalLoudness; }
+  bool equalLoudness() { return myTransforms.equalLoudness(); }
   bool doingDetailedPitch() { return _doingDetailedPitch; }
 
   friend bool playRecordChunk(SoundFile *playSoundFile, SoundFile *recSoundFile, int n);

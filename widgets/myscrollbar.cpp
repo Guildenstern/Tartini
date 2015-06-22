@@ -19,15 +19,15 @@
 #include "myscrollbar.h"
 #include <qlayout.h>
 
-MyScrollBar::MyScrollBar(Qt::Orientation orientation, QWidget *parent, const char *name) :
-  QWidget(parent, name)
+MyScrollBar::MyScrollBar(Qt::Orientation orientation, QWidget *parent) :
+  QWidget(parent)
 {
   bar = new QScrollBar(orientation, this);
   bar->show();
 }
 
-MyScrollBar::MyScrollBar(double minValue_, double maxValue_, double lineStep_, double pageStep_, double value_, double step_, Qt::Orientation orientation, QWidget *parent, const char *name) :
-  QWidget(parent, name)
+MyScrollBar::MyScrollBar(double minValue_, double maxValue_, double lineStep_, double pageStep_, double value_, double step_, Qt::Orientation orientation, QWidget *parent) :
+  QWidget(parent)
 {
   _minValue = minValue_;
   _maxValue = maxValue_;

@@ -12,22 +12,7 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <iostream>
 #include "IIR_Filter.h"
-#include <algorithm>
-#include "myassert.h"
-#include "useful.h"
-
-/*
-void IIR_Filter::make_FIR(double *b, uint n)
-{
-	_b.resize(n);
-	copy(b, b+n, _b.begin());
-	_a.clear();
-  clear();
-	gain = 1.0;
-}
-*/
 
 /** Create an IIR Filter from the coeff's a direct form II transposed structure
   * if a[0] is not 1.0 then all the coefficients are normalized be dividing by a[0]
@@ -66,37 +51,6 @@ void IIR_Filter::reset()
   _y.fill(0.0);
 }
 
-void IIR_Filter::print()
-{
-	int j;
-	for(j=0; j<_b.size(); ++j)
-		std::cout << "b[" << j+1 << "] = " << _b[j] << std::endl;
-  for(j=0; j<_a.size(); ++j)
-    std::cout << "a[1.0 " << j << "] = " << _a[j] << std::endl;
-}
-
-/** Apply the filter to a single input value
-  * @return The filtered value. Note: The output is delayed by the filter size
-*/
-/*
-float IIR_Filter::filter(float input)
-{
-	double result = 0.0;
-  uint j;
-
-	_x.push_front(input);
-	for(j=0; j<_b.size(); j++) result += _b[j] * _x[j];
-	//print_deque(x);
-	_x.pop_back();
-
-	for(j=0; j<_a.size(); j++) result -= _a[j] * _y[j];
-	//print_deque(y);
-	_y.push_front(result);
-	_y.pop_back();
-	return result;
-}
-*/
-
 /** Apply the filter to a block of data
   * @param input The data to be filtered
   * @param ourput Where the filtered result is stored. Note: The output is delayed by the filter size.
@@ -107,18 +61,8 @@ void IIR_Filter::filter(const float *input, float *output, int n)
   int j, k;
   int sizeX = _x.size();
   int sizeY = _y.size();
-  /*if(n+sizeX != bufx_size) {
-    if(bufx) free(bufx);
-    bufx_size = n+sizeX;
-    bufx = (double *)malloc(bufx_size * sizeof(double));
-  }
-  if(m+sizeY != bufy_size) {
-    if(bufy) free(bufy);
-    bufy_size = m+sizeY;
-    bufy = (double *)malloc(bufy_size * sizeof(double));
-  }*/
-  bufx.resize_raw(sizeX+n);
-  bufy.resize_raw(sizeY+n);
+  bufx.resize(sizeX+n);
+  bufy.resize(sizeY+n);
 
   for(int j=0; j<sizeX; j++) bufx[j] = _x[j];
   for(int j=0; j<sizeY; j++) bufy[j] = _y[j];
@@ -163,16 +107,4 @@ void IIR_Filter::filter(const float *input, float *output, int n)
     for(k=0; k<sizeY; k++) _y[k] = bufy[n+k];
   }
 
-}
-
-void IIR_Filter::getState(FilterState *filterState) const
-{
-  filterState->_x = _x;
-  filterState->_y = _y;
-}
-
-void IIR_Filter::setState(const FilterState *filterState)
-{
-  _x = filterState->_x;
-  _y = filterState->_y;
 }

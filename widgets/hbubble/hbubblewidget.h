@@ -16,12 +16,6 @@
 #define HBUBBLEWIDGET_H
 
 #include "drawwidget.h"
-//Added by qt3to4:
-#include <QPixmap>
-#include <QPaintEvent>
-
-// Forward declarations of classes the h file doesn't need to know specifics about
-class QPixmap;
 
 class HBubbleWidget : public DrawWidget {
   Q_OBJECT

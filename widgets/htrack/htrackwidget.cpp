@@ -13,23 +13,22 @@
    Please read LICENSE.txt for details.
  ***************************************************************************/
 
-#include <QMouseEvent>
-#include <QWheelEvent>
-
 #include "htrackwidget.h"
-#include "gdata.h"
-#include "useful.h"
-#include "channel.h"
-#include "array1d.h"
 #include "piano3d.h"
+#include "channel.h"
+#include "gdata.h"
+#include "analysisdata.h"
+#include "array2d.h"
 #include "musicnotes.h"
+#include "notedata.h"
+#include <QtGui/QMouseEvent>
 
 #ifndef WHEEL_DELTA
 #define WHEEL_DELTA 120
 #endif
 
-HTrackWidget::HTrackWidget(QWidget *parent, const char *name)
-  : QGLWidget(parent, name)
+HTrackWidget::HTrackWidget(QWidget *parent, const char *)
+    : QGLWidget(parent), piano3d(0)
 {
 }
 
@@ -153,7 +152,7 @@ void HTrackWidget::paintGL()
     AnalysisData *data = active->dataAtCurrentChunk();
     //Channel::getActiveChannelCurrentChunkData();
     //if(data && active->isVisibleNote(data->noteIndex)) {
-    if(data && active->isVisibleChunk(data)) {
+    if(data && active->isVisibleChunk(data, gdata->ampThreshold(NOTE_SCORE,0))) {
       piano3d->setMidiKeyState(toInt(data->pitch), true);
     }
   }

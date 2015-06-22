@@ -12,19 +12,13 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-
-#include <vector>
-
 #include "volumemeterwidget.h"
 #include "gdata.h"
+#include "view.h"
+#include "myassert.h"
 #include "channel.h"
-#include "soundfile.h"
 #include "analysisdata.h"
-#include "useful.h"
+#include "notedata.h"
 
 VolumeMeterWidget::VolumeMeterWidget(QWidget *parent)
   : DrawWidget(parent)
@@ -65,7 +59,7 @@ void VolumeMeterWidget::paintEvent( QPaintEvent * )
   //if(!analysisData) { return; printf("failed currentLookup\n"); }
 
   beginDrawing(false);
-  fillBackground(colorGroup().background());
+  fillBackground(palette().color(backgroundRole()));
   p.setFont(_font);
   
   // Work out how many labels we can draw

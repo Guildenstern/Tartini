@@ -15,11 +15,8 @@
 #ifndef SCORESEGMENTITERATOR_H
 #define SCORESEGMENTITERATOR_H
 
-//#include "drawwidget.h"
-//#include "qfont.h"
-#include "channel.h"
-
 class ScoreWidget;
+class Channel;
 
 class ScoreSegmentIterator {
   ScoreWidget *sw;

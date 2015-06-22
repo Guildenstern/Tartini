@@ -15,72 +15,59 @@
 #include "htrackview.h"
 #include "htrackwidget.h"
 #include "gdata.h"
-
-#include <qlayout.h>
-#include <qslider.h>
-#include <qwt_wheel.h>
-#include <qsizegrip.h>
-#include <q3grid.h>
-#include <qtooltip.h>
-#include <qpushbutton.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
-#include <Q3HBoxLayout>
-#include <Q3GridLayout>
-#include <Q3Frame>
-#include <QResizeEvent>
+#include "view.h"
+#include <qwt/qwt_wheel.h>
+#include <QtGui/QGridLayout>
+#include <QtGui/QSlider>
+#include <QtGui/QToolTip>
+#include <QtGui/QPushButton>
+#include <QtGui/QSizeGrip>
 
 HTrackView::HTrackView( int viewID_, QWidget *parent )
  : ViewWidget( viewID_, parent)
 {
   //setCaption("HTrack view");
-  Q3GridLayout *mainLayout = new Q3GridLayout(this, 2, 2);
-  mainLayout->setResizeMode(QLayout::SetNoConstraint);
-  //QBoxLayout *topLayout = new QVBoxLayout(mainLayout);
-  //QBoxLayout *rightLayout = new QVBoxLayout(mainLayout);
-  Q3BoxLayout *rightLayout = new Q3VBoxLayout();
-  Q3BoxLayout *bottomLayout = new Q3HBoxLayout();
+  QGridLayout *mainLayout = new QGridLayout(this);
+  mainLayout->setSizeConstraint(QLayout::SetNoConstraint);
+  QBoxLayout *rightLayout = new QVBoxLayout();
+  QBoxLayout *bottomLayout = new QHBoxLayout();
 
-  Q3Grid *frame = new Q3Grid(1, this);
-  frame->setFrameStyle(Q3Frame::WinPanel | Q3Frame::Sunken);
-  //frame->setLineWidth(2);
-  //frame->setMidLineWidth(2);
-  QWidget *aWidget = new QWidget(frame);
+  QWidget *aWidget = new QWidget(this);
   hTrackWidget = new HTrackWidget(aWidget);
   hTrackWidget->setWhatsThis("Shows a 3D keyboard with the current note coloured. "
     "Vertical columns (or tracks), each representing a harmonic (or component frequency), protrude from the back, and move further away over time. "
     "The height of each track is related to how much energy is at that frequency. "
     "Tracks alternate in colour for better visibility. It can be seen how the hamonics in a note fit into the musical scale.");
-  //hTrackWidget->show();
 
-  peakThresholdSlider = new QSlider(0, 100, 10, 5, Qt::Vertical, this);
-  QToolTip::add(peakThresholdSlider, "Thresholding of harmonics");
+  peakThresholdSlider = new QSlider(Qt::Vertical, this);
+  peakThresholdSlider->setRange(0, 100);
+  peakThresholdSlider->setPageStep(10);
+  peakThresholdSlider->setValue(5);
+  peakThresholdSlider->setToolTip("Thresholding of harmonics");
   
   rotateXWheel = new QwtWheel(this);
   rotateXWheel->setWheelWidth(20);
   rotateXWheel->setRange(-180, 180, 0.1, 1);
-  QToolTip::add(rotateXWheel, "Rotate piano horizonally");
+  rotateXWheel->setToolTip("Rotate piano horizonally");
   
   rotateYWheel = new QwtWheel(this);
   rotateYWheel->setOrientation(Qt::Vertical);
   rotateYWheel->setWheelWidth(20);
   rotateYWheel->setRange(-90, 0, 0.1, 1);
-  QToolTip::add(rotateYWheel, "Rotate piano vertically");
+  rotateYWheel->setToolTip("Rotate piano vertically");
   
   distanceWheel = new QwtWheel(this);
   distanceWheel->setOrientation(Qt::Vertical);
-  //distanceWheel->setWheelWidth(20);
   distanceWheel->setRange(100, 5000, 10, 20);
   distanceWheel->setTotalAngle(20*360);
-  QToolTip::add(distanceWheel, "Move towards/away from piano");
+  distanceWheel->setToolTip("Move towards/away from piano");
   
-  QPushButton *homeButton = new QPushButton("Reset", this, "homebutton");
-  QToolTip::add(homeButton, "Return to the original view");
+  QPushButton *homeButton = new QPushButton("Reset", this);
+  homeButton->setToolTip("Return to the original view");
   
   QSizeGrip *sizeGrip = new QSizeGrip(this);
-  //sizeGrip->setFixedSize(15, 15);
   
-  mainLayout->addWidget(frame, 0, 0);
+  mainLayout->addWidget(aWidget, 0, 0);
   mainLayout->addLayout(bottomLayout, 1, 0);
   mainLayout->addLayout(rightLayout, 0, 1);
   rightLayout->addStretch(2);

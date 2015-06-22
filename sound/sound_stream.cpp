@@ -34,7 +34,7 @@ int SoundStream::writeFloats(float **channelData, int length, int ch)
                 *pos1 = (unsigned char)((*pos * v8) + v8);
         }
         written = write_bytes(temp, length * channels);
-        delete temp;
+        delete [] temp;
         return written / channels;
     } else if(bits == 16) {
         short *temp = new short[length * channels * sizeof(short)];
@@ -52,7 +52,7 @@ int SoundStream::writeFloats(float **channelData, int length, int ch)
             }
         }
         written = write_bytes(temp, length * channels * sizeof(short));
-        delete temp;
+        delete [] temp;
         return written / channels / sizeof(short);
     }
     fprintf(stderr, "%d bit data is not suported yet\n", bits);
@@ -92,7 +92,7 @@ int SoundStream::readFloats(float **channelData, int length, int ch)
                 *pos = float(double(*pos1) / v16);
             }
         }
-        delete temp;
+        delete [] temp;
         return read / channels / sizeof(short);
     } else if(bits == 32) {
         long *temp = new long[length * channels * sizeof(long)];
@@ -109,7 +109,7 @@ int SoundStream::readFloats(float **channelData, int length, int ch)
                 *pos = float(double(*pos1) / v16);
             }
         }
-        delete temp;
+        delete [] temp;
         return read / channels / sizeof(long);
     }
     //TODO: 24bit

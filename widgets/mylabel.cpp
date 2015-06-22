@@ -14,31 +14,19 @@
  ***************************************************************************/
 
 #include "mylabel.h"
-#include <qpixmap.h>
-//Added by qt3to4:
-#include <QPaintEvent>
 
-MyLabel::MyLabel(const QString &text_, QWidget *parent, const char * name) : DrawWidget(parent, name)
+MyLabel::MyLabel(const QString &text_, QWidget *parent) : DrawWidget(parent)
 {
   _text = text_;
-/*
-  p.begin(paintDevice);
-#ifndef SINGLE_DRAWING_BUFFER
-  p.initFrom(this);
-#endif
-*/
-  //QFontMetrics fm = paintDevice.fontMetrics();
   QFontMetrics fm = QFontMetrics(p.font());
   _fontHeight = fm.height();
   _textWidth = fm.width(_text);
-  //p.end();
-  //setAttribute(Qt::WA_OpaquePaintEvent, false);
 }
 
 void MyLabel::paintEvent( QPaintEvent * )
 {
   beginDrawing(false);
-  fillBackground(colorGroup().background());
+  fillBackground(palette().color(backgroundRole()));
   p.drawText(4, _fontHeight-2, _text);
   endDrawing();
 }

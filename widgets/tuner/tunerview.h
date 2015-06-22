@@ -15,19 +15,11 @@
 #ifndef TUNERVIEW_H
 #define TUNERVIEW_H
 
-#include <vector>
-#include <QPixmap>
-#include <QResizeEvent>
-#include <QPaintEvent>
-
 #include "viewwidget.h"
-#include "vibratotunerwidget.h"
 
-class QPixmap;
-class TunerWidget;
+class VibratoTunerWidget;
 class LEDIndicator;
 class QwtSlider;
-class Channel;
 
 class TunerView : public ViewWidget {
   Q_OBJECT
@@ -35,9 +27,6 @@ class TunerView : public ViewWidget {
   public:
     TunerView(int viewID_, QWidget *parent = 0);
     virtual ~TunerView();
-
-    void resizeEvent(QResizeEvent *);
-    void paintEvent( QPaintEvent* );
 
     QSize sizeHint() const { return QSize(200, 200); }
 
@@ -48,16 +37,12 @@ class TunerView : public ViewWidget {
 
   private:
     void resetLeds();
-    //float averageNote(Channel *ch, int begin, int end);
-	  //float averageIntensity(Channel *ch, int begin, int end);
-    
-    //TunerWidget *tunerWidget;
+
     VibratoTunerWidget *tunerWidget;
     std::vector<LEDIndicator*> leds;
     QwtSlider *slider;
 
     QPixmap *ledBuffer;
-
 };
 
 

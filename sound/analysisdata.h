@@ -13,25 +13,13 @@
    Please read LICENSE.txt for details.
  ***************************************************************************/
 
-#ifndef ANALYSIS_DAYA_H
-#define ANALYSIS_DAYA_H
-
-//#include "useful.h"
-#include <functional>
-#include <vector>
-#include "Filter.h"
-#include "IIR_Filter.h"
+#ifndef ANALYSIS_DATA_H
+#define ANALYSIS_DATA_H
 
 #include "conversions.h"
-
-//enum AmplitudeModes { AMPLITUDE_RMS, AMPLITUDE_MAX_INTENSITY, AMPLITUDE_CORRELATION, AMPLITUDE_PURITY, FREQ_CHANGENESS };
-enum AmplitudeModes { AMPLITUDE_RMS, AMPLITUDE_MAX_INTENSITY, AMPLITUDE_CORRELATION, FREQ_CHANGENESS, DELTA_FREQ_CENTROID, NOTE_SCORE, NOTE_CHANGE_SCORE };
-
-#define NUM_AMP_MODES 7
-extern const char *amp_mode_names[NUM_AMP_MODES];
-extern const char *amp_display_string[NUM_AMP_MODES];
-extern double(*amp_mode_func[NUM_AMP_MODES])(double);
-extern double(*amp_mode_inv_func[NUM_AMP_MODES])(double);
+#include "modes.h"
+#include <functional>
+#include <vector>
 
 #define NO_NOTE -1
 
@@ -73,17 +61,17 @@ public:
   std::vector<float> periodEstimates;
   std::vector<float> periodEstimatesAmp;
   std::vector<float> harmonicAmpNoCutOff;
-  std::vector<float> harmonicAmpRelative;
   std::vector<float> harmonicAmp;
   std::vector<float> harmonicFreq;
   std::vector<float> harmonicNoise;
-  FilterState filterState; //the state of the filter at the beginning of the chunk
   int noteIndex; //The index of the note in the noteData, or NO_NOTE
   bool notePlaying;
   bool done;
   //bool isValid();
+  double dbfloor;
   AnalysisData();
-  void calcScores();
+  void calcScores(double amp_thresholds[NUM_AMP_MODES][2]);
+  double dBFloor();
 
   float &logrms() { return values[AMPLITUDE_RMS]; }
   float &maxIntensityDB() { return values[AMPLITUDE_MAX_INTENSITY]; }
@@ -91,7 +79,7 @@ public:
   float &changeness() { return values[FREQ_CHANGENESS]; }
   float &freqCentroid() { return _freqCentroid; }
   float &deltaFreqCentroid() { return values[DELTA_FREQ_CENTROID]; }
-  float volumeValue() { return (dB2Normalised(values[AMPLITUDE_RMS]) + values[AMPLITUDE_CORRELATION]-1.0f) * 0.2; }
+  float volumeValue() { return (dB2Normalised(values[AMPLITUDE_RMS], dBFloor()) + values[AMPLITUDE_CORRELATION]-1.0f) * 0.2; }
   float &noteScore() { return values[NOTE_SCORE]; }
   float &noteChangeScore() { return values[NOTE_CHANGE_SCORE]; }
 };

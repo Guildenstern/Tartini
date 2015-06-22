@@ -7,8 +7,6 @@
 #ifndef RingBuffer_h
 #define RingBuffer_h
 
-//#include <assert.h>
-#include <algorithm>
 #include "myassert.h"
 #include "useful.h"
 

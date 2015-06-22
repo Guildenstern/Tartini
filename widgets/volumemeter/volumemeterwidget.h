@@ -16,22 +16,6 @@
 #define VOLUMEMETERWIDGET_H
 
 #include "drawwidget.h"
-//#include "useful.h"
-
-//#include <qpixmap.h>
-//#include <qevent.h>
-//#include <qobject.h>
-
-#include <vector>
-//Added by qt3to4:
-#include <QPixmap>
-#include <QPaintEvent>
-
-// Forward declarations of classes the h file doesn't need to know specifics about
-class QPixmap;
-class QFont;
-//class QPaintEvent;
-
 
 class VolumeMeterWidget : public DrawWidget {
   Q_OBJECT

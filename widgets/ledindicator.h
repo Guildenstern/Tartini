@@ -28,7 +28,7 @@ class LEDIndicator : public QWidget {
   Q_OBJECT
 
   public:
-    LEDIndicator(QPixmap *buffer, QWidget *parent = 0, const char *name = 0, const QColor &on = Qt::red, const QColor &off = Qt::darkRed);
+    LEDIndicator(QPixmap *buffer, QWidget *parent = 0, const char* name = 0, const QColor &on = Qt::red, const QColor &off = Qt::darkRed);
 
     virtual ~LEDIndicator();
     

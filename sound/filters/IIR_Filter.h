@@ -16,38 +16,23 @@
 #define IIR_FILTER_H
 
 #include "Filter.h"
-
-class FilterState;
+#include "array1d.h"
 
 /** Infinite Impulse Response filter
   */
 class IIR_Filter : public Filter
 {
-  Array1d<double> bufx, bufy; //tempery buffer storage
-  Array1d<double> _a, _b; //The filter coefficient's
-  Array1d<double> _x, _y; //The current filter state (last n states of input and output)
-  //double gain;
+  Array<double> bufx, bufy; //tempery buffer storage
+  Array<double> _a, _b; //The filter coefficient's
+  Array<double> _x, _y; //The current filter state (last n states of input and output)
 
+  void init(double *b, double *a, int n, int m=-1);
 public:
-
   IIR_Filter() { }
   IIR_Filter(double *b, double *a, int n, int m=-1);
   ~IIR_Filter() { }
-  //void make_FIR(double *b, uint n); //crate FIR filter with n coefficients
-  void init(double *b, double *a, int n, int m=-1);
-  void print();
-  //float filter(float input);
   void filter(const float *input, float *output, int n);
   void reset();
-  void getState(FilterState *filterState) const;
-  void setState(const FilterState *filterState);
-};
-
-class FilterState
-{
-public:
-  Array1d<double> _x, _y;
-  //void operator=(const FilterState &fs) { _x = fs._x; _y = fs._y; }
 };
 
 #endif

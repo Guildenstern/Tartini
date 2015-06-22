@@ -16,6 +16,10 @@
 #include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
+#include "notedata.h"
+#include "view.h"
+#include "Filter.h"
+#include <QtCore/QDebug>
 
 VibratoCircleWidget::VibratoCircleWidget(QWidget *parent)
   : QGLWidget(parent)
@@ -162,9 +166,9 @@ void VibratoCircleWidget::doUpdate()
 
       // Determine which delay to use
       int smoothDelay = active->pitchBigSmoothingFilter->delay();
-      large_vector<float> pitchLookupUsed = active->pitchLookupSmoothed;
+      const std::deque<float>& pitchLookupUsed = active->pitchLookupSmoothed;
 
-      int currentTime = active->chunkAtCurrentTime() * active->framesPerChunk() + smoothDelay;
+      int currentTime = active->chunkAtTime(gdata->view->currentTime()) * active->framesPerChunk() + smoothDelay;
       int maximaSize = note->maxima->size();
       int minimaSize = note->minima->size();
 
@@ -211,7 +215,7 @@ void VibratoCircleWidget::doUpdate()
         if ((type == 1) || (type == 2)) {
           const int stepSize = active->rate() / 1000;  // Draw element for every 0.001s
           const int prevPeriodDuration = rightMinimumTime - leftMinimumTime;
-          const int currentChunk = active->chunkAtCurrentTime();
+          const int currentChunk = active->chunkAtTime(gdata->view->currentTime());
 
           float prevMinimumPitch = (pitchLookupUsed.at(leftMinimumTime) >
                                     pitchLookupUsed.at(rightMinimumTime))

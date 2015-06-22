@@ -17,6 +17,7 @@
 #include "channel.h"
 #include "analysisdata.h"
 #include "musicnotes.h"
+#include "notedata.h"
   
 VibratoTunerWidget::VibratoTunerWidget(QWidget *parent)
   : QGLWidget(parent)
@@ -31,8 +32,7 @@ VibratoTunerWidget::VibratoTunerWidget(QWidget *parent)
     tunerLabels[i].x = 0.0f;
     tunerLabels[i].y = 0.0f;
   }
-  tunerFont = QFont();
-  tunerFont.setPointSize(9);
+  fontSize = 9;
 }
 
 VibratoTunerWidget::~VibratoTunerWidget()
@@ -200,6 +200,8 @@ void VibratoTunerWidget::paintGL()
   glCallList(dial);
 
   // Draw the labels
+  QFont tunerFont = font();
+  tunerFont.setPointSize(fontSize);
   QFontMetrics fm = QFontMetrics(tunerFont);
 
   glColor3ub(0,0,0);
@@ -229,32 +231,6 @@ void VibratoTunerWidget::doUpdate(double thePitch)
     if(data && active->isVisibleNote(data->noteIndex) && active->isLabelNote(data->noteIndex)) {
       NoteData *note = new NoteData();
       note = &(active->noteData[data->noteIndex]);
-/*
-      large_vector<float> pitchLookupUsed = active->pitchLookupSmoothed;
-      int smoothDelay = active->pitchBigSmoothingFilter->delay();
-
-      float myPitch = 0.0;
-      const uint pitchLookupUsedSizeLimit = pitchLookupUsed.size() - 1;
-      const uint endOfNote = note->endChunk() * active->framesPerChunk() - 1;
-      if ((active->doingDetailedPitch()) && (active->pitchLookupSmoothed.size() > 0)) {
-        // Detailed pitch information available, determine pitch using this info
-        uint offset = active->currentChunk() * active->framesPerChunk() + smoothDelay;
-        if (offset > endOfNote) {
-          myPitch = pitchLookupUsed.at(endOfNote);
-        } else {
-          uint intTime = std::min(offset, pitchLookupUsedSizeLimit);
-          myPitch = pitchLookupUsed.at(intTime);
-        }
-      } else {
-        // No detailed pitch information available, determine pitch using the chunkdata
-        myPitch = active->dataAtCurrentChunk()->pitch;
-      }
-
-      // We can work out how many semitones from A the note is
-      closePitch = toInt(myPitch);
-      isPitchBlackNote = isBlackNote(closePitch);
-      needleValue = 100 * (myPitch - float(closePitch));
-*/
     }
   }
 

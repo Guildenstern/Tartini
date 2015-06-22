@@ -16,20 +16,17 @@
 #ifndef NOTEDATA_H
 #define NOTEDATA_H
 
-#include "analysisdata.h"
-#include "SmartPtr.h"
 #include "array1d.h"
-#include <vector>
-
-
-class Channel;
+#include "SmartPtr.h"
+class ChannelBase;
+class AnalysisData;
 
 /**
 @author Philip McLeod
 */
 class NoteData
 {
-  Channel *channel;
+  ChannelBase *channel;
   int _startChunk; //the chunk at which this note starts on
   int _endChunk; //the chunk after the last one in the note
   float maxLogRMS; //The maximum RMS volume during the note
@@ -48,16 +45,16 @@ class NoteData
   PrevExtremum prevExtremum;
 
 public:
-  Array1d<float> nsdfAggregateData;
-  Array1d<float> nsdfAggregateDataScaled;
+  Array<float> nsdfAggregateData;
+  Array<float> nsdfAggregateDataScaled;
   double nsdfAggregateRoof; //keeps the sum of scalers. i.e. The highest possible aggregate value
   float firstNsdfPeriod;
   float currentNsdfPeriod;
 
   NoteData() { }
-  NoteData(Channel *channel_);
+  NoteData(ChannelBase *channel_);
   //NoteData(int startChunk_, int endChunk_, float logRMS_, float intensityDB_, float correlation_, float purity_);
-  NoteData(Channel *channel_, int startChunk_, AnalysisData *analysisData);
+  NoteData(ChannelBase *channel_, int startChunk_, AnalysisData *analysisData);
   ~NoteData();
 
   SmartPtr<Array1d<int> > maxima;
@@ -71,7 +68,7 @@ public:
   int     startChunk() { return _startChunk; }
   int     endChunk() { return _endChunk; }
   //void  addValues(float logRMS_, float intensityDB_, float correlation_, float purity_);
-  void    addData(AnalysisData *analysisData, float periods);
+  void    addData(AnalysisData *analysisData, float periods, double topPitch);
   int     numChunks() { return _endChunk - _startChunk; }
   double  noteLength(); /**< in seconds */
   float   numPeriods() { return _numPeriods; }
@@ -81,7 +78,7 @@ public:
   float   periodOctaveEstimate() { return _periodOctaveEstimate; }
   void    addVibratoData(int chunk);
   float   volume() { return _volume; }
-  void    recalcAvgPitch();
+  void    recalcAvgPitch(double topPitch);
 };
 
 #endif

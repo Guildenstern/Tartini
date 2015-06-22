@@ -19,34 +19,17 @@
 #define TARTINI_VERSION_STR   "1.2.0"
 //#define TARTINI_VERSION       1.2
 
-#include <Qt>
-#include <qapplication.h>
-#include <qobject.h>
-
-#include <qmutex.h>
-//Added by qt3to4:
-#include <QPixmap>
-
-#include <vector>
-//#include "sound_file_stream.h"
-//#include "audio_stream.h"
 #include "audio_thread.h"
-//#include "chirp_xform.h"
-//#include "settings.h"
-#include <QSettings>
+#include "modes.h"
+#include <QtGui/QColor>
+#include <QtCore/QMutex>
+#include <vector>
 
-#ifndef WINDOWS
-#include <sys/time.h>
-#endif
-#include <qcolor.h>
-#include "array2d.h"
-#include "useful.h"
-#include "view.h"
-#include "analysisdata.h"
 extern int gMusicKey;
 
 #ifndef WINDOWS
 //for multi-threaded profiling
+#include <sys/time.h>
 extern struct itimerval profiler_value;
 extern struct itimerval profiler_ovalue;
 #endif
@@ -59,8 +42,6 @@ extern struct itimerval profiler_ovalue;
 #define SOUND_PLAY      0x01
 #define SOUND_REC       0x02
 #define SOUND_PLAY_REC  0x03
-
-enum AnalysisModes { MPM, AUTOCORRELATION, MPM_MODIFIED_CEPSTRUM };
 
 #define NUM_WIN_SIZES 5
 extern int frame_window_sizes[NUM_WIN_SIZES];
@@ -84,6 +65,11 @@ class FWinFunc;
 class Filter;
 class SoundFile;
 class Channel;
+class View;
+class QSettings;
+class QPixmap;
+class MainWindow;
+class MyGLFont;
 
 class GData : public QObject
 {
@@ -92,7 +78,7 @@ class GData : public QObject
 public:
   enum SavingModes { ALWAYS_ASK, NEVER_SAVE, ALWAYS_SAVE };
 
-  GData(/*int buffer_size_, int winfunc_, float step_size_*/);
+  GData();
   virtual ~GData();
 
   QSettings *qsettings;
@@ -105,9 +91,6 @@ public:
   std::vector<Filter*> filter_hp; //highpass filter
   std::vector<Filter*> filter_lp; //lowpass filter
 
-  //bool equalLoudness;
-  //bool useMasking;
-  //bool useRidgeFile; //output a file with ridges found
   double cur_note;
   float peakThreshold;
   float correlationThreshold;
@@ -119,22 +102,11 @@ public:
   QMutex frameCounterMutex;
   int frameCounter;
 
-  //char *inputFile;
-
-  //int in_channels;
-  //int process_channels;
-  //int out_channels;
-  //int pitch_method[2]; //a pitch method for each channel
   int interpolating_type;
   int bisection_steps;
   int fast_correlation_repeats;
   int running;
   bool using_coefficients_table;
-  //chirp_xform fct;QColor myLineColor1(32, 32, 32);
-
-  //float *fct_in_data;
-  //float *fct_out_data;
-  //FrameRGB *fct_draw_data;
 
   std::vector<SoundFile*> soundFiles;
   std::vector<Channel*> channels;
@@ -142,9 +114,11 @@ public:
   int nextColorIndex;
 
   View *view;
+  MainWindow *mainWindow;
+  MyGLFont* mygl_font;
 
   void setActiveChannel(Channel *toActive);
-  Channel* getActiveChannel() { return activeChannel; }
+  Channel* getActiveChannel() const;
   SoundFile* getActiveSoundFile();
 
 private:
@@ -163,28 +137,23 @@ private:
   bool _showMeanVarianceBars;
   int _savingMode;
   bool _vibratoSineStyle;
-  //int _musicKey;
   int _musicKeyType;
   int _temperedType;
   bool _mouseWheelZooms;
   double _freqA;
   double _semitoneOffset;
 
-  //double _noiseThreshold;
-  //double _noiseThresholdDB;
-  //double _changenessThreshold;
   int _amplitudeMode;
   int _pitchContourMode;
   int _analysisType;
   double _dBFloor;
-  double amp_thresholds[NUM_AMP_MODES][2];
   double amp_weights[NUM_AMP_MODES];
 
   QPixmap *_drawingBuffer;
   QColor _backgroundColor;
   QColor _shading1Color;
   QColor _shading2Color; 
-  
+
   double _leftTime; /**< The lower bound of the start times of all channels */
   double _rightTime; /**< The upper bound of the finish times of all channels */
   double _topPitch; /**< The highest possible note pitch allowed (lowest possible is 0) */
@@ -222,20 +191,14 @@ public:
   int       slowUpdateSpeed() { return _slowUpdateSpeed; }
   bool      mouseWheelZooms() { return _mouseWheelZooms; }
 
-  //double  noiseThreshold() { return _noiseThreshold; }
-  //double  noiseThresholdDB() { return _noiseThresholdDB; }
-  //double  changenessThreshold() { return _changenessThreshold; }
-  //void    setNoiseThresholdDB(double noiseThresholdDB_);
-  //void    setChangenessThreshold(double changenessThreshold_);
+  double ampThresholds[NUM_AMP_MODES][2];
   void      setAmpThreshold(int mode, int index, double value);
   double    ampThreshold(int mode, int index);
   void      setAmpWeight(int mode, double value);
   double    ampWeight(int mode);
   int       analysisType() { return _analysisType; }
   bool      polish() { return _polish; }
-  //void    setPolish(bool polish_) { _polish = polish_; }
   bool      showMeanVarianceBars() { return _showMeanVarianceBars; }
-  //void    setShowMeanVarianceBars(bool showMeanVarianceBars_) { _showMeanVarianceBars = showMeanVarianceBars_; }
   int       savingMode() { return _savingMode; }
 
   QColor    backgroundColor() { return _backgroundColor; }
@@ -250,8 +213,8 @@ public:
   int       getActiveIntThreshold();
   double    dBFloor() { return _dBFloor; }
   void      setDBFloor(double dBFloor_) { _dBFloor = dBFloor_; }
-  double&   rmsFloor() { return amp_thresholds[AMPLITUDE_RMS][0]; } //in dB
-  double&   rmsCeiling() { return amp_thresholds[AMPLITUDE_RMS][1]; } //in dB
+  double&   rmsFloor() { return ampThresholds[AMPLITUDE_RMS][0]; } //in dB
+  double&   rmsCeiling() { return ampThresholds[AMPLITUDE_RMS][1]; } //in dB
 
   int       musicKey()     { return gMusicKey; }
   int       musicKeyType() { return _musicKeyType; }
@@ -273,10 +236,6 @@ signals:
   void      temperedTypeChanged(int type);
 
 public slots:
-  //void    setBuffers(int freq, int channels);
-  //void    setFrameWindowSize(int index);
-  //void    setWinFunc(int index);
-  //void    setPitchMethod(int channel, int index) { pitch_method[channel] = index; }
   void      setInterpolatingType(int type) { interpolating_type = type; }
   void      setBisectionSteps(int num_steps) { bisection_steps = num_steps; }
   void      setFastRepeats(int num_repeats) { fast_correlation_repeats = num_repeats; }
@@ -289,12 +248,9 @@ public slots:
   void      setFreqA(double x);
   void      setFreqA(int x) { setFreqA(double(x)); }
 
-  //void    setStepSize(int index);
   void      pauseSound();
-  //void    openMicrophone();
   bool      openPlayRecord(SoundFile *sRec, SoundFile *sPlay);
   bool      playSound(SoundFile *s);
-  //void    jump_forward(int frames);
   void      updateViewLeftRightTimes();
   void      updateActiveChunkTime(double t);
   void      updateQuickRefSettings();

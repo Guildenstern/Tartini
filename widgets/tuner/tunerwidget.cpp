@@ -12,18 +12,13 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <Q3PointArray>
-#include <QPaintEvent>
-
 #include "tunerwidget.h"
 #include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
 #include "useful.h"
 #include "myqt.h"
+#include "notedata.h"
 
 TunerWidget::TunerWidget(QWidget *parent)
   : DrawWidget(parent)
@@ -35,12 +30,6 @@ TunerWidget::~TunerWidget()
 {
 }
 
-/*
-int TunerWidget::heightForWidth( int width ) const
-{
-  return width;
-}
-*/
 void TunerWidget::paintEvent( QPaintEvent * )
 {
   beginDrawing();
@@ -76,7 +65,7 @@ void TunerWidget::paintEvent( QPaintEvent * )
 
   */
 
-  QPen pen(colorGroup().foreground(), 2);
+  QPen pen(palette().color(foregroundRole()), 2);
   p.setPen(pen);  // Border
 
   double halfWidth = double(width()) / 2.0;
@@ -94,11 +83,9 @@ void TunerWidget::paintEvent( QPaintEvent * )
     p.drawArc(toInt(halfWidth - (radius/2.0)), toInt(radius/2.0), toInt(radius), toInt(radius), toInt((90 - thetaDeg) * 16), toInt(2*thetaDeg*16));
   }
  
-  p.setPen(colorGroup().foreground());
-  p.setBrush(colorGroup().foreground());
-  
-  //p.drawEllipse(width() / 2 - halfKnobWidth, radius- halfKnobWidth, 2*halfKnobWidth, 2*halfKnobWidth);
-    
+  p.setPen(palette().color(foregroundRole()));
+  p.setBrush(palette().color(foregroundRole()));
+
   double step = (2 * theta) / 12.0;
   double stop = rho + (2 * theta) - (step / 2);
   {// Draw line markings
@@ -106,14 +93,13 @@ void TunerWidget::paintEvent( QPaintEvent * )
       int x = toInt(halfWidth + radius * cos(i));
       int y = toInt(radius - radius * sin(i));
       QPoint start(x, y);
-      // p = start + center *t
       double t = 0.05; //0.025;
       p.drawLine(start, start + t * (center - start));
     }
   }
   
   {//Draw the text labels
-    p.setPen(colorGroup().foreground());
+    p.setPen(palette().color(foregroundRole()));
   
     const char *theNames[11] = { "+50", "+40", "+30", "+20", "+10", "0", "-10", "-20", "-30", "-40", "-50" };
     QFontMetrics fm = p.fontMetrics();
@@ -155,7 +141,7 @@ void TunerWidget::paintEvent( QPaintEvent * )
   
     if(intensity_ > 0.0) {
       p.setBrush(colorBetween(Qt::white, Qt::red, intensity_));
-      Q3PointArray points(3);
+      QPolygon points(3);
       points.setPoint(0, noteX);
       points.setPoint(1, knobRight);
       points.setPoint(2, knobLeft);

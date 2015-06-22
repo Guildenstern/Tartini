@@ -15,34 +15,22 @@
 #ifndef DRAWWIDGET_H
 #define DRAWWIDGET_H
 
-#include <qpainter.h>
-#include <qwidget.h>
-#include <QGLWidget>
-#include <qobject.h>
-//Added by qt3to4:
-#include <QPixmap>
-#include <vector>
-#include <map>
-#include <QPaintDevice>
-
-#include "useful.h"
+#include <QtGui/QWidget>
+#include <QtGui/QPainter>
 
 #define DRAW_VIEW_NORMAL   0
 #define DRAW_VIEW_SUMMARY  1
 #define DRAW_VIEW_PRINT    2
 
 class Channel;
-class QPixmap;
 class ZoomElement;
 
 class DrawWidget : public QWidget {
   Q_OBJECT
 
 public:
-  DrawWidget(QWidget *parent, const char* name = 0, Qt::WFlags f = Qt::WDestructiveClose);
+  DrawWidget(QWidget *parent);
   virtual ~DrawWidget();
-
-	//static QColor colorBetween(QColor a, QColor b, double ratio);
 
   /* Draw the channel onto the painter using the MinMax algorithm or individual samples if the zoom is high enough */
   static void drawChannel(QPaintDevice &pd, Channel *ch, QPainter &p, double leftTime, double currentTime, double zoomX, double viewBottom, double zoomY, int viewType);

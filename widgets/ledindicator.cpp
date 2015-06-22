@@ -15,21 +15,16 @@
 
 #include "ledindicator.h"
 
-#include <qpixmap.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-
-LEDIndicator::LEDIndicator(QPixmap *buffer, QWidget *parent, const char *name, const QColor &on, const QColor &off)
-: QWidget(parent, name)
+LEDIndicator::LEDIndicator(QPixmap *buffer, QWidget *parent, const char* name, const QColor &on, const QColor &off)
+    : QWidget(parent)
 {
+  setObjectName(name);
   setMinimumSize(sizeHint());
   this->on = on;
   this->off = off;
 
   active = false;
 
-  // Stop QT from erasing the background all the time
-  setBackgroundMode(Qt::NoBackground);
   this->buffer = buffer;
 }
 
@@ -56,25 +51,23 @@ void LEDIndicator::paintEvent(QPaintEvent *)
 {
   // Double buffering
   if (buffer->size() != size()) {
-      buffer->resize(size());
+      buffer->copy(0, 0, size().width(), size().height());
   }
 
-  buffer->fill(colorGroup().background());
+  buffer->fill(palette().background().color());
   
   QPainter p;
-  p.begin(buffer, this);
+  p.begin(this);
 
   p.fillRect(0, 0, QWidget::width(), QWidget::height(), (active) ? on : off);
 
-  p.setPen(colorGroup().brightText());
+  p.setPen(palette().brightText().color());
 
   QFontMetrics fm = p.fontMetrics();
   int fontHeight = fm.height() / 4;
-  int fontWidth = fm.width(name()) / 2;
+  QString name(objectName());
+  int fontWidth = fm.width(name) / 2;
   
-  p.drawText(QWidget::width()/2 - fontWidth, QWidget::height()/2 + fontHeight, name());
+  p.drawText(QWidget::width()/2 - fontWidth, QWidget::height()/2 + fontHeight, name);
   p.end();
-
-  // Swap buffers
- 	bitBlt(this, 0, 0, buffer);
 }

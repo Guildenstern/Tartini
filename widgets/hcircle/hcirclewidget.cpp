@@ -12,17 +12,13 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-
 #include "hcirclewidget.h"
 #include "gdata.h"
+#include "view.h"
+#include "myqt.h"
 #include "channel.h"
 #include "analysisdata.h"
-#include "useful.h"
-#include "myqt.h"
+#include "notedata.h"
 
 HCircleWidget::HCircleWidget(QWidget *parent)
   : DrawWidget(parent)

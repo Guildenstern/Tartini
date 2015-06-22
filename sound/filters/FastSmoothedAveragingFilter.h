@@ -16,6 +16,7 @@
 #define FAST_SMOOTHED_AVERAGING_FILTER_H
 
 #include "Filter.h"
+#include "array1d.h"
 
 /** A class to perform smoothing/bluring on data using a hanning (cos shaped) window.
   * It uses and fast internal rotation algorithm
@@ -27,16 +28,15 @@ class FastSmoothedAveragingFilter : public Filter
   double _angle;
   double _cos_angle, _sin_angle;
   double _sum;
-  Array1d<float> _x; // the last size input values
+  Array<float> _x; // the last size input values
 
   double cos_sum;
   double sin_sum;
   double total_sum;
-
+  void init(int size);
 public:
   FastSmoothedAveragingFilter() { }
   FastSmoothedAveragingFilter(int size);
-  void init(int size);
   void filter(const float *input, float *output, int n);
   void reset();
   int delay() { return _size/2; }

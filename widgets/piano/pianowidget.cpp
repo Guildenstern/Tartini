@@ -14,11 +14,7 @@
  ***************************************************************************/
 
 #include "pianowidget.h"
-#include <qpainter.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-#include "drawwidget.h"
-#include "gdata.h"
+#include "useful.h"
 #include "myqt.h"
 
 static int isBlackKeyArray[12] = { 1, -1, 2, -2, 3, 4, -3, 5, -4, 6, -5, 7 };

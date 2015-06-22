@@ -16,6 +16,10 @@
 #include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
+#include "view.h"
+#include "notedata.h"
+#include "Filter.h"
+#include <cstdio>
 
 VibratoSpeedWidget::VibratoSpeedWidget(QWidget *parent)
   : QGLWidget(parent)
@@ -373,7 +377,7 @@ void VibratoSpeedWidget::doUpdate()
   if(active) {
   //if ((active) && (active->doingDetailedPitch()) && (active->pitchLookupSmoothed.size() > 0)) {
     AnalysisData *data;
-    if(gdata->soundMode & SOUND_REC) data = active->dataAtChunk(active->chunkAtCurrentTime() - active->pronyDelay());
+    if(gdata->soundMode & SOUND_REC) data = active->dataAtChunk(active->chunkAtTime(gdata->view->currentTime()) - active->pronyDelay());
     else data = active->dataAtCurrentChunk();
     if(data && active->isVisibleNote(data->noteIndex) && active->isLabelNote(data->noteIndex)) {
       NoteData *note = new NoteData();
@@ -384,10 +388,10 @@ void VibratoSpeedWidget::doUpdate()
         vibratoSpeed = data->vibratoSpeed;
         vibratoWidth = 200 * data->vibratoWidth;
       } else if((active->doingDetailedPitch()) && (active->pitchLookupSmoothed.size() > 0)) {
-        large_vector<float> pitchLookupUsed = active->pitchLookupSmoothed;
+        const std::deque<float>& pitchLookupUsed = active->pitchLookupSmoothed;
         int smoothDelay = active->pitchBigSmoothingFilter->delay();
 
-        int currentTime = active->chunkAtCurrentTime() * active->framesPerChunk() + smoothDelay;
+        int currentTime = active->chunkAtTime(gdata->view->currentTime()) * active->framesPerChunk() + smoothDelay;
         int maximumTime = 0;
         int minimumTime = 0;
         int maximaSize = note->maxima->size();

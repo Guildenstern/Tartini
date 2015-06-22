@@ -16,11 +16,15 @@
 #include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
+#include "notedata.h"
+#include "view.h"
 
 VibratoTimeAxis::VibratoTimeAxis(QWidget *parent, int nls)
   : DrawWidget(parent)
 {
-  setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed, false));
+  QSizePolicy p(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  p.setHeightForWidth(false);
+  setSizePolicy(p);
 
   noteLabelOffset = nls + 2; // The horizontal space in pixels a note label requires + 2 for the border of the VibratoWidget
   startChunkToUse = -1;
@@ -40,7 +44,7 @@ void VibratoTimeAxis::paintEvent( QPaintEvent * )
 {
   beginDrawing(false);
 
-  fillBackground(colorGroup().background());
+  fillBackground(palette().color(backgroundRole()));
 
   doUpdate();
 
@@ -137,7 +141,7 @@ void VibratoTimeAxis::doUpdate()
       note = &active->noteData[data->noteIndex];
 
       myStartChunk = note->startChunk();
-      myCurrentChunk = active->chunkAtCurrentTime();
+      myCurrentChunk = active->chunkAtTime(gdata->view->currentTime());
       myEndChunk = note->endChunk();
       myNoteLength = note->noteLength();
 

@@ -14,34 +14,15 @@
  ***************************************************************************/
 
 #include "opendialog.h"
-
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-//Added by qt3to4:
-//#include <Q3VBoxLayout>
-#include <QVBoxLayout>
 #include "gdata.h"
+#include <QtCore/QSettings>
 
 OpenDialog::OpenDialog(QWidget * parent)
-// : Q3FileDialog(QDir::convertSeparators(gdata->settings.getString("Dialogs", "openFilesFolder")),
-// : QFileDialog(QDir::convertSeparators(gdata->qsettings->value("Dialogs/openFilesFolder", QDir::currentDirPath()).toString()),
- : QFileDialog(parent, tr("Open File"), QDir::convertSeparators(gdata->qsettings->value(tr("Dialogs/openFilesFolder"), QDir::currentDirPath()).toString()),
+ : QFileDialog(parent, "Open File", QDir::convertSeparators(gdata->qsettings->value("Dialogs/openFilesFolder", QDir::currentPath()).toString()),
  "Wave files (*.wav)")
 {
-  setCaption("Choose a file to open");
-  setMode(QFileDialog::ExistingFile);
-
-/*
-  QWidget *baseWidget = new QWidget(this);
-  addWidgets(NULL, baseWidget, NULL);
-  Q3BoxLayout *baseLayout = new QVBoxLayout(baseWidget);
-
-  rememberFolderCheckBox = new QCheckBox("Remember current folder", baseWidget);
-  rememberFolderCheckBox->setChecked(gdata->qsettings->value("Dialogs/rememberOpenFolder", true).toBool());
-  baseLayout->addSpacing(10);
-  baseLayout->addWidget(rememberFolderCheckBox);
-*/
+  setWindowTitle("Choose a file to open");
+  setFileMode(QFileDialog::ExistingFile);
 }
 
 OpenDialog::~OpenDialog()
@@ -50,17 +31,6 @@ OpenDialog::~OpenDialog()
 
 void OpenDialog::accept()
 {
-/*
-  bool remember = rememberFolderCheckBox->isChecked();
-  //gdata->settings.setBool("Dialogs", "rememberOpenFolder", remember);
-  gdata->qsettings->setValue("Dialogs/rememberOpenFolder", remember);
-  if(remember == true) {
-    const QDir *curDir = dir();
-    //gdata->settings.setString("Dialogs", "openFilesFolder", curDir->absPath());
-    gdata->qsettings->setValue("Dialogs/openFilesFolder", curDir->absPath());
-    delete curDir;
-  }
-*/
   QFileDialog::accept();
 }
 
@@ -68,5 +38,9 @@ QString OpenDialog::getOpenWavFileName(QWidget *parent)
 {
   OpenDialog d(parent);
   if(d.exec() != QDialog::Accepted) return QString();
-  return d.selectedFile();
+  QStringList sl = d.selectedFiles();
+  if (sl.length() > 0) {
+      return sl[0];
+  }
+  return QString();
 }

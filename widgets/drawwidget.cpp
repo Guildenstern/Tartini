@@ -12,24 +12,18 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
- 
-//#include <qmutex.h>
-#include <qthread.h>
-//Added by qt3to4:
-#include <Q3PointArray>
-#include <utility>
-#include <algorithm>
-#include <qpixmap.h>
 
 #include "drawwidget.h"
-#include "channel.h"
-#include "view.h"
 #include "gdata.h"
+#include "channel.h"
 #include "analysisdata.h"
-#include "useful.h"
-//#include "myqmutex.h"
-#include "conversions.h"
+#include "musicnotes.h"
 #include "myqt.h"
+#include "view.h"
+#include "notedata.h"
+#include <cstdio>
+
+class ZoomLookup;
 
 #ifndef CERTAIN_THRESHOLD
 #define CERTAIN_THRESHOLD 0.9
@@ -40,8 +34,8 @@ int DrawWidget::lineWidth = 3;
 int DrawWidget::lineTopHalfWidth = 2;
 int DrawWidget::lineBottomHalfWidth = 1;
 
-DrawWidget::DrawWidget(QWidget *parent, const char* /*name*/, Qt::WFlags f)
-: QWidget(parent, NULL/*name*/, f)
+DrawWidget::DrawWidget(QWidget *parent)
+: QWidget(parent)
 {
 #ifdef SHARED_DRAWING_BUFFER
   _buffer = gdata->drawingBuffer();
@@ -148,7 +142,6 @@ void DrawWidget::drawChannel(QPaintDevice &pd, Channel *ch, QPainter &p, double 
   ChannelLocker channelLocker(ch);
 
   QColor current = ch->color;
- 	QColor invert(255 - current.red(), 255 - current.green(), 255 - current.blue());
  	p.setPen(current);
 
  	int viewBottomOffset = toInt(viewBottom / zoomY);
@@ -172,7 +165,7 @@ void DrawWidget::drawChannel(QPaintDevice &pd, Channel *ch, QPainter &p, double 
   if(baseElement < 0) { n -= baseElement; baseElement = 0; }
   int lastBaseElement = int(floor(double(ch->totalChunks()) / baseX));
   
-  Q3PointArray pointArray(pd.width()*2);
+  QPolygon pointArray(pd.width()*2);
   //QPointArray topPoints(width()*2);
   //QPointArray bottomPoints(width()*2);
   //int pointIndex = 0;
@@ -242,7 +235,7 @@ void DrawWidget::drawChannel(QPaintDevice &pd, Channel *ch, QPainter &p, double 
       x = toInt(n);
       //note = (data->isValid()) ? data->note : 0.0f;
       //note = (ch->isVisibleNote(data->noteIndex)) ? data->note : 0.0f;
-      pitch = (ch->isVisibleChunk(data)) ? data->pitch : 0.0f;
+      pitch = (ch->isVisibleChunk(data, gdata->ampThreshold(NOTE_SCORE,0))) ? data->pitch : 0.0f;
       myassert(pitch >= 0.0 && pitch <= gdata->topPitch());
       //pitch = bound(pitch, 0, gdata->topPitch());
       y = pd.height() - 1 - toInt(pitch / zoomY) + viewBottomOffset;
@@ -306,14 +299,7 @@ void DrawWidget::drawChannelFilled(Channel *ch, QPainter &p, double leftTime, do
   
   int firstN = n;
   int lastN = firstN;
-  
-  //QPointArray pointArray(width()*2);
-  //QPointArray topPoints(width()*2);
-/*  Q3PointArray bottomPoints(width()*2);
-  Q3PointArray evenMidPoints(width()*2);
-  Q3PointArray oddMidPoints(width()*2);
-  Q3PointArray evenMidPoints2(width()*2);
-  Q3PointArray oddMidPoints2(width()*2);*/
+
   QPolygon bottomPoints(width()*2);
   QPolygon evenMidPoints(width()*2);
   QPolygon oddMidPoints(width()*2);
@@ -463,7 +449,7 @@ void DrawWidget::drawChannelFilled(Channel *ch, QPainter &p, double leftTime, do
       lastN = x;
       //note = (data->isValid()) ? data->note : 0.0f;
       //note = (ch->isVisibleNote(data->noteIndex)) ? data->note : 0.0f;
-      pitch = (ch->isVisibleChunk(data)) ? data->pitch : 0.0f;
+      pitch = (ch->isVisibleChunk(data, gdata->ampThreshold(NOTE_SCORE,0))) ? data->pitch : 0.0f;
       //if(ch->isVisibleChunk(data)) {
       if(data->noteIndex >= 0) {
         isNoteRectEven[rectIndex] = (data->noteIndex % 2) == 0;
@@ -666,7 +652,7 @@ void DrawWidget::setChannelVerticalView(Channel *ch, double leftTime, double cur
 */
       x = toInt(n);
       lastN = x;
-      pitch = (ch->isVisibleChunk(data)) ? data->pitch : 0.0f;
+      pitch = (ch->isVisibleChunk(data, gdata->ampThreshold(NOTE_SCORE,0))) ? data->pitch : 0.0f;
       myassert(pitch >= 0.0 && pitch <= gdata->topPitch());
       //corr = data->correlation*sqrt(data->rms)*10.0;
       corr = data->correlation()*dB2ViewVal(data->logrms());
@@ -725,16 +711,16 @@ bool DrawWidget::calcZoomElement(Channel *ch, ZoomElement &ze, int baseElement, 
   if(finishChunk >= (int)ch->totalChunks()) finishChunk--; //dont go off the end
   if(finishChunk >= (int)ch->totalChunks()) return false; //that data doesn't exist yet
   
-  std::pair<large_vector<AnalysisData>::iterator, large_vector<AnalysisData>::iterator> a =
+  std::pair< std::deque<AnalysisData>::iterator,  std::deque<AnalysisData>::iterator> a =
     minMaxElement(ch->dataIteratorAtChunk(startChunk), ch->dataIteratorAtChunk(finishChunk), lessPitch());
   if(a.second == ch->dataIteratorAtChunk(finishChunk)) return false;
   
-  large_vector<AnalysisData>::iterator err = std::max_element(ch->dataIteratorAtChunk(startChunk), ch->dataIteratorAtChunk(finishChunk), lessValue(0));
+  std::deque<AnalysisData>::iterator err = std::max_element(ch->dataIteratorAtChunk(startChunk), ch->dataIteratorAtChunk(finishChunk), lessValue(0));
   if(err == ch->dataIteratorAtChunk(finishChunk)) return false;
   
   float low, high;
   int noteIndex;
-  if(ch->isVisibleChunk(&*err)) {
+  if(ch->isVisibleChunk(&*err, gdata->ampThreshold(NOTE_SCORE,0))) {
     low = a.first->pitch;
     high = a.second->pitch;
     noteIndex = a.first->noteIndex;
@@ -757,7 +743,7 @@ void DrawWidget::drawArray(float *input, int n, int sampleStep, double theZoomY,
   double dh2 = double(height()-1) / 2.0;
   double scaleY = dh2 * theZoomY;
   int w = width() / sampleStep;
-  Q3PointArray pointArray(w);
+  QPolygon pointArray(w);
   int intStep = int(n / w);
   int remainderStep = n - (intStep * w);
   int pos = 0;

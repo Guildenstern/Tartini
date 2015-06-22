@@ -12,10 +12,8 @@ unix{
     MY_LIB_PATH += -L/Users/student/usr/local/lib
     MY_INCLUDE_PATH += /Users/student/usr/local/include
   }else{ #Linux
-    MY_LIB_PATH += -L/usr/lib
-    MY_INCLUDE_PATH += /usr/include/Qt /usr/include/qwt /usr/include
-#    MY_LIB_PATH += -L/home/inferno/research/pitch/lib
-#    MY_INCLUDE_PATH += /home/inferno/research/pitch/include/Qt /home/inferno/research/pitch/include/qwt /home/inferno/research/pitch/include
+    MY_LIB_PATH += -L/home/inferno/research/pitch/lib
+    MY_INCLUDE_PATH += /home/inferno/research/pitch/include/Qt /home/inferno/research/pitch/include/qwt /home/inferno/research/pitch/include
   }
 }
 win32{ #Windows
@@ -70,8 +68,7 @@ DISTFILES += INSTALL.txt \
   widgets/base/baseview.h \
   widgets/base/baseview.cpp \
   widgets/base/basewidget.cpp \
-  widgets/base/basewidget.h \
-  include/static.h
+  widgets/base/basewidget.h
 
 HEADERS += main.h \
   sound/sound_stream.h \
@@ -144,7 +141,6 @@ HEADERS += main.h \
   widgets/cepstrum/cepstrumwidget.h \
   widgets/cepstrum/cepstrumview.h \
   sound/notedata.h \
-  general/large_vector.h \
   widgets/mylabel.h \
   sound/notesynth.h \
   general/fast_smooth.h \
@@ -171,9 +167,19 @@ HEADERS += main.h \
   general/myqt.h \
   general/musicnotes.h \
   general/myalgo.h \
-  include/RingBuffer.h
+  include/RingBuffer.h \
+    general/channelbase.h \
+    general/modes.h
 
 SOURCES += main.cpp \
+  sound/notedata.cpp \
+  general/channelbase.cpp \
+  global/conversions.cpp \
+  general/prony.cpp \
+  sound/channel.cpp \
+  sound/soundfile.cpp \
+  sound/analysisdata.cpp \
+  general/mytransforms.cpp \
   sound/wave_stream.cpp \
   sound/audio_thread.cpp \
   general/myio.cpp \
@@ -181,8 +187,6 @@ SOURCES += main.cpp \
   sound/filters/FixedAveragingFilter.cpp \
   sound/filters/GrowingAveragingFilter.cpp \
   sound/filters/FastSmoothedAveragingFilter.cpp \
-  sound/channel.cpp \
-  sound/soundfile.cpp \
   general/useful.cpp \
   general/mystring.cpp \
   general/settings.cpp \
@@ -216,9 +220,7 @@ SOURCES += main.cpp \
   cleanup.c \
   global/view.cpp \
   sound/sound_stream.cpp \
-  general/mytransforms.cpp \
   widgets/timeaxis.cpp \
-  sound/analysisdata.cpp \
   widgets/volumemeter/volumemeterview.cpp \
   widgets/volumemeter/volumemeterwidget.cpp \
   sound/zoomlookup.cpp \
@@ -237,11 +239,9 @@ SOURCES += main.cpp \
   widgets/fft/fftview.cpp \
   widgets/cepstrum/cepstrumwidget.cpp \
   widgets/cepstrum/cepstrumview.cpp \
-  sound/notedata.cpp \
   widgets/mylabel.cpp \
   sound/notesynth.cpp \
   general/fast_smooth.cpp \
-  global/conversions.cpp \
   widgets/debugview/debugwidget.cpp \
   widgets/debugview/debugview.cpp \
   widgets/score/scorewidget.cpp \
@@ -255,18 +255,15 @@ SOURCES += main.cpp \
   widgets/vibrato/vibratospeedwidget.cpp \
   widgets/vibrato/vibratoperiodwidget.cpp \
   widgets/vibrato/vibratocirclewidget.cpp \
-  general/prony.cpp \
   general/mymatrix.cpp \
   general/myglfonts.cpp \
   general/myqt.cpp \
   general/musicnotes.cpp \
-  general/myalgo.cpp
+  general/myalgo.cpp \
+    general/modes.cpp
  
 RESOURCES += pitch.qrc
-PRECOMPILED_HEADER = static.h
-
-TRANSLATIONS += tartini_de.ts
-
+  
 MYPATHS = include/ general/ sound/ widgets/ global/ dialogs/
 MYPATHS += widgets/mainwindow widgets/freq widgets/summary widgets/pitchcompass widgets/openfiles widgets/volumemeter widgets/tuner widgets/hblock widgets/hstack widgets/wave widgets/piano widgets/htrack widgets/correlation widgets/fft widgets/cepstrum widgets/hbubble widgets/hcircle widgets/debugview widgets/score widgets/vibrato sound/filters
 
@@ -331,7 +328,7 @@ unix{
     INCLUDEPATH += $$MY_INCLUDE_PATH
     LIBS += $$MY_LIB_PATH -lfftw3f -lqwt -lasound
     CONFIG += warn_off
-    QMAKE_CXXFLAGS += -Wall -Wno-non-virtual-dtor
+    QMAKE_CXXFLAGS += -Wextra -Wunused -Wno-non-virtual-dtor -pedantic -Werror
     QMAKE_CXXFLAGS -= -g
     profile {
       QMAKE_CXXFLAGS += -pg
@@ -368,7 +365,7 @@ debug{
   DEFINES += MYDEBUG
 }
 
-QT +=  opengl qt3support 
+QT += opengl
 CONFIG += uic
 
 UI_DIR = dialogs

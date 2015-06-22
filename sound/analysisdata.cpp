@@ -14,15 +14,11 @@
  ***************************************************************************/
 
 #include "analysisdata.h"
-#include "gdata.h"
-
-const char *amp_mode_names[NUM_AMP_MODES] = { "RMS Amplitude (dB)", "Max Amplitude (dB)", "Amplitude Correlation", "Frequency Changness", "Delta Frequency Centroid", "Note Score", "Note Change Score" };
-const char *amp_display_string[NUM_AMP_MODES] = { "RMS Amp Threshold = %0.2f, %0.2f", "Max Amp Threshold = %0.2f, %0.2f", "Amp Corr Threshold = %0.2f, %0.2f", "Freq Changeness Threshold = %0.2f, %0.2f", "Delta Freq Centroid Threshold = %0.2f, %0.2f", "Note Score Threshold = %0.2f, %0.2f", "Note Change Score Threshold = %0.2f, %0.2f" };
-double(*amp_mode_func[NUM_AMP_MODES])(double) = { &dB2Normalised, &dB2Normalised, &same, &oneMinus, &same, &same, &same };
-double(*amp_mode_inv_func[NUM_AMP_MODES])(double) = { &normalised2dB, &normalised2dB, &same, &oneMinus, &same, &same, &same };
+#include "useful.h"
 
 AnalysisData::AnalysisData()
 {
+  dbfloor = -150.0f;
   std::fill(values, values+NUM_AMP_MODES, 0.0f);
   period = 0.0f;
   fundamentalFreq = 0.0f;
@@ -64,6 +60,10 @@ AnalysisData::AnalysisData()
 */
 }
 
+double AnalysisData::dBFloor() {
+    return dbfloor;
+}
+
 /*
 bool AnalysisData::isValid()
 {
@@ -71,13 +71,17 @@ bool AnalysisData::isValid()
   return false;
 }
 */
-void AnalysisData::calcScores()
+void AnalysisData::calcScores(double ampThresholds[NUM_AMP_MODES][2])
 {
   double a[NUM_AMP_MODES-2];
   int j;
   //double temp = 0.0;
   for(j=0; j<NUM_AMP_MODES-2; j++) {
-    a[j] = bound(((*amp_mode_func[j])(values[j]) - (*amp_mode_func[j])(gdata->ampThreshold(j,0))) / ((*amp_mode_func[j])(gdata->ampThreshold(j,1)) - (*amp_mode_func[j])(gdata->ampThreshold(j,0))), 0.0, 1.0);
+    a[j] = bound(((*amp_mode_func[j])(values[j], dBFloor())
+                  - (*amp_mode_func[j])(ampThresholds[j][0], dBFloor()))
+                 / ((*amp_mode_func[j])(ampThresholds[j][1], dBFloor())
+                    - (*amp_mode_func[j])(ampThresholds[j][0], dBFloor())),
+                 0.0, 1.0);
   }
 /*
   bool aYes = false;

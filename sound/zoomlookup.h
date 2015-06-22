@@ -16,12 +16,9 @@
 #ifndef ZOOMLOOKUP_H
 #define ZOOMLOOKUP_H
 
-#include <qcolor.h>
-//#include "array1d.h"
-#include <vector>
 #include "myassert.h"
-
-class AnalysisData;
+#include <QtGui/QColor>
+#include <vector>
 
 class ZoomElement
 {

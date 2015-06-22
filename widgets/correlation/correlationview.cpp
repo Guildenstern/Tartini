@@ -15,13 +15,12 @@
 #include "correlationview.h"
 #include "correlationwidget.h"
 #include "gdata.h"
+#include "view.h"
 #include "channel.h"
-//Added by qt3to4:
-#include <QResizeEvent>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-//#include <QCheckBox>
-#include <QComboBox>
+#include "notedata.h"
+#include "analysisdata.h"
+#include <QtGui/QComboBox>
+#include <QtGui/QHBoxLayout>
 
 CorrelationView::CorrelationView( int viewID_, QWidget *parent )
  : ViewWidget( viewID_, parent)
@@ -39,7 +38,7 @@ CorrelationView::CorrelationView( int viewID_, QWidget *parent )
   correlationWidget = new CorrelationWidget(this);
   QStringList s;
   s << "Chunk correlation" << "Note Aggregate Correlation" << "Note Aggregate Correlation Scaled";
-  QComboBox *aggregateModeComboBox = new QComboBox(this, "aggregateModeComboBox");
+  QComboBox *aggregateModeComboBox = new QComboBox(this);
   aggregateModeComboBox->addItems(s);
   QHBoxLayout *hLayout = new QHBoxLayout();
   hLayout->setMargin(0);

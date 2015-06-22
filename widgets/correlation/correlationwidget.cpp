@@ -12,20 +12,15 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
-#include <q3memarray.h>
-//Added by qt3to4:
-#include <QPaintEvent>
 
 #include "correlationwidget.h"
+#include "view.h"
 #include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
-#include "useful.h"
 #include "myqt.h"
+#include "notedata.h"
 #include "myalgo.h"
-
 
 CorrelationWidget::CorrelationWidget(QWidget *parent)
   : DrawWidget(parent)
@@ -94,7 +89,7 @@ void CorrelationWidget::paintEvent( QPaintEvent * )
   }
 
   //draw the horizontal center line
-  p.setPen(QPen(colorBetween(colorGroup().background(), Qt::black, 0.3), 0));
+  p.setPen(QPen(colorBetween(palette().color(backgroundRole()), Qt::black, 0.3), 0));
   p.drawLine(0, toInt(dh2), width(), toInt(dh2));
 
   if(active) { 
@@ -105,7 +100,7 @@ void CorrelationWidget::paintEvent( QPaintEvent * )
       if(lookup.size() != w) lookup.resize(w);
 
       NoteData *currentNote = active->getCurrentNote();
-      Array1d<float> *input = &(active->nsdfData);
+      Array<float> *input = &(active->nsdfData);
       if(currentNote) {
         if(aggregateMode == 1) input = &currentNote->nsdfAggregateData;
         else if(aggregateMode == 2) input = &currentNote->nsdfAggregateDataScaled;
@@ -136,7 +131,7 @@ void CorrelationWidget::paintEvent( QPaintEvent * )
       if(data->highestCorrelationIndex >= 0) {
         float highest = data->periodEstimatesAmp[data->highestCorrelationIndex];
         //draw threshold line
-        p.setPen(QPen(colorBetween(colorGroup().background(), Qt::black, 0.3), 0));
+        p.setPen(QPen(colorBetween(palette().color(backgroundRole()), Qt::black, 0.3), 0));
         y = toInt(dh2 - (highest * active->threshold()) * dh2);
         p.drawLine(0, y, width(), y);
       

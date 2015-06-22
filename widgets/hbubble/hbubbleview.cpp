@@ -14,44 +14,26 @@
  ***************************************************************************/
 #include "hbubbleview.h"
 #include "hbubblewidget.h"
-#include "channel.h" 
-#include "analysisdata.h"
-#include "useful.h" 
-#include "myscrollbar.h"
-
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qsizegrip.h>
-#include <qsplitter.h>
-#include <qtooltip.h>
-#include <q3grid.h>
-#include <qwt_wheel.h>
-#include <qcursor.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
-#include <Q3HBoxLayout>
-#include <Q3Frame>
-
+#include <qwt/qwt_wheel.h>
+#include <QtGui/QToolTip>
+#include <QtGui/QBoxLayout>
 
 HBubbleView::HBubbleView( int viewID_, QWidget *parent )
  : ViewWidget( viewID_, parent)
 {
-  setCaption("Harmonic Bubbles");
+  setWindowTitle("Harmonic Bubbles");
 
-  Q3BoxLayout *mainLayout = new Q3HBoxLayout(this);
+  QBoxLayout *mainLayout = new QHBoxLayout(this);
+  QBoxLayout *leftLayout = new QVBoxLayout();
+  mainLayout->addItem(leftLayout);
+  QBoxLayout *rightLayout = new QVBoxLayout();
+  mainLayout->addItem(rightLayout);
 
-  Q3BoxLayout *leftLayout = new Q3VBoxLayout(mainLayout);
-  Q3BoxLayout *rightLayout = new Q3VBoxLayout(mainLayout);
- 
-  Q3Grid *waveFrame = new Q3Grid(1, this);
-  waveFrame->setFrameStyle(Q3Frame::WinPanel | Q3Frame::Sunken);
-  leftLayout->addWidget(waveFrame);
+  hBubbleWidget = new HBubbleWidget(this);
+  leftLayout->addWidget(hBubbleWidget);
 
-  hBubbleWidget = new HBubbleWidget(waveFrame);
-
-  Q3BoxLayout *bottomLayout = new Q3HBoxLayout(leftLayout);
+  QBoxLayout *bottomLayout = new QHBoxLayout();
+  leftLayout->addItem(bottomLayout);
 
   QwtWheel* harmonicsWheel = new QwtWheel(this);
   harmonicsWheel->setOrientation(Qt::Vertical);
@@ -59,7 +41,7 @@ HBubbleView::HBubbleView( int viewID_, QWidget *parent )
   harmonicsWheel->setRange(1, 40, 1, 1);
   harmonicsWheel->setValue(15);
   hBubbleWidget->setNumHarmonics(15);
-  QToolTip::add(harmonicsWheel, "Change number of harmonics shown");
+  harmonicsWheel->setToolTip("Change number of harmonics shown");
   rightLayout->addWidget(harmonicsWheel);
   rightLayout->addStretch(2);
  
@@ -69,7 +51,7 @@ HBubbleView::HBubbleView( int viewID_, QWidget *parent )
   windowSizeWheel->setRange(32, 1024, 2, 1);
   windowSizeWheel->setValue(128);
   hBubbleWidget->setHistoryChunks(128);
-  QToolTip::add(windowSizeWheel, "Change the window size");
+  windowSizeWheel->setToolTip("Change the window size");
   bottomLayout->addWidget(windowSizeWheel);
   bottomLayout->addStretch(2);
   

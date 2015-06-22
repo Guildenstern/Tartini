@@ -16,11 +16,7 @@
 #ifndef HTRACK_H
 #define HTRACK_H
 
-#include <qgl.h>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <vector>
+#include <QtOpenGL/QGLWidget>
 
 class Piano3d;
 

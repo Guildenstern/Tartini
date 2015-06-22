@@ -17,7 +17,6 @@
 
 #include "viewwidget.h"
 
-class VibratoTunerWidget;
 class VibratoSpeedWidget;
 class VibratoPeriodWidget;
 class VibratoCircleWidget;

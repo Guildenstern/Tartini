@@ -16,13 +16,70 @@
 #ifndef ARRAY1D_H
 #define ARRAY1D_H
 
-//#include <algorithm>
-#include <iostream>
-#include <memory>
+#include <eigen3/Eigen/Dense>
+
+template <typename T>
+class Array : public Eigen::Matrix<T, Eigen::Dynamic, 1> {
+private:
+    typedef Eigen::Matrix<T, Eigen::Dynamic, 1> Base;
+public:
+    /** Shift all values to the left by n.
+      * losing the first n values and not initialising the last n
+      */
+    void shift_left(int n) {
+        if(n < 1 || n >= Base::size()) return;
+        memmove(Base::data(), Base::data()+n, (Base::size()-n)*sizeof(T));
+    }
+    T* begin() {
+        return Base::data();
+    }
+    const T* begin() const {
+        return Base::data();
+    }
+    T* end() {
+        return Base::data() + Base::size();
+    }
+    const T* end() const {
+        return Base::data() + Base::size();
+    }
+    void resize(int size) {
+        Base::resize(size);
+    }
+    /** Resize this, any new values will be initized to val
+      */
+    void resize(int size, const T& value) {
+        int oldsize = Base::size();
+        Base::resize(size);
+        if (size > oldsize) {
+            Base::tail(size - oldsize).setConstant(value);
+        }
+    }
+    T& at(int x) {
+      return Base::data()[x];
+    }
+    const T& at(int x) const {
+      return Base::data()[x];
+    }
+    /** Resizes to newSize copying data from array
+      * @param src The array to copy from
+      * @param length The amount of data to copy and the new size of this array.
+      */
+    void resize_copy(const T *src, int length) {
+        Base::resize(length);
+        bcopy(src, Base::data(), length*sizeof(T));
+    }
+    T front() const {
+        return *Base::data();
+    }
+    T back() const {
+        return *(end()-1);
+    }
+};
+
 //#define NDEBUG //removes the asserts
-#include "myassert.h"
-#include <stdlib.h>
 #include "useful.h"
+#include "myassert.h"
+#include <cstring>
 
 /** Warning!: Use only for arrays of basic types or pointers
     Constructors are not called on creation of elements
@@ -43,9 +100,9 @@ template<class T> class Array1d
   /** Construct an empty Array1d
     */
   Array1d() {
-	  dataSize = 0;
+          dataSize = 0;
     allocatedSize = 0;
-	  data = NULL;
+          data = NULL;
   }
 
   /** Construct an Array1d of size length. The values are uninitialised
@@ -209,7 +266,7 @@ template<class T> class Array1d
     */
   void clear() {
     if(data) { free(data); data = NULL; }
-	  dataSize = 0;
+          dataSize = 0;
     allocatedSize = 0;
   }
 
@@ -238,7 +295,7 @@ template<class T> class Array1d
     * losing the first n values and not initialising the last n
     */
   void shift_left(int n) {
-	  if(n < 1 || n >= size()) return;
+          if(n < 1 || n >= size()) return;
     memmove(begin(), begin()+n, (size()-n)*sizeof(T));
   }
 
@@ -246,7 +303,7 @@ template<class T> class Array1d
     * losing the last n values and not initialising the first n
     */
   void shift_right(int n) {
-	  if(n < 1 || n >= size()) return;
+          if(n < 1 || n >= size()) return;
     memmove(begin()+n, begin(), (size()-n)*sizeof(T));
   }
 };

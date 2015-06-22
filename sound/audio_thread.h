@@ -15,29 +15,23 @@
 #ifndef AUDIO_THREAD_H
 #define AUDIO_THREAD_H
 
-#include <qthread.h>
-
-#include <time.h>
-//#include "fbuffer.h"
+#include <QtCore/QThread>
+#include <QtCore/QEvent>
 
 #ifdef _OS_WIN32_
 #include <windows.h>
 #endif
 
-#define UPDATE_FAST      QEvent::User+1
-#define UPDATE_SLOW      QEvent::User+2
-#define SOUND_STARTED    QEvent::User+3
-#define SOUND_STOPPED    QEvent::User+4
-#define SETTINGS_CHANGED QEvent::User+5
-
-class GData;
 class SoundFile;
 
 class AudioThread : public QThread {
-
- public:
-	AudioThread();
-	//AudioThread(SoundFile *s);
+public:
+    static const QEvent::Type UPDATE_FAST;
+    static const QEvent::Type UPDATE_SLOW;
+    static const QEvent::Type SOUND_STARTED;
+    static const QEvent::Type SOUND_STOPPED;
+    static const QEvent::Type SETTINGS_CHANGED;
+    AudioThread();
   virtual ~AudioThread() {}
 
   virtual void run();

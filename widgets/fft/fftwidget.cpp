@@ -12,18 +12,13 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
-#include <q3memarray.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-
 #include "fftwidget.h"
 #include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
-#include "useful.h"
+#include "view.h"
 #include "myqt.h"
+#include "notedata.h"
 
 FFTWidget::FFTWidget(QWidget *parent)
   : DrawWidget(parent)

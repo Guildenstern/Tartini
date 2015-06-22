@@ -15,8 +15,8 @@
 #include "hblockview.h"
 #include "hblockwidget.h"
 #include "gdata.h"
-//Added by qt3to4:
-#include <QResizeEvent>
+#include "view.h"
+#include "notedata.h"
 
 HBlockView::HBlockView( int viewID_, QWidget *parent )
  : ViewWidget( viewID_, parent)

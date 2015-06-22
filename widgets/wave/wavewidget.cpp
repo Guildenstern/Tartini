@@ -12,18 +12,14 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
-#include <q3memarray.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-
 #include "wavewidget.h"
 #include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
-#include "useful.h"
+#include "view.h"
 #include "myqt.h"
+#include "notedata.h"
+#include <cstdio>
 
 WaveWidget::WaveWidget(QWidget *parent)
   : DrawWidget(parent)
@@ -53,13 +49,10 @@ void WaveWidget::paintEvent( QPaintEvent * )
   
   if(active) {
 	pixelStep = double(active->size()) / double(width());
-    //pixelStep = double(active->size()-1) / double(width());
     
     active->lock();
     AnalysisData *data = active->dataAtCurrentChunk();
-    //p.setWindow(0, -256, active->size(), 256*2);
     
-    //int centerX = active->size() / 2;
     int centerX = width() / 2;
     if(data) {
       double freq = data->fundamentalFreq;
@@ -77,25 +70,20 @@ void WaveWidget::paintEvent( QPaintEvent * )
         for(j = -n; j<n; j++) {
           x = centerX+toInt(scaleX*double(j));
           p.setBrush((j%2) ? color1 : color2);
-          //p.drawRect(x, -256, toInt(period), 511);
           p.drawRect(x, 0, toInt(scaleX*double(j+1)) - toInt(scaleX*double(j)), height());
         }
         p.setPen(colorBetween(gdata->backgroundColor(), Qt::black, 0.3*data->correlation()));
         for(j = -n; j<n; j++) {
           x = centerX+toInt(scaleX*j);
-          //p.drawLine(x, -256, x, 256);
           p.drawLine(x, 0, x, height());
         }
       } else {
         clearBackground();
       }
-      //p.setWindow(0, 0, width(), height());
       QString numPeriodsText;
       numPeriodsText.sprintf("# Periods = %lf", numPeriods);
       p.setPen(Qt::black);
       p.drawText(5, 15, numPeriodsText);
-      //printf("numPeriods = %lf\n", numPeriods);
-      //p.setWindow(0, -256, active->size(), 256*2);
     } else {
       clearBackground();
     }
@@ -107,23 +95,18 @@ void WaveWidget::paintEvent( QPaintEvent * )
   double dh2 = double(height()-1) / 2.0;
     
   //draw the center line
-  p.setPen(QPen(colorBetween(colorGroup().background(), Qt::black, 0.3), 0));
+  p.setPen(QPen(colorBetween(palette().color(backgroundRole()), Qt::black, 0.3), 0));
   p.drawLine(0, toInt(dh2), width(), toInt(dh2));
 
     
   if(active) {
     //draw the waveform
     int w = width() / 2; //only do every second pixel (for speed)
-    //if(int(pointArray.size()) != active->size()) pointArray.resize(active->size());
     if(int(pointArray.size()) != w) pointArray.resize(w);
-    /*
-    for(int j=0; j<active->size(); j++) {
-      pointArray.setPoint(j, j, toInt(active->at(j)*256.0));
-    }*/
     double scaleY = dh2 * zoomY();
 
     //Use Bresenham's algorithm in 1d to choose the points to draw
-    Array1d<float> &filteredData = active->filteredInput;
+    Array<float> &filteredData = active->filteredInput;
 
     int intStep = int(filteredData.size() / w);
     int remainderStep = filteredData.size() - (intStep * w);
@@ -136,38 +119,10 @@ void WaveWidget::paintEvent( QPaintEvent * )
       }
       myassert(pos < filteredData.size());
       if(pos >= filteredData.size()) printf("pos = %d, filteredData.size()=%d\n", pos, filteredData.size());
-      //pointArray.setPoint(j, j*2, toInt(dh2 - (filteredData.at(pos)-avg)*scaleY));
       pointArray.setPoint(j, j*2, toInt(dh2 - (filteredData.at(pos))*scaleY));
     }
     p.setPen(QPen(active->color, 0));
     p.drawPolyline(pointArray);
-
-/*
-    for(int j=0; j<width(); j++) { //cheap hack to go faster (by drawing less points)
-      myassert(toInt(pixelStep*j) < active->size());
-	  pointArray.setPoint(j, j, toInt(dh2 - active->filteredInput.at(int(pixelStep*j))*scaleY));
-      //pointArray.setPoint(j, j, toInt(dh2 - filteredData.at(toInt(pixelStep*j))*scaleY));
-	}
-
-	p.setPen(QPen(active->color, 0));
-    p.drawPolyline(pointArray);
-*/
-	/*
-	Array1d<float> &directData = active->directInput;
-    for(int j=0; j<width(); j++) { //cheap hack to go faster (by drawing less points)
-      myassert(toInt(pixelStep*j) < active->size());
-	  //pointArray.setPoint(j, j, toInt(dh2 - active->at(toInt(pixelStep*j))*scaleY));
-      pointArray.setPoint(j, j, toInt(dh2 - directData.at(toInt(pixelStep*j))*scaleY));
-    }
-
-    p.setPen(QPen(active->color, 0));
-    p.drawPolyline(pointArray);
-*/
-	//p.moveTo(0, toInt(active->at(0)*256.0));
-    //for(int j=1; j<active->size(); j++) {
-    //  p.lineTo(j, toInt(active->at(j)*256.0));
-    //}
-
     active->unlock();
     
   }

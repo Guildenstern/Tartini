@@ -18,6 +18,7 @@
 ZoomLookup::ZoomLookup()
 {
   _size = 0;
+  _zoomLevel = 1;
 }
 
 ZoomLookup::~ZoomLookup()

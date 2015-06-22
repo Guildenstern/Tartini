@@ -16,6 +16,7 @@
 #define FIXED_AVERAGING_FILTER_H
 
 #include "Filter.h"
+#include "array1d.h"
 
 /** An unwindowed (rectangular window) simple averaging filter with a fixed size
   * It uses a simple incremental algorithm
@@ -24,12 +25,11 @@ class FixedAverageFilter : public Filter
 {
   int _size;
   double total_sum;
-  Array1d<float> _x; // the last size input values
-
+  Array<float> _x; // the last size input values
+  void init(int size);
  public:
   FixedAverageFilter() { }
   FixedAverageFilter(int size);
-  void init(int size);
   void filter(const float *input, float *output, int n);
   void reset();
   int delay() { return _size/2; }

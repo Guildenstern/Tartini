@@ -16,14 +16,6 @@
 #define WAVEWIDGET_H
 
 #include "drawwidget.h"
-//Added by qt3to4:
-#include <QPixmap>
-#include <Q3PointArray>
-#include <QPaintEvent>
-
-// Forward declarations of classes the h file doesn't need to know specifics about
-class QPixmap;
-class Q3PointArray;
 
 class WaveWidget : public DrawWidget {
   Q_OBJECT
@@ -38,8 +30,7 @@ class WaveWidget : public DrawWidget {
     double zoomY() { return _zoomY; }
         
   private:
-    QPixmap *buffer;
-    Q3PointArray pointArray;
+    QPolygon pointArray;
     double _zoomY;
 
   signals:

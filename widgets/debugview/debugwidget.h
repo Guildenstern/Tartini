@@ -16,8 +16,6 @@
 #define DEBUGWIDGET_H
 
 #include "drawwidget.h"
-//Added by qt3to4:
-#include <QPaintEvent>
 
 class DebugWidget : public DrawWidget {
   Q_OBJECT

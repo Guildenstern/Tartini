@@ -26,33 +26,28 @@
 */
 
 #include "vibratoview.h"
-#include "vibratotunerwidget.h"
 #include "vibratospeedwidget.h"
 #include "vibratocirclewidget.h"
 #include "vibratoperiodwidget.h"
 #include "vibratotimeaxis.h"
 #include "vibratowidget.h"
-#include "ledindicator.h"
-#include "timeaxis.h"
 #include "gdata.h"
-#include "channel.h"
-
-#include <QGridLayout>
-#include <QSplitter>
-#include <QToolTip>
-#include <QSizeGrip>
-#include <QPushButton>
-#include <QScrollBar>
-#include <QSlider>
-#include <qwt_wheel.h>
-
+#include "view.h"
+#include <qwt/qwt_wheel.h>
+#include <QtGui/QGridLayout>
+#include <QtGui/QScrollBar>
+#include <QtGui/QSizeGrip>
+#include <QtGui/QSplitter>
+#include <QtGui/QLabel>
+#include <QtGui/QPushButton>
+#include <QtGui/QToolTip>
 
 VibratoView::VibratoView( int viewID_, QWidget *parent )
  : ViewWidget( viewID_, parent)
 {
   int noteLabelOffset = 28;
 
-  setCaption("Vibrato View");
+  setWindowTitle("Vibrato View");
 
   QGridLayout *mainLayout = new QGridLayout;
 
@@ -60,56 +55,8 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
 
   // Top half
   // First column: label + tuner + LEDs
-  //QGridLayout *tunerLayout = new QGridLayout;
-
-  // The label
-/*
-  QLabel *tunerLabel = new QLabel;
-  tunerLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-  tunerLabel->setText("Chromatic tuner");
-  tunerLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-  tunerLayout->addWidget(tunerLabel, 0, 0, 1, 9);
-  tunerLayout->setRowStretch(0, 0);
-*/
 
   // The tuner
-/*
-  QFrame *tunerFrame = new QFrame;
-  tunerFrame->setFrameStyle(QFrame::WinPanel | QFrame::Sunken);
-  QVBoxLayout *tunerFrameLayout = new QVBoxLayout;
-  vibratoTunerWidget = new VibratoTunerWidget(0);
-  tunerFrameLayout->addWidget(vibratoTunerWidget);
-  tunerFrameLayout->setMargin(0);
-  tunerFrameLayout->setSpacing(0);
-  tunerFrame->setLayout(tunerFrameLayout);
-  tunerLayout->addWidget(tunerFrame, 1, 0, 1, 9);
-  tunerLayout->setRowStretch(1, 1);
-
-  // The LEDs
-  QPixmap *ledBuffer = new QPixmap();
-  leds.push_back(new LEDIndicator(ledBuffer, 0, "A"));
-  leds.push_back(new LEDIndicator(ledBuffer, 0, "B"));
-  leds.push_back(new LEDIndicator(ledBuffer, 0, "C"));
-  leds.push_back(new LEDIndicator(ledBuffer, 0, "D"));
-  leds.push_back(new LEDIndicator(ledBuffer, 0, "E"));
-  leds.push_back(new LEDIndicator(ledBuffer, 0, "F"));
-  leds.push_back(new LEDIndicator(ledBuffer, 0, "G"));
-  leds.push_back(new LEDIndicator(ledBuffer, 0, "#"));
-  // Add the leds for note names into the positions (2, 0) to (2, 6)
-  for (int n = 0; n < 7; n++) {
-    tunerLayout->addWidget(leds.at(n), 2, n);
-  }
-  // (2, 7) is blank
-  // Add the flat led at (2, 8)
-  tunerLayout->addWidget(leds.at(7), 2, 8);
-  tunerLayout->setRowStretch(2, 0);
-
-  tunerLayout->setMargin(1);
-  tunerLayout->setSpacing(1);
-
-  QWidget *topWidget1 = new QWidget;
-  topWidget1->setLayout(tunerLayout);
-*/
 
   // Second column: Label + speedwidget + button
   QGridLayout *speedLayout = new QGridLayout;
@@ -143,7 +90,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   usePronyButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   usePronyButton->setFocusPolicy(Qt::NoFocus);
   usePronyButton->click();
-  QToolTip::add(usePronyButton, "Switch between minmax values and Prony values");
+  usePronyButton, "Switch between minmax values and Prony values");
   speedLayout->addWidget(usePronyButton, 2, 0, 1, 1);
   speedLayout->setRowStretch(0, 0);
 */
@@ -188,7 +135,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   vibratoCircleTypeSlider->setTickPosition(QSlider::TicksRight);
   vibratoCircleTypeSlider->setTickInterval(1);
   vibratoCircleTypeSlider->setInvertedAppearance(true);
-  QToolTip::add(vibratoCircleTypeSlider, "Select type of vibrato circle");
+  vibratoCircleTypeSlider, "Select type of vibrato circle");
   circleLayout->addWidget(vibratoCircleTypeSlider, 1, 1, 1, 1);
   circleLayout->setRowStretch(0, 0);
 */
@@ -198,7 +145,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   vibratoCircleAccuracySlider->setRange(1, 50);
   vibratoCircleAccuracySlider->setValue(10);
   vibratoCircleAccuracySlider->setFocusPolicy(Qt::NoFocus);
-  QToolTip::add(vibratoCircleAccuracySlider, "Set accuracy of vibrato circle");
+  vibratoCircleAccuracySlider, "Set accuracy of vibrato circle");
   circleLayout->addWidget(vibratoCircleAccuracySlider, 2, 0, 1, 1);
   circleLayout->setRowStretch(0, 0);
 */
@@ -239,7 +186,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   smoothedPeriodsButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   smoothedPeriodsButton->setFocusPolicy(Qt::NoFocus);
   smoothedPeriodsButton->setDown(true);
-  QToolTip::add(smoothedPeriodsButton, "Use smoothed periods");
+  smoothedPeriodsButton->setToolTip("Use smoothed periods");
   periodLayout->addWidget(smoothedPeriodsButton, 2, 0, 1, 1);
 
   QPushButton *drawSineReferenceButton = new QPushButton("DSR");
@@ -247,7 +194,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   drawSineReferenceButton->setMinimumWidth(30);
   drawSineReferenceButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   drawSineReferenceButton->setFocusPolicy(Qt::NoFocus);
-  QToolTip::add(drawSineReferenceButton, "Draw the reference sinewave");
+  drawSineReferenceButton->setToolTip("Draw the reference sinewave");
   periodLayout->addWidget(drawSineReferenceButton, 2, 1, 1, 1);
 
   QPushButton *sineStyleButton = new QPushButton("SS");
@@ -255,7 +202,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   sineStyleButton->setMinimumWidth(30);
   sineStyleButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   sineStyleButton->setFocusPolicy(Qt::NoFocus);
-  QToolTip::add(sineStyleButton, "Use sine style: /\\/ instead of cosine style: \\/");
+  sineStyleButton->setToolTip("Use sine style: /\\/ instead of cosine style: \\/");
   periodLayout->addWidget(sineStyleButton, 2, 2, 1, 1);
 
   QPushButton *drawPrevPeriodsButton = new QPushButton("DPP");
@@ -263,7 +210,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   drawPrevPeriodsButton->setMinimumWidth(30);
   drawPrevPeriodsButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   drawPrevPeriodsButton->setFocusPolicy(Qt::NoFocus);
-  QToolTip::add(drawPrevPeriodsButton, "Draw previous periods");
+  drawPrevPeriodsButton->setToolTip("Draw previous periods");
   periodLayout->addWidget(drawPrevPeriodsButton, 2, 3, 1, 1);
 
   QPushButton *periodScalingButton = new QPushButton("PS");
@@ -271,7 +218,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   periodScalingButton->setMinimumWidth(30);
   periodScalingButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   periodScalingButton->setFocusPolicy(Qt::NoFocus);
-  QToolTip::add(periodScalingButton, "Scale previous periods to the current period");
+  periodScalingButton->setToolTip("Scale previous periods to the current period");
   periodLayout->addWidget(periodScalingButton, 2, 4, 1, 1);
 
   QPushButton *drawComparisonButton = new QPushButton("DC");
@@ -279,7 +226,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   drawComparisonButton->setMinimumWidth(30);
   drawComparisonButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   drawComparisonButton->setFocusPolicy(Qt::NoFocus);
-  QToolTip::add(drawComparisonButton, "Draw comparison between period and sinewave");
+  drawComparisonButton->setToolTip("Draw comparison between period and sinewave");
   periodLayout->addWidget(drawComparisonButton, 2, 5, 1, 1);
 
   periodLayout->setRowStretch(2, 0);
@@ -332,7 +279,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   zoomWheelV->setRange(0.3, 25.0, 0.1, 1);
   zoomWheelV->setValue(1.0);
   zoomWheelV->setFocusPolicy(Qt::NoFocus);
-  QToolTip::add(zoomWheelV, "Zoom vibrato view vertically");
+  zoomWheelV->setToolTip("Zoom vibrato view vertically");
   bottomRightLayout->addWidget(zoomWheelV, 0, 0, 1, 1);
 
   // The vertical scrollbar
@@ -340,7 +287,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   scrollBarV->setRange(-250, 250);
   scrollBarV->setValue(0);
   scrollBarV->setPageStep(100);
-  QToolTip::add(scrollBarV, "Scroll vibrato view vertically");
+  scrollBarV->setToolTip("Scroll vibrato view vertically");
   bottomRightLayout->addWidget(scrollBarV, 1, 0, 4, 1);
   bottomRightLayout->setRowStretch(1, 1);
 
@@ -362,7 +309,7 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   zoomWheelH->setRange(1, 100, 1, 1);
   zoomWheelH->setValue(25);
   zoomWheelH->setFocusPolicy(Qt::NoFocus);
-  QToolTip::add(zoomWheelH, "Zoom vibrato view horizontally");
+  zoomWheelH->setToolTip("Zoom vibrato view horizontally");
   bottomBottomLayout->addWidget(zoomWheelH, 0, 4, 1, 1);
 
   // The resize grip 
@@ -391,15 +338,9 @@ VibratoView::VibratoView( int viewID_, QWidget *parent )
   setLayout(mainLayout);
 
   // Make signal/slot connections
-  //connect(gdata, SIGNAL(onChunkUpdate()), vibratoTunerWidget, SLOT(doUpdate()));
-  //connect(vibratoTunerWidget, SIGNAL(ledSet(int, bool)), this, SLOT(setLed(int, bool)));
-
   connect(gdata, SIGNAL(onChunkUpdate()), vibratoSpeedWidget, SLOT(doUpdate()));
-  //connect(usePronyButton, SIGNAL(toggled(bool)), vibratoSpeedWidget, SLOT(setUseProny(bool)));
 
   connect(gdata, SIGNAL(onChunkUpdate()), vibratoCircleWidget, SLOT(doUpdate()));
-  //connect(vibratoCircleAccuracySlider, SIGNAL(valueChanged(int)), vibratoCircleWidget, SLOT(setAccuracy(int)));
-  //connect(vibratoCircleTypeSlider, SIGNAL(valueChanged(int)), vibratoCircleWidget, SLOT(setType(int)));
 
   connect(gdata, SIGNAL(onChunkUpdate()), vibratoPeriodWidget, SLOT(doUpdate()));
 
@@ -429,10 +370,3 @@ VibratoView::~VibratoView()
 {
   delete vibratoWidget;
 }
-
-/*
-void VibratoView::setLed(int index, bool value)
-{
-  leds[index]->setOn(value);
-}
-*/

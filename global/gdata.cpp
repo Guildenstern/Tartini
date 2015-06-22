@@ -12,18 +12,26 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <q3filedialog.h>
+#include "gdata.h"
+#include "musicnotes.h"
+#include "channel.h"
+#include "view.h"
+#include "audio_stream.h"
+#include "mainwindow.h"
+#include "tartinisettingsdialog.h"
+#include "savedialog.h"
+#include "mystring.h"
+#include "analysisdata.h"
+#include "notedata.h"
+#include <QtGui/QMessageBox>
+#include <QtCore/QSettings>
+#include <QtCore/QDebug>
+/*
 #if defined(_OS_LINUX_) || defined(Q_OS_LINUX)
 #include <unistd.h>
 #endif
-
-#include <qpixmap.h>
-#include <QMessageBox>
-#include <qfile.h>
-#include <stdio.h>
-
-#include "gdata.h"
-#include "wave_stream.h"
+*/
+/*
 #ifdef USE_SOX
 #include "sox_stream.h"
 #else
@@ -31,30 +39,13 @@
 #include "ogg_stream.h"
 #endif
 #endif
-#include "audio_stream.h"
-#include "Filter.h"
-#include "mystring.h"
-#include "q3listview.h"
-#include "soundfile.h"
-#include "channel.h"
-#include "tartinisettingsdialog.h"
-#include "savedialog.h"
-#include "conversions.h"
-#include "musicnotes.h"
+*/
 
 #ifndef WINDOWS
 //for multi-threaded profiling
 struct itimerval profiler_value;
 struct itimerval profiler_ovalue;
 #endif
-
-/*
-//QColor myBackgroundColor(196, 196, 196);
-QColor myBackgroundColor(128, 128, 128);
-QColor myLineColor1(32, 32, 32);
-QColor myLineColor2(0, 0, 255);
-QColor myRefLineColor(0, 128, 0);
-*/
 
 int frame_window_sizes[NUM_WIN_SIZES] = { 512, 1024, 2048, 4096, 8192 };
 const char *frame_window_strings[NUM_WIN_SIZES] = { "512", "1024", "2048", "4096", "8192" };
@@ -72,43 +63,36 @@ GData *gdata = NULL;
 float phase_function(float x)
 {
   float phase;
-  
-  //phase = x*x;
   phase = x;
   return(phase);
 }
 
-GData::GData(/*int buffer_size_, int winfunc_, float step_size_*/)
+GData::GData()
 {
   _polish = true;
   _drawingBuffer = new QPixmap(1, 1);
   setDBFloor(-150.0);
+  _topPitch = _leftTime = _rightTime = -1;
   setTopPitch(128.0);
   setLeftTime(0.0);
   setRightTime(5.0);
 
-  amp_thresholds[AMPLITUDE_RMS][0]           = -85.0; amp_thresholds[AMPLITUDE_RMS][1]           = -0.0;
-  amp_thresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; amp_thresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
-  amp_thresholds[AMPLITUDE_CORRELATION][0]   =  0.40; amp_thresholds[AMPLITUDE_CORRELATION][1]   =  1.00;
-  amp_thresholds[FREQ_CHANGENESS][0]         =  0.50; amp_thresholds[FREQ_CHANGENESS][1]         =  0.02;
-  amp_thresholds[DELTA_FREQ_CENTROID][0]     =  0.00; amp_thresholds[DELTA_FREQ_CENTROID][1]     =  0.10;
-  amp_thresholds[NOTE_SCORE][0]              =  0.03; amp_thresholds[NOTE_SCORE][1]              =  0.20;
-  amp_thresholds[NOTE_CHANGE_SCORE][0]       =  0.12; amp_thresholds[NOTE_CHANGE_SCORE][1]       =  0.30;
+  ampThresholds[AMPLITUDE_RMS][0]           = -85.0; ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
+  ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
+  ampThresholds[AMPLITUDE_CORRELATION][0]   =  0.40; ampThresholds[AMPLITUDE_CORRELATION][1]   =  1.00;
+  ampThresholds[FREQ_CHANGENESS][0]         =  0.50; ampThresholds[FREQ_CHANGENESS][1]         =  0.02;
+  ampThresholds[DELTA_FREQ_CENTROID][0]     =  0.00; ampThresholds[DELTA_FREQ_CENTROID][1]     =  0.10;
+  ampThresholds[NOTE_SCORE][0]              =  0.03; ampThresholds[NOTE_SCORE][1]              =  0.20;
+  ampThresholds[NOTE_CHANGE_SCORE][0]       =  0.12; ampThresholds[NOTE_CHANGE_SCORE][1]       =  0.30;
 
   amp_weights[0] = 0.2;
   amp_weights[1] = 0.2;
   amp_weights[2] = 0.2;
   amp_weights[3] = 0.2;
   amp_weights[4] = 0.2;
-  //setNoiseThresholdDB(-100.0);
-  //setChangenessThreshold(0.8); //1.8);
 
-  //settings.init("cs.otago.ac.nz", "Tartini");
   qsettings = new QSettings("cs.otago.ac.nz", TARTINI_NAME_STR);
   TartiniSettingsDialog::setUnknownsToDefault(qsettings);
-  //settings.print();
-  //settings.load();
-  //settings.print();
   
   activeChannel = NULL;
   _doingActiveAnalysis = 0;
@@ -237,69 +221,9 @@ GData::~GData()
   delete _drawingBuffer;
 }
 
-/*
-void GData::setBuffers(int freq, int channels)
-{
-    //bufferMutex.lock();
-
-    //coefficients_table.resize(buffer_size*4*channels);
-    coefficients_table.resize(buffer_size*4, channels);
-    fwinfunc->create(winfunc, buffer_size);
-    loudnessFunc->create_loudness(buffer_size/2, freq);
-    freqHistory.resize(channels);
-
-    std::vector<Filter*>::iterator fi;
-    for(fi=filter_hp.begin(); fi!=filter_hp.end(); ++fi)
-	delete (*fi);
-    filter_hp.clear();
-    for(fi=filter_lp.begin(); fi!=filter_lp.end(); ++fi)
-	delete (*fi);
-    filter_lp.clear();
-
-    const double R = 0.94; //0.94 to 0.99
-    double fhp_a[3] = { 1.0, -2.0, 1.0 };
-    double fhp_b[2] = { -2.0*R, R*R };
-    double flp_a[2] = { 0.109, 0.109 };
-    double flp_b[8] = { -2.5359, 3.9295, -4.7532, 4.7251, -3.5548, 2.1396, -0.9879, 0.2836 };
-
-    for(int j=0; j<channels; j++) {
-	Filter *hp = new Filter();
-	hp->make_IIR(fhp_a, 3, fhp_b, 2);
-	Filter *lp = new Filter();
-	lp->make_IIR(flp_a, 2, flp_b, 8);
-	filter_hp.push_back(hp);
-	filter_lp.push_back(lp);
-    }
-
-    //bufferMutex.unlock();
+Channel* GData::getActiveChannel() const {
+    return activeChannel;
 }
-*/
-
-/*
-void GData::setFrameWindowSize(int index)
-{
-    buffer_size = frame_window_sizes[index];
-    if(input_stream) setBuffers(input_stream->freq, input_stream->channels);
-    need_update = false; //wait for buffers to get more data before the next update
-}
-
-void GData::setWinFunc(int index)
-{
-    winfunc = index;
-    fwinfunc->create(winfunc, buffer_size);
-}
-
-void GData::setStepSize(int index)
-{
-    //printf("gdata waiting for lock\n"); fflush(stdout);
-    //bufferMutex.lock();
-    //printf("gdata got lock\n"); fflush(stdout);
-    step_size = step_sizes[index];
-    //printf("gdata lost lock\n"); fflush(stdout);
-    //bufferMutex.unlock();
-}
-*/
-
 SoundFile* GData::getActiveSoundFile()
 {
   return (activeChannel) ? activeChannel->getParent() : NULL;
@@ -606,7 +530,7 @@ int GData::getAnalysisBufferSize(int rate)
   int windowSize = qsettings->value("Analysis/bufferSizeValue", 48).toInt();
   //QString windowSizeUnit = settings.getString("Analysis", "bufferSizeUnit");
   QString windowSizeUnit = qsettings->value("Analysis/bufferSizeUnit", "milli-seconds").toString();
-  if(windowSizeUnit.lower() == "milli-seconds") { //convert to samples
+  if(windowSizeUnit.toLower() == "milli-seconds") { //convert to samples
     windowSize = int(double(windowSize) * double(rate) / 1000.0);
   }
   //if(settings.getBool("Analysis", "bufferSizeRound")) {
@@ -622,7 +546,7 @@ int GData::getAnalysisStepSize(int rate)
   int stepSize = qsettings->value("Analysis/stepSizeValue", 24).toInt();
   //QString stepSizeUnit = settings.getString("Analysis", "stepSizeUnit");
   QString stepSizeUnit = qsettings->value("Analysis/stepSizeUnit", "milli-seconds").toString();
-  if(stepSizeUnit.lower() == "milli-seconds") { //convert to samples
+  if(stepSizeUnit.toLower() == "milli-seconds") { //convert to samples
     stepSize = int(double(stepSize) * double(rate) / 1000.0);
   }
   //if(settings.getBool("Analysis", "stepSizeRound")) {
@@ -672,17 +596,14 @@ void GData::updateQuickRefSettings()
 
 QString GData::getFilenameString()
 {
-  //QString fileGeneratingString = settings.getString("General", "filenameGeneratingString");
   QString fileGeneratingString = qsettings->value("General/filenameGeneratingString", "Untitled").toString();
   QString filename;
-  //int fileGeneratingNumber = settings.getInt("General", "fileGeneratingNumber");
   int fileGeneratingNumber = qsettings->value("General/fileGeneratingNumber", 1).toInt();
-  //int digits = settings.getInt("General", "fileNumberOfDigits");
   int digits = qsettings->value("General/fileNumberOfDigits", 2).toInt();
   if(digits == 0) {
-    filename.sprintf("%s.wav", fileGeneratingString.latin1());
+    filename.sprintf("%s.wav", fileGeneratingString.toLatin1().data());
   } else {
-    filename.sprintf("%s%0*d.wav", fileGeneratingString.latin1(), digits, fileGeneratingNumber);
+    filename.sprintf("%s%0*d.wav", fileGeneratingString.toLatin1().data(), digits, fileGeneratingNumber);
   }
   return filename;
 }
@@ -785,15 +706,15 @@ int GData::saveFile(SoundFile *s, QString newFilename)
   int pos = s->stream->pos();
   s->stream->close();
   
-  //printf("moveFile(%s, %s);\n", oldFilename.latin1(), newFilename.latin1());
-  int ret = (moveFile(oldFilename.latin1(), newFilename.latin1())) ? 0 : -1;
+  //printf("moveFile(%s, %s);\n", oldFilename.toLatin1(), newFilename.toLatin1());
+  int ret = (moveFile(oldFilename.toLatin1(), newFilename.toLatin1())) ? 0 : -1;
   if(ret == 0) {
-	s->stream->open_read(newFilename.latin1());
+        s->stream->open_read(newFilename.toLatin1());
     s->stream->jump_to_frame(pos);
 	s->setSaved(true);
-    s->setFilename(newFilename.latin1());
+    s->setFilename(newFilename.toLatin1());
   } else {
-    s->stream->open_read(oldFilename.latin1());
+    s->stream->open_read(oldFilename.toLatin1());
 	s->stream->jump_to_frame(pos);
   }
   return ret;
@@ -844,7 +765,7 @@ int GData::closeFile(SoundFile *s, int theSavingMode/*, bool ask*/)
   }
 
   if(theSavingMode == ALWAYS_ASK) {
-    QString filename = QString(getFilenamePart(oldFilename.latin1()));
+    QString filename = QString(getFilenamePart(oldFilename.toLatin1()));
     int option = QMessageBox::question(NULL, QString("Save changes to file '") + filename + "' ?",
       QString("Save changes to the file '") + filename + QString("' ?\n"),
       "&Yes", "&No", "&Cancel", 0, 2);
@@ -855,14 +776,14 @@ int GData::closeFile(SoundFile *s, int theSavingMode/*, bool ask*/)
       if(newFilename.isNull()) return 1;
       removeFileFromList(s);
       delete s;
-      //printf("move file %s to %s\n", oldFilename.latin1(), newFilename.latin1()); fflush(stdout);
-      ret = (::moveFile(oldFilename.latin1(), newFilename.latin1())) ? 0 : -1;
+      //printf("move file %s to %s\n", oldFilename.toLatin1(), newFilename.toLatin1()); fflush(stdout);
+      ret = (::moveFile(oldFilename.toLatin1(), newFilename.toLatin1())) ? 0 : -1;
       break;
     case 1: //No
       removeFileFromList(s);
       delete s;
-      //printf("remove file %s\n", oldFilename.latin1()); fflush(stdout);
-      ret = ::remove(oldFilename.latin1());
+      //printf("remove file %s\n", oldFilename.toLatin1()); fflush(stdout);
+      ret = ::remove(oldFilename.toLatin1());
       break;
     default: //Cancelled
       return 1;
@@ -870,7 +791,7 @@ int GData::closeFile(SoundFile *s, int theSavingMode/*, bool ask*/)
   } else if(theSavingMode == NEVER_SAVE) {
     removeFileFromList(s);
     delete s;
-    ret = ::remove(oldFilename.latin1()); 
+    ret = ::remove(oldFilename.toLatin1());
   } else if(theSavingMode == ALWAYS_SAVE) {
     removeFileFromList(s);
     delete s;
@@ -950,14 +871,14 @@ void GData::resetActiveIntThreshold(int thresholdPercentage)
 
 void GData::setAmpThreshold(int mode, int index, double value)
 {
-  amp_thresholds[mode][index] = value;
+  ampThresholds[mode][index] = value;
   clearFreqLookup();
   recalcScoreThresholds();
 }
 
 double GData::ampThreshold(int mode, int index)
 {
-  return amp_thresholds[mode][index];
+  return ampThresholds[mode][index];
 }
 
 void GData::setAmpWeight(int mode, double value)

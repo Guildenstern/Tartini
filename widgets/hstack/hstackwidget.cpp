@@ -12,18 +12,13 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <Q3PointArray>
-#include <QPaintEvent>
-
 #include "hstackwidget.h"
 #include "gdata.h"
+#include "view.h"
 #include "channel.h"
 #include "analysisdata.h"
-#include "useful.h"
 #include "myqt.h"
+#include "notedata.h"
 
 HStackWidget::HStackWidget(QWidget *parent)
   : DrawWidget(parent)
@@ -69,7 +64,7 @@ HStackWidget::~HStackWidget()
 void HStackWidget::paintEvent( QPaintEvent * )
 {
   Channel *active = gdata->getActiveChannel();
-  Q3PointArray points;
+  QPolygon points;
 
   beginDrawing();
 
@@ -87,7 +82,7 @@ void HStackWidget::paintEvent( QPaintEvent * )
     float scaleX = (float)width()/(float)windowSize;
     int notOnGraph = height() + 10;
 
-    Q3PointArray points[numHarmonics];
+    QPolygon points[numHarmonics];
 
     for (j = 0; j < numHarmonics; j++)
     {
@@ -126,12 +121,7 @@ void HStackWidget::paintEvent( QPaintEvent * )
         int m = MIN(data->harmonicAmpNoCutOff.size(), (unsigned) numHarmonics);
         for (j = 0; j < m;j++)
         {
-          if (!isinf(data->harmonicAmpRelative[j]))
-          {
-            points[j].setPoint(i+2,toInt(scaleX*(float)i),-toInt((-top + data->harmonicAmpNoCutOff[j])*scaleY)); 
-          }
-          else
-            points[j].setPoint(i+2,toInt(scaleX*(float)i),notOnGraph); 
+          points[j].setPoint(i+2,toInt(scaleX*(float)i),-toInt((-top + data->harmonicAmpNoCutOff[j])*scaleY));
         }
         for (j = m; j < numHarmonics; j++)
           points[j].setPoint(i+2,toInt(scaleX*(float)i),notOnGraph); 

@@ -16,13 +16,9 @@
 #ifndef TIMEAXIS_H
 #define TIMEAXIS_H
 
-#include <qpixmap.h>
-#include <QPaintEvent>
-
 #include "drawwidget.h"
 #include "gdata.h"
-
-class QFont;
+#include "view.h"
 
 class TimeAxis : public DrawWidget
 {

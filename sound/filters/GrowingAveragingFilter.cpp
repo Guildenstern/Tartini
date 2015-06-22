@@ -12,11 +12,8 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <iostream>
 #include "GrowingAveragingFilter.h"
-#include <algorithm>
-#include "myassert.h"
-#include "useful.h"
+#include <cstring>
 
 GrowingAverageFilter::GrowingAverageFilter(int size)
 {

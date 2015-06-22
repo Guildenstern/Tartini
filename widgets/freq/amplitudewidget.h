@@ -16,21 +16,12 @@
 #ifndef AMPLITUDEWIDGET_H
 #define AMPLITUDEWIDGET_H
 
-#include <QGLWidget>
-//#include "drawwidget.h"
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPixmap>
-#include <Q3PointArray>
-#include <QWheelEvent>
-#include <QPaintEvent>
-#include "channel.h"
-
-class Q3PointArray;
-struct ZoomElement;
+#include "gdata.h"
+#include "view.h"
+#include <QtOpenGL/QGLWidget>
+class ZoomElement;
 class AnalysisData;
 
-//class AmplitudeWidget : public DrawWidget {
 class AmplitudeWidget : public QGLWidget {
 
 Q_OBJECT

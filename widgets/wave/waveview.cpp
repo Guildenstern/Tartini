@@ -15,53 +15,43 @@
 #include "waveview.h"
 #include "wavewidget.h"
 #include "gdata.h"
-#include "qwt_wheel.h"
-#include "qlayout.h"
-#include "q3grid.h"
-#include "qtooltip.h"
-//Added by qt3to4:
-#include <Q3VBoxLayout>
-#include <Q3HBoxLayout>
-#include <Q3Frame>
-#include <QResizeEvent>
+#include "view.h"
+#include <qwt/qwt_wheel.h>
+#include <QtGui/QBoxLayout>
+#include <QtGui/QToolTip>
 
 WaveView::WaveView( int viewID_, QWidget *parent )
  : ViewWidget( viewID_, parent)
 {
   //setCaption("Wave view");
 
-  Q3BoxLayout *mainLayout = new Q3HBoxLayout(this);
+  QBoxLayout *mainLayout = new QHBoxLayout();
+  setLayout(mainLayout);
 
-  Q3Grid *waveFrame = new Q3Grid(1, this);
-  waveFrame->setFrameStyle(Q3Frame::WinPanel | Q3Frame::Sunken);
-  waveWidget = new WaveWidget(waveFrame);
-  //waveWidget->show();
-  //mainLayout->addWidget(waveWidget);
-  mainLayout->addWidget(waveFrame);
+  waveWidget = new WaveWidget(this);
+  mainLayout->addWidget(waveWidget);
 
-  //QBoxLayout *leftLayout = new QVBoxLayout(mainLayout);
-  Q3BoxLayout *rightLayout = new Q3VBoxLayout(mainLayout);
+  QBoxLayout *rightLayout = new QVBoxLayout();
+  mainLayout->addLayout(rightLayout);
   
-  QwtWheel *freqWheelY = new QwtWheel(this);
+  QwtWheel *freqWheelY = new QwtWheel();
+  rightLayout->addWidget(freqWheelY, 1);
   freqWheelY->setOrientation(Qt::Vertical);
   freqWheelY->setWheelWidth(14);
   freqWheelY->setRange(1.0, 20.0, 0.1, 1);
   freqWheelY->setValue(1.0);
-  QToolTip::add(freqWheelY, "Zoom oscilloscope vertically");
-  rightLayout->addWidget(freqWheelY, 1);
+  freqWheelY->setToolTip("Zoom oscilloscope vertically");
   rightLayout->addStretch(2);
   
   connect(freqWheelY, SIGNAL(valueChanged(double)), waveWidget, SLOT(setZoomY(double)));
   connect(waveWidget, SIGNAL(zoomYChanged(double)), waveWidget, SLOT(update()));
   
   //make the widget get updated when the view changes
-  //connect(gdata->view, SIGNAL(onFastUpdate(double)), waveWidget, SLOT(update()));
   connect(gdata->view, SIGNAL(onSlowUpdate(double)), waveWidget, SLOT(update()));
 }
 
 WaveView::~WaveView()
 {
-  //delete waveWidget;
 }
 
 void WaveView::resizeEvent(QResizeEvent *)

@@ -16,11 +16,10 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include <qobject.h>
-#include <qtimer.h>
 #include "useful.h"
+#include <QtCore/QObject>
 
-class Channel;
+class QTimer;
 
 class View : public QObject
 {

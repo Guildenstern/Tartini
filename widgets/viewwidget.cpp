@@ -15,23 +15,9 @@
 #include "viewwidget.h"
 #include "mainwindow.h"
 
-ViewWidget::ViewWidget( int viewID_, QWidget * /*parent*/, Qt::WFlags f )
-//  : QWidget( parent, name, WDestructiveClose|f )
-  //: QWidget( parent, viewData[viewID_].className, Qt::WDestructiveClose|f )
-  : QWidget( NULL, Qt::WDestructiveClose|f )
+ViewWidget::ViewWidget(int viewID_, QWidget *parent)
+    : QWidget(parent), viewID(viewID_)
 {
-  viewID = viewID_;
-  setCaption(viewData[viewID].title);
-  
-  //setBackgroundMode(NoBackground);
-  //setAttribute(Qt::WA_OpaquePaintEvent, false);
-  setAutoFillBackground(true);
+  setWindowTitle(viewData[viewID].title);
+  //setAutoFillBackground(true);
 }
-
-/*
-void ViewWidget::closeEvent( QCloseEvent * e )
-{
-    //emit aboutToClose(viewID);
-    QWidget::closeEvent(e);
-}
-*/

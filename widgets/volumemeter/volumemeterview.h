@@ -17,9 +17,7 @@
 #define VOLUMEMETERVIEW_H
 
 #include "viewwidget.h"
-//Added by qt3to4:
-#include <QResizeEvent>
-//#include "volumemeterwidget.h"
+
 class VolumeMeterWidget;
 
 class VolumeMeterView : public ViewWidget {

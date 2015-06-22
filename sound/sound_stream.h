@@ -20,9 +20,6 @@
 #define F_WRITE        2
 #define F_RDWR         3
 
-//class FBuffer;
-class QStringList;
-
 class SoundStream
 {
  public:

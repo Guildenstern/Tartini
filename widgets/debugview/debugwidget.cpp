@@ -12,16 +12,11 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-
 #include "debugwidget.h"
 #include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
-#include "useful.h"
+#include "notedata.h"
 
 DebugWidget::DebugWidget(QWidget *parent)
   : DrawWidget(parent)
@@ -75,7 +70,7 @@ void DebugWidget::paintEvent( QPaintEvent * )
     printString(s.sprintf("spread = %f", data.spread));
     printString(s.sprintf("spread2 = %f", data.spread2));
     printString(s.sprintf("logrms = %f", data.logrms()));
-    printString(s.sprintf("normalised_logrms = %f", dB2Normalised(data.logrms())));
+    printString(s.sprintf("normalised_logrms = %f", dB2Normalised(data.logrms(), gdata->dBFloor())));
     printString(s.sprintf("detailedPeriod.size() = %d", ch->detailedPitchData.size()));
     printString(s.sprintf("vibratoPitch = %f", data.vibratoPitch));
     printString(s.sprintf("vibratoWidth = %f", data.vibratoWidth));

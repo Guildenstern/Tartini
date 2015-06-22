@@ -16,11 +16,7 @@
 #define SCOREWIDGET_H
 
 #include "drawwidget.h"
-#include "qfont.h"
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPaintEvent>
-
+#include "useful.h"
 
 class ScoreWidget : public DrawWidget {
   Q_OBJECT

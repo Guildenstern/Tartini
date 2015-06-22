@@ -12,17 +12,14 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <QPaintEvent>
-
 #include "hbubblewidget.h"
 #include "gdata.h"
+#include "view.h"
 #include "channel.h"
 #include "analysisdata.h"
-#include "useful.h"
 #include "myqt.h"
+#include "notedata.h"
+#include <cstdio>
 
 HBubbleWidget::HBubbleWidget(QWidget *parent)
   : DrawWidget(parent)

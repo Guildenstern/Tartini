@@ -12,21 +12,12 @@
    
    Please read LICENSE.txt for details.
  ***************************************************************************/
-#include <qpixmap.h>
-#include <qpainter.h>
 
-/*
+#include "scoresegmentiterator.h"
 #include "scorewidget.h"
-#include "gdata.h"
 #include "channel.h"
 #include "analysisdata.h"
-#include "useful.h"
-#include "qfontmetrics.h"
-#include "qpen.h"
-*/
-
-#include "scorewidget.h"
-#include "scoresegmentiterator.h"
+#include "notedata.h"
 
 double ScoreSegmentIterator::widthX() {
   return (_rightTime - _leftTime) * sw->_scaleX;

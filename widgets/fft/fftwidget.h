@@ -16,12 +16,6 @@
 #define FFTWIDGET_H
 
 #include "drawwidget.h"
-//Added by qt3to4:
-#include <Q3PointArray>
-#include <QPaintEvent>
-
-// Forward declarations of classes the h file doesn't need to know specifics about
-class Q3PointArray;
 
 class FFTWidget : public DrawWidget {
   Q_OBJECT
@@ -35,7 +29,7 @@ class FFTWidget : public DrawWidget {
     QSize sizeHint() const { return QSize(500, 128); }
 
   private:
-    Q3PointArray pointArray;
+    QPolygon pointArray;
 };
 
 

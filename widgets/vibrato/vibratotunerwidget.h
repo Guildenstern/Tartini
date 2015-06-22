@@ -37,8 +37,7 @@ class VibratoTunerWidget : public QGLWidget {
     int prevClosePitch;
     bool prevIsPitchBlackNote;
     double curPitch;
-
-    QFont tunerFont;
+    float fontSize;
 
     float centsLabelX, centsLabelY;
 

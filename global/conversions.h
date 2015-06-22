@@ -13,12 +13,12 @@
    Please read LICENSE.txt for details.
  ***************************************************************************/
 
-double linear2dB(double x);
+double linear2dB(double x, double dBFloor);
 double dB2Linear(double x);
-double dB2Normalised(double x);
-double normalised2dB(double x);
+double dB2Normalised(double x, double dBFloor);
+double normalised2dB(double x, double dBFloor);
 double dB2ViewVal(double x);
-double same(double x);
-double oneMinus(double x);
+double same(double x, double);
+double oneMinus(double x, double);
 
 double dB2Normalised(double x, double theCeiling, double theFloor);

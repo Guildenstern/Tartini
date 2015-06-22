@@ -16,16 +16,14 @@
 #ifndef SAVE_DIALOG_H
 #define SAVE_DIALOG_H
 
-#include <q3filedialog.h>
+#include <QtGui/QFileDialog>
 
 class QCheckBox;
 
-extern const char *windowSizeBoxStr[];
-
-class SaveDialog : public Q3FileDialog
+class SaveDialog : public QFileDialog
 {
 public:
-  SaveDialog(/*const QString & dirName, const QString & filter = QString::null, */QWidget * parent = 0);
+  SaveDialog(QWidget * parent = 0);
   ~SaveDialog();
   void accept();
 

@@ -40,8 +40,10 @@
 // RtAudio: Version 3.0.3 (18 November 2005)
 
 #include "RtAudio.h"
-#include <iostream>
-#include <stdio.h>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
+#include <climits>
 
 // Static variable definitions.
 const unsigned int RtApi::MAX_SAMPLE_RATES = 14;
