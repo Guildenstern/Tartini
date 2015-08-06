@@ -4,6 +4,11 @@
 
 Tartini development version 1.3-dev by Andreas Friedmann
 based on Tartini (version 1.2). (C) 2002-2007  Philip McLeod
+
+I'D LIKE TO GET HELP FROM SOMEONE WHO KNOWS QT5
+I managed to compile this with qt4. Most qt3 support is now removed from code. However it seems qt5 doesn't like me
+
+
 *************************************************************
 
 Please see INSTALL.txt for info on installing Tartini.
